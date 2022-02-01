@@ -1,18 +1,17 @@
 # folders
 *SAVE/
-# *RESOURCE/animation/
-*RESOURCE/foam/
 *RESOURCE/MODELS/
 *RESOURCE/Particles/
 *RESOURCE/Sea/
 *RESOURCE/shared/
 *RESOURCE/Sounds/
 *RESOURCE/techniques/
-# *RESOURCE/Textures/
+*RESOURCE/Textures/
 *RESOURCE/VIDEOS/
 
 # file format
 *.exe
+*.dll
 
 *.qch
 *.gm
@@ -25,6 +24,7 @@
 
 *.tga
 *.tx
+*.txx
 *.zap
 
 *.mp4
