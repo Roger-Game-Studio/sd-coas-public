@@ -1,0 +1,40 @@
+# folders
+*SAVE/
+# *RESOURCE/animation/
+*RESOURCE/foam/
+*RESOURCE/MODELS/
+*RESOURCE/Particles/
+*RESOURCE/Sea/
+*RESOURCE/shared/
+*RESOURCE/Sounds/
+*RESOURCE/techniques/
+# *RESOURCE/Textures/
+*RESOURCE/VIDEOS/
+
+# file format
+*.exe
+
+*.qch
+*.gm
+*.dat
+*.COL
+*.xps
+*.an
+*.ptc
+*.grs
+
+*.tga
+*.tx
+*.zap
+
+*.mp4
+*.wmv
+
+*.mp3
+*.wav
+*.ogg
+
+*.fx
+*.sha
+
+options
