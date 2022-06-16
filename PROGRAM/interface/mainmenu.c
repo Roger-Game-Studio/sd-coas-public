@@ -46,7 +46,7 @@ void InitInterface(string iniName)
 
 	GameInterface.SavePath = "SAVE";
 
- //ResetSoundScheme();
+    //ResetSoundScheme();
 	ResetSound(); // new
 	// ВВОД СВОИХ СХЕМ В ЗАВИСИМОСТИ ОТ ПОГОДЫ (BY LOKK)
 	if (Whr_IsRain())
@@ -209,7 +209,7 @@ void CreateBackEnvironment()
 	//SendMessage(&InterfaceBackScene, "lll", 7, 5, true ); // set menu
 
 	// create ship
-	MainMenu_CreateShip();
+	// MainMenu_CreateShip(); // Hokkins: в оригинальной сцене главного меню ГПК нет смысла генерировать корабль, он там не нужен!
 
 	if( LanguageGetLanguage() != "Russian" )
 	{
