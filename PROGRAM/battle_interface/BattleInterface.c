@@ -1318,181 +1318,184 @@ void SetShipPictureDataByShipTypeName(string sType)
 {
 	switch(sType)
 	{
-	case "tartane":
-  		BI_intNRetValue[0] = 0+4*8;
-		BI_intNRetValue[1] = 0+4*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-    case "WarTartane":  // fix
-  		BI_intNRetValue[0] = 2+4*8;
-		BI_intNRetValue[1] = 2+4*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-	case "lugger":
-		BI_intNRetValue[0] = 0+0*8;
-		BI_intNRetValue[1] = 0+0*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "sloop":
-		BI_intNRetValue[0] = 0+1*8;
-		BI_intNRetValue[1] = 0+1*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "barque":
-		BI_intNRetValue[0] = 0+3*8;
-		BI_intNRetValue[1] = 0+3*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "schooner":
-		BI_intNRetValue[0] = 0+2*8;
-		BI_intNRetValue[1] = 0+2*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "caravel":
-		BI_intNRetValue[0] = 2+0*8;
-		BI_intNRetValue[1] = 2+0*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "barkentine":
-		BI_intNRetValue[0] = 2+5*8;
-		BI_intNRetValue[1] = 2+5*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "brig":
-		BI_intNRetValue[0] = 2+2*8;
-		BI_intNRetValue[1] = 2+2*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "fleut":
-		BI_intNRetValue[0] = 2+1*8;
-		BI_intNRetValue[1] = 2+1*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "brigantine":
-		BI_intNRetValue[0] = 0+5*8;
-		BI_intNRetValue[1] = 0+5*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "galeon_l":
-		BI_intNRetValue[0] = 2+3*8;
-		BI_intNRetValue[1] = 2+3*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "galeon_h":
-		BI_intNRetValue[0] = 4+1*8;
-		BI_intNRetValue[1] = 4+1*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "pinnace":
-		BI_intNRetValue[0] = 4+2*8;
-		BI_intNRetValue[1] = 4+2*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "frigate":
-		BI_intNRetValue[0] = 4+3*8;
-		BI_intNRetValue[1] = 4+3*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "corvette":
-		BI_intNRetValue[0] = 4+0*8;
-		BI_intNRetValue[1] = 4+0*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "battleship":
-		BI_intNRetValue[0] = 6+2*8;
-		BI_intNRetValue[1] = 6+2*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "lineship":
-		BI_intNRetValue[0] = 6+0*8;
-		BI_intNRetValue[1] = 6+0*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "warship":
-		BI_intNRetValue[0] = 6+1*8;
-		BI_intNRetValue[1] = 6+1*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "manowar":
-		BI_intNRetValue[0] = 6+3*8;
-		BI_intNRetValue[1] = 6+3*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "SoleyRu":
-		BI_intNRetValue[0] = 4+4*8;
-		BI_intNRetValue[1] = 4+4*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "BrigQeen":
-		BI_intNRetValue[0] = 2+2*8;
-		BI_intNRetValue[1] = 2+2*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "BrigSW":
-		BI_intNRetValue[0] = 2+2*8;
-		BI_intNRetValue[1] = 2+2*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "XebekVML":
-  		BI_intNRetValue[0] = 4+5*8;
-		BI_intNRetValue[1] = 4+5*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "Corvette_quest":
-		BI_intNRetValue[0] = 4+0*8;
-		BI_intNRetValue[1] = 4+0*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "ArabellaShip":
-		BI_intNRetValue[0] = 4+3*8;
-		BI_intNRetValue[1] = 4+3*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
-		break;
-
-	case "Flyingdutchman":
-		BI_intNRetValue[0] = 6+5*8;
-		BI_intNRetValue[1] = 6+5*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		case "tartane":
+		    BI_intNRetValue[0] = 0+0*16;
+			BI_intNRetValue[1] = 0+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
 		break;
 		
-	case "FrigateQueen":
-		BI_intNRetValue[0] = 4+3*8;
-		BI_intNRetValue[1] = 4+3*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	
-		break;		
-
-	case "Santisima":
-		BI_intNRetValue[0] = 4+4*8;
-		BI_intNRetValue[1] = 4+4*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		case "WarTartane":
+		    BI_intNRetValue[0] = 2+0*16;
+			BI_intNRetValue[1] = 2+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
 		break;
-	case "LuggerQuest":
-		BI_intNRetValue[0] = 0+0*8;
-		BI_intNRetValue[1] = 0+0*8 + 1;
-		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		
+		case "lugger":
+		    BI_intNRetValue[0] = 4+0*16;
+			BI_intNRetValue[1] = 4+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "sloop":
+		    BI_intNRetValue[0] = 6+0*16;
+			BI_intNRetValue[1] = 6+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "barque":
+		    BI_intNRetValue[0] = 8+0*16;
+			BI_intNRetValue[1] = 8+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "schooner":
+		    BI_intNRetValue[0] = 10+0*16;
+			BI_intNRetValue[1] = 10+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "caravel":
+		    BI_intNRetValue[0] = 12+0*16;
+			BI_intNRetValue[1] = 12+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "barkentine":
+		    BI_intNRetValue[0] = 14+0*16;
+			BI_intNRetValue[1] = 14+0*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "brig":
+		    BI_intNRetValue[0] = 0+1*16;
+			BI_intNRetValue[1] = 0+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "fleut":
+		    BI_intNRetValue[0] = 2+1*16;
+			BI_intNRetValue[1] = 2+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "brigantine":
+		    BI_intNRetValue[0] = 4+1*16;
+			BI_intNRetValue[1] = 4+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "galeon_l":
+		    BI_intNRetValue[0] = 6+1*16;
+			BI_intNRetValue[1] = 6+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "galeon_h":
+		    BI_intNRetValue[0] = 8+1*16;
+			BI_intNRetValue[1] = 8+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "pinnace":
+		    BI_intNRetValue[0] = 10+1*16;
+			BI_intNRetValue[1] = 10+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "frigate":
+		    BI_intNRetValue[0] = 12+1*16;
+			BI_intNRetValue[1] = 12+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "corvette":
+		    BI_intNRetValue[0] = 14+1*16;
+			BI_intNRetValue[1] = 14+1*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "battleship":
+		    BI_intNRetValue[0] = 0+2*16;
+			BI_intNRetValue[1] = 0+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "lineship":
+		    BI_intNRetValue[0] = 2+2*16;
+			BI_intNRetValue[1] = 2+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "warship":
+		    BI_intNRetValue[0] = 4+2*16;
+			BI_intNRetValue[1] = 4+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "manowar":
+		    BI_intNRetValue[0] = 6+2*16;
+			BI_intNRetValue[1] = 6+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "SoleyRu":
+		    BI_intNRetValue[0] = 8+2*16;
+			BI_intNRetValue[1] = 8+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "BrigQeen":
+		    BI_intNRetValue[0] = 10+2*16;
+			BI_intNRetValue[1] = 10+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "BrigSW":
+		    BI_intNRetValue[0] = 12+2*16;
+			BI_intNRetValue[1] = 12+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "XebekVML":
+  		    BI_intNRetValue[0] = 14+2*16;
+			BI_intNRetValue[1] = 14+2*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "Corvette_quest":
+		    BI_intNRetValue[0] = 0+3*16;
+			BI_intNRetValue[1] = 0+3*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "ArabellaShip":
+		    BI_intNRetValue[0] = 2+3*16;
+			BI_intNRetValue[1] = 2+3*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "Flyingdutchman":
+		    BI_intNRetValue[0] = 4+3*16;
+			BI_intNRetValue[1] = 4+3*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "FrigateQueen":
+		    BI_intNRetValue[0] = 6+3*16;
+			BI_intNRetValue[1] = 6+3*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	
+		break;		
+		
+		case "Santisima":
+		    BI_intNRetValue[0] = 8+3*16;
+			BI_intNRetValue[1] = 8+3*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
+		break;
+		
+		case "LuggerQuest":
+		    BI_intNRetValue[0] = 10+3*16;
+			BI_intNRetValue[1] = 10+3*16 + 1;
+		    BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;
 		break;
 	}
 	BI_intNRetValue[3] = false;
@@ -1585,8 +1588,8 @@ void SetParameterData()
 	BattleInterface.CommandTextures.list.t0.ysize = 8;
 
 	BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.tga";
-	BattleInterface.CommandTextures.list.t1.xsize = 8;
-	BattleInterface.CommandTextures.list.t1.ysize = 8;
+	BattleInterface.CommandTextures.list.t1.xsize = 16;
+	BattleInterface.CommandTextures.list.t1.ysize = 16;
 
 	BattleInterface.CommandTextures.list.t2.name = "battle_interface\cancel.tga";
 	BattleInterface.CommandTextures.list.t2.xsize = 2;
