@@ -464,8 +464,7 @@ void LoadGame()
 				
 	CreateEntity(&LanguageObject,"obj_strservice");
 	CreateEntity(&reload_fader, "fader");
-	SendMessage(&reload_fader, "ls", FADER_PICTURE0, "interfaces\card_desk.tga");
-	SendMessage(&reload_fader, "ls",FADER_PICTURE, loadScr);
+	SendMessage(&reload_fader, "ls",FADER_PICTURE0, loadScr);
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 	ReloadProgressStart();
 	pchar.savegamename = saveName;
@@ -871,8 +870,7 @@ void NewGame()
 
 	CreateEntity(&LanguageObject,"obj_strservice");
 	CreateEntity(&reload_fader, "fader");
-	SendMessage(&reload_fader, "ls", FADER_PICTURE0, "interfaces\card_desk.tga");
-	SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple("loading\battle.tga", "loading\Start_Loading.tga"));
+	SendMessage(&reload_fader, "ls",FADER_PICTURE0, RandPhraseSimple("loading\battle.tga", "loading\Start_Loading.tga"));
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 
 	SetEventHandler("frame","NewGame_continue",1);

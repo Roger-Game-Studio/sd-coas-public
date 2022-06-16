@@ -1567,53 +1567,52 @@ void procInfoShow()
 			objInfoList[nInfoIdx].borderWidth = 32;
 			//objInfoList[nInfoIdx].scale = 1.0;
 			objInfoList[nInfoIdx].offset = 30;
-			objInfoList[nInfoIdx].picbackfilename = "interfaces\card_desk.tga";
 
 			switch(sInfoID)
 			{
 			case "save game":
-				objInfoList[nInfoIdx].picfilename = "loading\" + LanguageGetLanguage() + "\save_game.tga";
+				objInfoList[nInfoIdx].picbackfilename = "loading\" + LanguageGetLanguage() + "\save_game.tga";
 			break;
 
 			case "lost controller":
-				objInfoList[nInfoIdx].picfilename = "loading\" + LanguageGetLanguage() + "\lost_controller.tga";
+				objInfoList[nInfoIdx].picbackfilename = "loading\" + LanguageGetLanguage() + "\lost_controller.tga";
 			break;
 
 			case "Low Storage":
-				objInfoList[nInfoIdx].picfilename = "loading\" + LanguageGetLanguage() + "\low_storage.tga";
+				objInfoList[nInfoIdx].picbackfilename = "loading\" + LanguageGetLanguage() + "\low_storage.tga";
 			break;
 
 			case "game prepare":
 			    switch (rand(4))
 			    {
 			        case 0 :
-						objInfoList[nInfoIdx].picfilename = "loading\start_loading.tga";
+						objInfoList[nInfoIdx].picbackfilename = "loading\start_loading.tga";
 					break;
 					case 1 :
-						objInfoList[nInfoIdx].picfilename = "loading\seaStand.tga";
+						objInfoList[nInfoIdx].picbackfilename = "loading\seaStand.tga";
 					break;
 					case 2 :
-						objInfoList[nInfoIdx].picfilename = "loading\battle.tga";
+						objInfoList[nInfoIdx].picbackfilename = "loading\battle.tga";
 					break;
 					case 3 :
-						objInfoList[nInfoIdx].picfilename = "loading\shipcannon.tga";
+						objInfoList[nInfoIdx].picbackfilename = "loading\shipcannon.tga";
 					break;
 					case 4 :
-						objInfoList[nInfoIdx].picfilename = "loading\rescue.tga";
+						objInfoList[nInfoIdx].picbackfilename = "loading\rescue.tga";
 					break;
 				}
 			break;
 
 			case "MainMenuLaunch":
-				objInfoList[nInfoIdx].picfilename = "interfaces\mainmenu_ss.tga";
+				objInfoList[nInfoIdx].picbackfilename = "interfaces\mainmenu_ss.tga";
 			break;
 
 			case "OptionsBreak":
-				objInfoList[nInfoIdx].picfilename = "loading\" + LanguageGetLanguage() + "\options.tga";
+				objInfoList[nInfoIdx].picbackfilename = "loading\" + LanguageGetLanguage() + "\options.tga";
 			break;
 
 			case "Game Over Picture":
-				objInfoList[nInfoIdx].picfilename = InterfaceStates.GameOverPicture;
+				objInfoList[nInfoIdx].picbackfilename = InterfaceStates.GameOverPicture;
 			break;
 			}
 

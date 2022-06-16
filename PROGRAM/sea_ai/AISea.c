@@ -95,10 +95,9 @@ void SeaAI_SailToCreateFader()
 	PostEvent("SeaAI_SailToEndFadeEvent", 500);
 
 	CreateEntity(&SailToFader, "fader");
-	SendMessage(&SailToFader, "ls", FADER_PICTURE0, "interfaces\card_desk.tga");
 	SendMessage(&SailToFader, "lfl", FADER_OUT, 0.5, false);
 	SendMessage(&SailToFader, "l", FADER_STARTFRAME);
-	SendMessage(&SailToFader, "ls", FADER_PICTURE, "loading\sea.tga");
+	SendMessage(&SailToFader, "ls", FADER_PICTURE0, "loading\sea.tga");
 }
 
 void SeaAI_SailToLocator(string sLocName)

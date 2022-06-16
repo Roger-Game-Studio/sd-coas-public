@@ -755,8 +755,7 @@ void LAi_FadeDelay(float _delayTime, string sPath)
     DoQuestCheckDelay("CallFunctionParam", _delayTime);
 	//Fader
 	CreateEntity(&LAi_QuestFader, "fader");
-	SendMessage(&LAi_QuestFader, "ls", FADER_PICTURE0, "interfaces\card_desk.tga");
-	SendMessage(&LAi_QuestFader, "ls", FADER_PICTURE, sPath);
+	SendMessage(&LAi_QuestFader, "ls", FADER_PICTURE0, sPath);
 	SendMessage(&LAi_QuestFader, "lfl", FADER_OUT, 0.5, false);
 	LAi_QuestFader.oldSaveState = InterfaceStates.Buttons.Save.enable;
 	InterfaceStates.Buttons.Save.enable = 0;

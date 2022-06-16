@@ -441,10 +441,9 @@ void Sea_MapLoad()
 	SetEventHandler("FaderEvent_EndFade", "Sea_MapEndFade", 0);
 
 	CreateEntity(&SeaFader, "fader");
-	SendMessage(&SeaFader, "ls", FADER_PICTURE0, "interfaces\card_desk.tga");
 	SendMessage(&SeaFader, "lfl", FADER_OUT, 0.7, true);
 	SendMessage(&SeaFader, "l", FADER_STARTFRAME);
-	SendMessage(&SeaFader, "ls", FADER_PICTURE, "loading\sea.tga");
+	SendMessage(&SeaFader, "ls", FADER_PICTURE0, "loading\sea.tga");
 
 	bSkipSeaLogin = true;
 
@@ -466,10 +465,9 @@ void Land_MapLoad()
 	SetEventHandler("FaderEvent_EndFade", "Sea_MapEndFade", 0);
 
 	CreateEntity(&SeaFader, "fader");
-	SendMessage(&SeaFader, "ls", FADER_PICTURE0, "interfaces\card_desk.tga");
 	SendMessage(&SeaFader, "lfl", FADER_OUT, 0.7, true);
 	SendMessage(&SeaFader, "l", FADER_STARTFRAME);
-	SendMessage(&SeaFader, "ls", FADER_PICTURE, "loading\sea.tga");
+	SendMessage(&SeaFader, "ls", FADER_PICTURE0, "loading\sea.tga");
 
 	bSkipSeaLogin = true;
 
@@ -587,8 +585,7 @@ void SeaLogin(ref Login)
 
 	CreateEntity(&SeaFader, "fader");
 	SendMessage(&SeaFader, "lfl", FADER_IN, 0.5, true);
-	SendMessage(&SeaFader, "ls", FADER_PICTURE0, "interfaces\card_desk.tga");
-	SendMessage(&SeaFader, "ls", FADER_PICTURE, Login.ImageName);
+	SendMessage(&SeaFader, "ls", FADER_PICTURE0, Login.ImageName);
 
 	// create all sea modules
 	CreateSeaEnvironment();
