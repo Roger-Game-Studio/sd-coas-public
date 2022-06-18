@@ -6,8 +6,19 @@
 *RESOURCE/shared/
 *RESOURCE/Sounds/
 *RESOURCE/techniques/
-*RESOURCE/Textures/
+RESOURCE/Textures/*
+RESOURCE/Textures/BATTLE_INTERFACE/PORTRAITS/*
+RESOURCE/Textures/BATTLE_INTERFACE/Spyglass/*
+RESOURCE/Textures/INTERFACES/Flags/*
+RESOURCE/Textures/INTERFACES/Maps/*
+RESOURCE/Textures/INTERFACES/PERKS/*
+RESOURCE/Textures/INTERFACES/PORTRAITS/*
+RESOURCE/Textures/INTERFACES/SHIPS/*
+RESOURCE/Textures/INTERFACES/Stars/*
 *RESOURCE/VIDEOS/
+
+!RESOURCE/Textures/INTERFACES/
+!RESOURCE/Textures/BATTLE_INTERFACE/
 
 # file format
 *.exe
@@ -23,7 +34,6 @@
 *.grs
 
 *.tga
-*.tx
 *.txx
 *.zap
 
