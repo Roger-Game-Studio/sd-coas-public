@@ -79,6 +79,18 @@ IF EXIST "%~dp0\RESOURCE\foam\locations\*.ini" (
 ) ELSE (
     echo "RESOURCE\foam\locations\.ini" files are missing
 )
+:: 18.06.22 Hokkins: чистим текстуры UI и HUD -->
+IF EXIST "%~dp0\RESOURCE\Textures\BATTLE_INTERFACE\*.tx" (
+    erase "%~dp0\RESOURCE\Textures\BATTLE_INTERFACE\*.tx"
+) ELSE (
+    echo "RESOURCE\Textures\BATTLE_INTERFACE\*.tx" files are missing
+)
+IF EXIST "%~dp0\RESOURCE\Textures\INTERFACES\*.tx" (
+    erase "%~dp0\RESOURCE\Textures\INTERFACES\*.tx"
+) ELSE (
+    echo "RESOURCE\Textures\INTERFACES\*.tx" files are missing
+)
+:: <--
 
 
 :: Hokkins: начинаем процесс установки скриптов и конфигурационных файлов -->
