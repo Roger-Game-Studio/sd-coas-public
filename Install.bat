@@ -70,12 +70,12 @@ IF EXIST "%~dp0\RESOURCE\animation\*.ani" (
     echo "RESOURCE\animation\.ani" files are missing
 )
 IF EXIST "%~dp0\RESOURCE\foam\islands\*.ini" (
-    erase "%~dp0\RESOURCE\islands\*.ini"
+    erase "%~dp0\RESOURCE\foam\islands\*.ini"
 ) ELSE (
     echo "RESOURCE\foam\islands\.ini" files are missing
 )
 IF EXIST "%~dp0\RESOURCE\foam\locations\*.ini" (
-    erase "%~dp0\RESOURCE\locations\*.ini"
+    erase "%~dp0\RESOURCE\foam\locations\*.ini"
 ) ELSE (
     echo "RESOURCE\foam\locations\.ini" files are missing
 )
