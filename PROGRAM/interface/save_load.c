@@ -514,7 +514,7 @@ bool GetMoveToOtherSave( int nNewSaveIndex, ref rLeft, ref rTop, ref rRight, ref
 	int nRight = 0;
 	int nBottom = 0;
 
-	switch( nNewIdx )
+	/* switch( nNewIdx )
 	{
 	case 0: nLeft=32; nTop=60; nRight=160; nBottom=188; break;
 	case 1: nLeft=180; nTop=60; nRight=308; nBottom=188; break;
@@ -526,7 +526,7 @@ bool GetMoveToOtherSave( int nNewSaveIndex, ref rLeft, ref rTop, ref rRight, ref
 	case 7: nLeft=328; nTop=240; nRight=456; nBottom=368; break;
 	case 8: nLeft=476; nTop=240; nRight=604; nBottom=368; break;
 	case 9: nLeft=624; nTop=240; nRight=752; nBottom=368; break;
-	}
+	} */
 
 	rLeft = nLeft;
 	rTop = nTop;
