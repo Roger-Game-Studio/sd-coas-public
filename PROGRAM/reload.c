@@ -377,7 +377,9 @@ void ReloadEndFade()
 	}
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 	PostEvent("LoadSceneSound", 500);
+	ReloadProgressUpdate();
 	ReloadProgressEnd();
+	SetPerspectiveSettings();
 }
 
 string FindEmergeLocator(ref rObject, string emerge_str)

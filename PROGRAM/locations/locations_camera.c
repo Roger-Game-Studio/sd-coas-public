@@ -1,7 +1,9 @@
-
 #define LOCCAMERA_FOLLOW	1
 #define LOCCAMERA_TOPOS		2
 #define LOCCAMERA_FREE		3
+
+#define DEFAULT_CAM_RAD 3.0
+#define DEFAULT_CAM_RAD_DEN 0.22
 
 // Warship 20.07.09 Новое
 #define LOCCAMERA_MAX_STATES 15
@@ -127,6 +129,17 @@ bool locCameraFromToPos(float from_x,float from_y,float from_z, bool isTeleport,
 	locCameraCurMode = LOCCAMERA_TOPOS;
 	return res;
 }
+
+// Hokkins: радиус наземной камеры -->
+float CalcLandRadius()
+{
+    float fCamRadAdj = 0.0;
+    if(CheckAttribute(&InterfaceStates, "RadDetails"))
+       fCamRadAdj = stf(InterfaceStates.RadDetails) / DEFAULT_CAM_RAD_DEN;
+
+    return (DEFAULT_CAM_RAD + fCamRadAdj);
+}
+// Hokkins: радиус наземной камеры <--
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //							Warship 20.07.09 НОВОЕ - СНИМАЕМ КИНО

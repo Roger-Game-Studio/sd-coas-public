@@ -60,7 +60,7 @@ void InitInterface(string iniName)
 		SetSelectable("DIALOG_SLIDE",false);
 	}
 	
-	// Warship 07.07.09 Ёффект свечени€
+	// Warship 07.07.09 Эффект свечения
 	if(!CheckAttribute(&InterfaceStates, "GlowEffect"))
 	{
 		InterfaceStates.GlowEffect = 50;
@@ -80,7 +80,7 @@ void ProcessCancelExit()
 
 void ProcessOkExit()
 {
-	// Warship 07.07.09 Ёффект свечени€
+	// Warship 07.07.09 Эффект свечения
 	SetGlowParams(1.0, sti(InterfaceStates.GlowEffect), 2));
 
 	SaveGameOptions();
@@ -89,6 +89,8 @@ void ProcessOkExit()
 
 	// change sea settings
 	SetSeaGridStep(stf(InterfaceStates.SeaDetails));
+	//Hokkins: перспектива на море
+	SetPerspectiveSettings();
 }
 
 void ProcessExit()
@@ -328,35 +330,55 @@ void procSlideChange()
 	int nVal = GetEventData();
 	float fVal = GetEventData();
 
-	if( sNodeName=="GAMMA_SLIDE" || sNodeName=="BRIGHT_SLIDE" || sNodeName=="CONTRAST_SLIDE" ) {
+	if( sNodeName=="GAMMA_SLIDE" || sNodeName=="BRIGHT_SLIDE" || sNodeName=="CONTRAST_SLIDE" ) 
+	{
 		ChangeVideoColor();
 		return;
 	}
 	
-	// Warship 07.07.09 Ёффект свечени€
+	// Warship 07.07.09 Эффект свечения
 	if(sNodeName == "GLOW_SLIDE")
 	{
 		InterfaceStates.GlowEffect = fVal*250;
 		return;
 	}
 	
-	if( sNodeName == "SEA_DETAILS_SLIDE" ) {
+	if( sNodeName == "SEA_DETAILS_SLIDE" ) 
+	{
 		ChangeSeaDetail();
 		return;
 	}
-	if( sNodeName=="MUSIC_SLIDE" || sNodeName=="SOUND_SLIDE" || sNodeName=="DIALOG_SLIDE" ) {
+	
+	// Hokkins: настройки камеры -->
+	if( sNodeName == "SEA_CAM_PERSP_SLIDE" ) 
+	{
+		ChangePerspDetail();
+		return;
+	}
+	
+	if( sNodeName == "LAND_CAM_RAD_SLIDE" ) 
+	{
+		ChangeRadDetail();
+		return;
+	}
+	//Hokkins: настройки камеры <--
+	
+	if( sNodeName=="MUSIC_SLIDE" || sNodeName=="SOUND_SLIDE" || sNodeName=="DIALOG_SLIDE" ) 
+	{
 		ChangeSoundSetting();
 		return;
 	}
-	if( sNodeName=="VMOUSE_SENSITIVITY_SLIDE" || sNodeName=="HMOUSE_SENSITIVITY_SLIDE" ) {
+	
+	if( sNodeName=="MOUSE_SENSITIVITY_SLIDE") 
+	{
 		ChangeMouseSensitivity();
 	}
 }
 
 void ChangeMouseSensitivity()
 {
-	InterfaceStates.mouse.x_sens = stf(GameInterface.nodes.hmouse_sensitivity_slide.value);
-	InterfaceStates.mouse.y_sens = stf(GameInterface.nodes.vmouse_sensitivity_slide.value);
+	InterfaceStates.mouse.x_sens = stf(GameInterface.nodes.mouse_sensitivity_slide.value);
+	InterfaceStates.mouse.y_sens = stf(GameInterface.nodes.mouse_sensitivity_slide.value);
 	SetRealMouseSensitivity();
 }
 
@@ -390,6 +412,36 @@ void ChangeSeaDetail()
 			InterfaceStates.SeaDetails = fSeaDetail;
 	}
 }
+
+//Hokkins: настройки камеры -->
+void ChangePerspDetail()
+{
+    float fCurPerspDetail = stf(GameInterface.nodes.sea_cam_persp_slide.value);
+	float fPerspDetail = ConvertPerspDetails(fCurPerspDetail,false);
+	if( !CheckAttribute(&InterfaceStates,"PerspDetails") ||
+		(stf(InterfaceStates.PerspDetails)!=fPerspDetail) ) {
+			InterfaceStates.PerspDetails = fPerspDetail;
+			float fCamPersp = CalcSeaPerspective();
+            string sMsg = "#"+ FloatToString(fCamPersp, 3);
+            //PerspMax is 17 in coll.
+            // SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "TITLES_STR", 1, 17, sMsg);
+	}
+}
+
+void ChangeRadDetail()
+{
+    float fCurPerspDetail = stf(GameInterface.nodes.land_cam_rad_slide.value);
+	float fPerspDetail = ConvertRadDetails(fCurPerspDetail,false);
+	if( !CheckAttribute(&InterfaceStates,"RadDetails") ||
+		(stf(InterfaceStates.RadDetails)!=fPerspDetail) ) {
+			InterfaceStates.RadDetails = fPerspDetail;
+			float fCamPersp = CalcLandRadius();
+            string sMsg = "#"+ FloatToString(fCamPersp, 1);
+            //CamRadMax is 24 in coll.
+            SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "TITLES_STR", 1, 24, sMsg);
+	}
+}
+//Hokkins: настройки камеры <--
 
 void ChangeSoundSetting()
 {
@@ -482,8 +534,8 @@ void GetMouseOptionsData()
 	if(fCurXSens>1.0) fCurXSens = 1.0;
 	if(fCurYSens<0.0) fCurYSens = 0.0;
 	if(fCurYSens>1.0) fCurYSens = 1.0;
-	GameInterface.nodes.hmouse_sensitivity_slide.value = fCurXSens;
-	GameInterface.nodes.vmouse_sensitivity_slide.value = fCurYSens;
+	GameInterface.nodes.mouse_sensitivity_slide.value = fCurXSens;
+	GameInterface.nodes.mouse_sensitivity_slide.value = fCurYSens;
 }
 
 void GetVideoOptionsData()
@@ -492,13 +544,17 @@ void GetVideoOptionsData()
 	float fG = 1.0;
 	float fB = 0.0;
 	float fD = 1.0;
+	float fE = 0.0;
+	float fR = 0.0;
 
 	if( CheckAttribute(&InterfaceStates,"video.contrast") ) {
 		fC = stf(InterfaceStates.video.contrast);
 	}
+	
 	if( CheckAttribute(&InterfaceStates,"video.gamma") ) {
 		fG = stf(InterfaceStates.video.gamma);
 	}
+	
 	if( CheckAttribute(&InterfaceStates,"video.brightness") ) {
 		fB = stf(InterfaceStates.video.brightness);
 	}
@@ -506,11 +562,21 @@ void GetVideoOptionsData()
 	if( CheckAttribute(&InterfaceStates,"SeaDetails") ) {
 		fD = stf(InterfaceStates.SeaDetails);
 	}
+	
+	// Hokkins: настройки камеры -->
+	if( CheckAttribute(&InterfaceStates,"PerspDetails") ) {
+		fE = stf(InterfaceStates.PerspDetails);
+	}
+	
+	if( CheckAttribute(&InterfaceStates,"RadDetails") ) {
+		fR = stf(InterfaceStates.RadDetails);
+	}
+	// Hokkins: настройки камеры <--
 
-	ISetColorCorrection(fC, fG, fB, fD);
+	ISetColorCorrection(fC, fG, fB, fD, fE, fR);
 }
 
-void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSeaDetails)
+void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSeaDetails, float fPerspDetails, float fRad)
 {
 	float fCurContrast = ConvertContrast(fContrast,true);
 	float fCurGamma = ConvertGamma(fGamma,true);
@@ -525,17 +591,33 @@ void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSe
 	if(fCurBright<0.0) fCurBright = 0.0;
 	if(fCurSeaDetails<0.0) fCurSeaDetails = 0.0;
 	if(fCurSeaDetails>1.0) fCurSeaDetails = 1.0;
+	
+	if(fPerspDetails<0.0) fPerspDetails = 0.0;
+	if(fPerspDetails>1.0) fPerspDetails = 1.0;
+	
+	if(fRad<0.0) fRad = 0.0;
+	if(fRad>1.0) fRad = 1.0;
 
 	GameInterface.nodes.CONTRAST_SLIDE.value = fCurContrast;
 	GameInterface.nodes.GAMMA_SLIDE.value = fCurGamma;
 	GameInterface.nodes.BRIGHT_SLIDE.value = fCurBright;
 	GameInterface.nodes.SEA_DETAILS_SLIDE.value = fCurSeaDetails;
+	
+	//Hokkins: настройки камеры -->
+	GameInterface.nodes.SEA_CAM_PERSP_SLIDE.value = fPerspDetails;
+	GameInterface.nodes.LAND_CAM_RAD_SLIDE.value = fRad;
+	//Hokkins: настройки камеры <--
 
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"CONTRAST_SLIDE", 0,fCurContrast);
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"GAMMA_SLIDE", 0,fCurGamma);
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"BRIGHT_SLIDE", 0,fCurBright);
 
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_DETAILS_SLIDE", 0, fCurSeaDetails);
+	
+	//Hokkins: настройки камеры -->
+	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_CAM_PERSP_SLIDE", 0, fPerspDetails);
+	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"LAND_CAM_RAD_SLIDE", 0, fRad);
+	//Hokkins: настройки камеры <-->
 
 	XI_SetColorCorrection(fContrast,fGamma,fBright);
 	//Set sea detail
@@ -739,8 +821,8 @@ void SetMouseToDefault()
 	SetAlwaysRun(true);
 
 	GetControlsStatesData();
-	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"VMOUSE_SENSITIVITY_SLIDE", 0,stf(InterfaceStates.mouse.y_sens));
-	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"HMOUSE_SENSITIVITY_SLIDE", 0,stf(InterfaceStates.mouse.x_sens));
+	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"MOUSE_SENSITIVITY_SLIDE", 0,stf(InterfaceStates.mouse.y_sens));
+	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"MOUSE_SENSITIVITY_SLIDE", 0,stf(InterfaceStates.mouse.x_sens));
 }
 
 void ShowInfo()
@@ -784,6 +866,17 @@ void ShowInfo()
 			sText2 = XI_ConvertString("ItCanRedusePerfomance");
 			sText3 = XI_ConvertString("NeedToExitFromSea");
 		break;
+		
+		case "SEA_CAM_PERSP_SLIDE":
+			sHeader = XI_ConvertString("SeaCameraPerspective");
+			sText1 = XI_ConvertString("SeaCameraPerspective_descr1");
+			sText2 = XI_ConvertString("SeaCameraPerspective_descr2");
+		break;
+		
+		case "LAND_CAM_RAD_SLIDE":
+			sHeader = XI_ConvertString("LandCameraRadius");
+			sText1 = XI_ConvertString("LandCameraRadius_descr1");
+		break;
 
 		case "HERB_CHECKBOX":
 			sHeader = XI_ConvertString("Herb Quantity");
@@ -817,14 +910,9 @@ void ShowInfo()
 			sText1 = XI_ConvertString("Invert Vertical Mouse Control_descr");
 		break;
 
-		case "VMOUSE_SENSITIVITY_SLIDE":
-			sHeader = XI_ConvertString("Vertical Mouse Sensitivity");
-			sText1 = XI_ConvertString("Vertical Mouse Sensitivity_descr");
-		break;
-
-		case "HMOUSE_SENSITIVITY_SLIDE":
-			sHeader = XI_ConvertString("Horizontal Mouse Sensitivity");
-			sText1 = XI_ConvertString("Horizontal Mouse Sensitivity_descr");
+		case "MOUSE_SENSITIVITY_SLIDE":
+			sHeader = XI_ConvertString("MouseSensitivity2");
+			sText1 = XI_ConvertString("MouseSensitivity_descr");
 		break;
 
 		case "BATTLE_MODE_CHECKBOX":

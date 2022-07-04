@@ -395,3 +395,15 @@ void SetRealMouseSensitivity()
 
 	XI_SetMouseSensitivity( fRealMouseXSens, fRealMouseYSens );
 }
+
+//Hokkins: настройки камеры -->
+float ConvertPerspDetails(float fDetails, bool Real2Slider)
+{
+	return fDetails;
+}
+
+float ConvertRadDetails(float fDetails, bool Real2Slider)
+{
+	return fDetails;
+}
+//Hokkins: настройки камеры <--

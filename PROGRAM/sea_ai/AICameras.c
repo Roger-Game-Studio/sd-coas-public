@@ -1,10 +1,13 @@
-bool bSeePeoplesOnDeck = false; // Warship 08.06.09 ¬идеть матросов на палубе при виде от первого лица или нет
+bool bSeePeoplesOnDeck = false; // Warship 08.06.09 видеть матросов на палубе при виде от первого лица или нет
 
 object	SeaCameras;
 aref	Crosshair;
 object	SeaShipCamera,SeaFreeCamera,SeaDeckCamera;
 ref		SeaShipCharacterForCamera;
 bool	bCanSwitchCameras = true;
+
+#define DEFAULT_CAM_PERSP 0.8
+#define DEFAULT_CAM_PERSP_DEN 1.25
 
 void DeleteSeaCamerasEnvironment()
 {
@@ -15,6 +18,28 @@ void DeleteSeaCamerasEnvironment()
 	DelEventHandler("SeaCameras_Switch", "SeaCameras_Switch");
 	DelEventHandler(TELESCOPE_ACTIVE, "SeaCameras_TelescopeActive");
 }
+
+//Hokkins: перспектива на море -->
+void SetPerspectiveSettings()
+{
+    float fCamPersp = CalcSeaPerspective();
+
+    SeaFreeCamera.Perspective = fCamPersp;
+	SeaShipCamera.Perspective = fCamPersp;
+	/* SeaDeckCamera.Perspective = fCamPersp; */
+	
+	SendMessage(&locCamera, "lf", MSG_CAMERA_SET_RADIUS, CalcLandRadius());
+}
+
+float CalcSeaPerspective()
+{
+    float fCamPerspAdj = 0.0;
+    if(CheckAttribute(&InterfaceStates, "PerspDetails"))
+       fCamPerspAdj = stf(InterfaceStates.PerspDetails) / DEFAULT_CAM_PERSP_DEN;
+
+    return (DEFAULT_CAM_PERSP + fCamPerspAdj);
+}
+//Hokkins: перспектива на море <--
 
 void CreateSeaCamerasEnvironment()
 {
@@ -28,11 +53,13 @@ void CreateSeaCamerasEnvironment()
 	LayerAddObject(SEA_EXECUTE, &SeaShipCamera, iShipPriorityExecute + 5);
 	LayerAddObject(SEA_EXECUTE, &SeaFreeCamera, 1);
 	LayerAddObject(SEA_EXECUTE, &SeaDeckCamera, iShipPriorityExecute + 5);
-
-	SeaFreeCamera.Perspective = 1.285;
+	
+	SetPerspectiveSettings();
+	
+	// SeaFreeCamera.Perspective = 1.285;
 
 	// Ship camera paramerets
-	SeaShipCamera.Perspective = 1.285;
+	// SeaShipCamera.Perspective = 1.285;
 	SeaShipCamera.SensivityDistance = 30.0;
 	SeaShipCamera.SensivityHeightAngle = 0.02;
 	SeaShipCamera.SensivityHeightAngleOnShip = 0.005;

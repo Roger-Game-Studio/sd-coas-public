@@ -34,6 +34,8 @@ void PrepareDefaultOption(ref optref)
 	optref.alwaysrun = true;
 	optref.video.grassquantity = 0;
 	optref.seadetails = 1.0;
+	optref.perspdetails = 0.0;
+	optref.raddetails = 0.0;
 	
 	SeaParametrs.MaxVertices = MaxVertices;
 	SeaParametrs.MaxIndices = MaxIndices;
@@ -72,6 +74,16 @@ void GetRealOptions(ref optref)
 	if( CheckAttribute(&InterfaceStates,"SeaDetails") ) {
 		optref.seadetails = stf(InterfaceStates.SeaDetails);
 	}
+	
+	//Hokkins: настройки камеры -->
+	if( CheckAttribute(&InterfaceStates,"PerspDetails") ) {
+		optref.perspdetails = stf(InterfaceStates.PerspDetails);
+	}
+	
+	if( CheckAttribute(&InterfaceStates,"RadDetails") ) {
+		optref.raddetails = stf(InterfaceStates.RadDetails);
+	}
+	//Hokkins: настройки камеры <--
 
 	if( CheckAttribute(&InterfaceStates,"InvertCameras") ) {
 		optref.cameramode.InvertCameras = sti(InterfaceStates.InvertCameras);
@@ -264,9 +276,20 @@ void SetCurentOptions(ref optref)
 	if( CheckAttribute(optref,"video.grassquantity") ) {
 		iGrassQuality = sti(optref.video.grassquantity);
 	}
+	
 	if( CheckAttribute(optref,"seadetails") ) {
 		InterfaceStates.SeaDetails = stf(optref.seadetails);
 	}
+	
+	//Hokkins: настройки камеры -->
+	if( CheckAttribute(optref,"perspdetails") ) {
+		InterfaceStates.PerspDetails = stf(optref.perspdetails);
+	}
+	
+	if( CheckAttribute(optref,"raddetails") ) {
+		InterfaceStates.RadDetails = stf(optref.raddetails);
+	}
+	//Hokkins: настройки камеры <--
 
 	XI_SetColorCorrection(stf(InterfaceStates.video.contrast),stf(InterfaceStates.video.gamma),stf(InterfaceStates.video.brightness));
 
@@ -283,6 +306,7 @@ void SetCurentOptions(ref optref)
 
 	ControlsMakeInvert();
 	SetRealMouseSensitivity();
+	SetPerspectiveSettings();
 }
 
 void ReadSavedOptions(ref gopt)
