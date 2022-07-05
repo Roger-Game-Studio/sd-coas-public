@@ -143,37 +143,37 @@ void IReadVariableAfterInit()
 {
 	GetHerbOptionsData();
 	GetControlsStatesData();
-
-	int nShowBattleMode = 0;
-	if( CheckAttribute(&InterfaceStates,"ShowBattleMode") ) {
-		nShowBattleMode = sti(InterfaceStates.ShowBattleMode);
-	}
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"BATTLE_MODE_CHECKBOX", 2, 1, nShowBattleMode );
-
-	int nEnabledAutoSaveMode = 1;
-	if( CheckAttribute(&InterfaceStates,"EnabledAutoSaveMode") ) {
-		nEnabledAutoSaveMode = sti(InterfaceStates.EnabledAutoSaveMode);
-	}
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"AUTOSAVE_CHECKBOX", 2, 1, nEnabledAutoSaveMode );
-
-	int nEnabledQuestsMarks = 1;
-	if( CheckAttribute(&InterfaceStates,"EnabledQuestsMarks") ) {
-		nEnabledQuestsMarks = sti(InterfaceStates.EnabledQuestsMarks);
-	}
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"QUESTMARK_CHECKBOX", 2, 1, nEnabledQuestsMarks );
-
-	int nEnabledShipMarks = 1;
-	if( CheckAttribute(&InterfaceStates,"EnabledShipMarks") ) {
-		nEnabledShipMarks = sti(InterfaceStates.EnabledShipMarks);
-	}
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SHIPMARK_CHECKBOX", 2, 1, nEnabledShipMarks );
-
+	
 	int nEnabledSimpleSea = 0;
 	if( CheckAttribute(&InterfaceStates,"SimpleSea") ) 
 	{
 		nEnabledSimpleSea = sti(InterfaceStates.SimpleSea);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SIMPLESEA_CHECKBOX", 2, 1, nEnabledSimpleSea );
+
+	int nShowBattleMode = 0;
+	if( CheckAttribute(&InterfaceStates,"ShowBattleMode") ) {
+		nShowBattleMode = sti(InterfaceStates.ShowBattleMode);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"BATTLE_MODE_CHECKBOX", 2, 1, nShowBattleMode );
+	
+	int nSkipStartVideo = 0;
+	if( CheckAttribute(&InterfaceStates,"SkipStartVideo") ) {
+		nSkipStartVideo = sti(InterfaceStates.SkipStartVideo);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SKIPVIDEO_CHECKBOX", 2, 1, nSkipStartVideo );
+	
+	int nEnabledShipMarks = 1;
+	if( CheckAttribute(&InterfaceStates,"EnabledShipMarks") ) {
+		nEnabledShipMarks = sti(InterfaceStates.EnabledShipMarks);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SHIPMARK_CHECKBOX", 2, 1, nEnabledShipMarks );
+
+	int nEnabledAutoSaveMode = 1;
+	if( CheckAttribute(&InterfaceStates,"EnabledAutoSaveMode") ) {
+		nEnabledAutoSaveMode = sti(InterfaceStates.EnabledAutoSaveMode);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"AUTOSAVE_CHECKBOX", 2, 1, nEnabledAutoSaveMode );
 }
 
 void SetControlsTabMode(int nMode)
@@ -277,49 +277,53 @@ void procCheckBoxChange()
 		}
 		return;
 	}
+	
 	if( sNodName == "ALWAYS_RUN_CHECKBOX" ) 
 	{
 		{ // always run
 			SetAlwaysRun( bBtnState );
 		}
 	}
+	
 	if( sNodName == "INVERT_MOUSE_CHECKBOX" ) 
 	{
 		{ // invert mouse
 			InterfaceStates.InvertCameras = bBtnState;
 		}
 	}
+	
+	if( sNodName == "SIMPLESEA_CHECKBOX" ) 
+	{
+		{ // Show battle mode border
+			InterfaceStates.SimpleSea = bBtnState;
+		}
+	}
+	
 	if( sNodName == "BATTLE_MODE_CHECKBOX" ) 
 	{
 		{ // Show battle mode border
 			InterfaceStates.ShowBattleMode = bBtnState;
 		}
 	}
-	if( sNodName == "AUTOSAVE_CHECKBOX" ) 
+	
+	if( sNodName == "SKIPVIDEO_CHECKBOX" ) 
 	{
-		{ // Show battle mode border
-			InterfaceStates.EnabledAutoSaveMode = bBtnState;
+		{ // Skip Start Video
+			InterfaceStates.SkipStartVideo = bBtnState;
 		}
 	}
-
-	if( sNodName == "QUESTMARK_CHECKBOX" ) 
-	{
-		{ // Show battle mode border
-			InterfaceStates.EnabledQuestsMarks = bBtnState;
-		}
-	}
-
+	
 	if( sNodName == "SHIPMARK_CHECKBOX" ) 
 	{
 		{ // Show battle mode border
 			InterfaceStates.EnabledShipMarks = bBtnState;
 		}
 	}
-
-	if( sNodName == "SIMPLESEA_CHECKBOX" ) 
+	
+	if( sNodName == "AUTOSAVE_CHECKBOX" ) 
 	{
 		{ // Show battle mode border
-			InterfaceStates.SimpleSea = bBtnState;
+			InterfaceStates.EnabledAutoSaveMode = bBtnState;
 		}
 	}
 }
@@ -914,30 +918,30 @@ void ShowInfo()
 			sHeader = XI_ConvertString("MouseSensitivity2");
 			sText1 = XI_ConvertString("MouseSensitivity_descr");
 		break;
+		
+		case "SIMPLESEA_CHECKBOX":
+			sHeader = XI_ConvertString("SimpleSea Mode");
+			sText1 = XI_ConvertString("SimpleSea Mode_descr");
+		break;
 
 		case "BATTLE_MODE_CHECKBOX":
 			sHeader = XI_ConvertString("Show battle mode");
 			sText1 = XI_ConvertString("Show battle mode_descr");
 		break;
-
-		case "AUTOSAVE_CHECKBOX":
-			sHeader = XI_ConvertString("AutoSave Mode");
-			sText1 = XI_ConvertString("AutoSave Mode_descr");
+		
+		case "SKIPVIDEO_CHECKBOX":
+			sHeader = XI_ConvertString("SkipStartVideo");
+			sText1 = XI_ConvertString("SkipStartVideo_descr");
 		break;
-
-		case "QUESTMARK_CHECKBOX":
-			sHeader = XI_ConvertString("QuestMark Mode");
-			sText1 = XI_ConvertString("QuestMark Mode_descr");
-		break;
-
+		
 		case "SHIPMARK_CHECKBOX":
 			sHeader = XI_ConvertString("ShipMark Mode");
 			sText1 = XI_ConvertString("ShipMark Mode_descr");
 		break;
 
-		case "SIMPLESEA_CHECKBOX":
-			sHeader = XI_ConvertString("SimpleSea Mode");
-			sText1 = XI_ConvertString("SimpleSea Mode_descr");
+		case "AUTOSAVE_CHECKBOX":
+			sHeader = XI_ConvertString("AutoSave Mode");
+			sText1 = XI_ConvertString("AutoSave Mode_descr");
 		break;
 	}
 

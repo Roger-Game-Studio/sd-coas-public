@@ -230,31 +230,16 @@ void proc_break_video()
 
 void Main()
 {
-	ReloadProgressStart();
-
 	ControlsInit(GetTargetPlatform(),true);
 	nTeleportLocation = 1;
 
 	NationsInit();
-	ReloadProgressUpdate();
-
 	EncountersInit();
-	ReloadProgressUpdate();
-
 	CannonsInit();
-	ReloadProgressUpdate();
-
 	ShipsInit();
-	ReloadProgressUpdate();
-
 	IslandsInit();
-	ReloadProgressUpdate();
-
 	WeatherInit();
-	ReloadProgressUpdate();
-
 	InitPerks();
-	ReloadProgressUpdate();
 
 	if(LoadSegment("store\initGoods.c"))
 	{
@@ -274,7 +259,6 @@ void Main()
 	SetEventHandler(EVENT_END_VIDEO,"Main_LogoVideo",0);
 	InterfaceStates.videoIdx = 0;
 	Event(EVENT_END_VIDEO);
-	ReloadProgressEnd();
 
 	SetGlowParams(1.0, 50, 2);
 }
@@ -328,6 +312,19 @@ void Main_InitGame()
 }
 void Main_LogoVideo()
 {
+	LoadGameOptions();
+	
+	if(CheckAttribute(&InterfaceStates,"SkipStartVideo")) //Hokkins: убираем вступительные видео, чтобы быстрее грузиться =)
+	{
+		if(sti(InterfaceStates.SkipStartVideo) != 0)
+		{
+			DelEventHandler(EVENT_END_VIDEO,"Main_LogoVideo");
+			DeleteClass(&aviVideoObj);
+			Event("DoInfoShower","sl","game prepare",true);
+			SetEventHandler("frame","Main_Start",1);
+			return;
+		}
+	}
 	
 	int i = sti(InterfaceStates.videoIdx);
 	switch(i)

@@ -90,35 +90,35 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.InvertCameras = false;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"SimpleSea") ) {
+		optref.cameramode.SimpleSeaMode = sti(InterfaceStates.SimpleSea);
+	} else {
+		optref.cameramode.SimpleSeaMode = true;
+	}
 
 	if( CheckAttribute(&InterfaceStates,"ShowBattleMode") ) {
 		optref.cameramode.ShowBattleMode = sti(InterfaceStates.ShowBattleMode);
 	} else {
 		optref.cameramode.ShowBattleMode = false;
 	}
-
-	if( CheckAttribute(&InterfaceStates,"EnabledAutoSaveMode") ) {
-		optref.cameramode.EnabledAutoSaveMode = sti(InterfaceStates.EnabledAutoSaveMode);
+	
+	if( CheckAttribute(&InterfaceStates,"SkipStartVideo") ) {
+		optref.cameramode.SkipStartVideo = sti(InterfaceStates.SkipStartVideo);
 	} else {
-		optref.cameramode.EnabledAutoSaveMode = true;
+		optref.cameramode.SkipStartVideo = false;
 	}
-
-	if( CheckAttribute(&InterfaceStates,"EnabledQuestsMarks") ) {
-		optref.cameramode.EnabledQuestsMarks = sti(InterfaceStates.EnabledQuestsMarks);
-	} else {
-		optref.cameramode.EnabledQuestsMarks = true;
-	}
-
+	
 	if( CheckAttribute(&InterfaceStates,"EnabledShipMarks") ) {
 		optref.cameramode.EnabledShipMarks = sti(InterfaceStates.EnabledShipMarks);
 	} else {
 		optref.cameramode.EnabledShipMarks = true;
 	}
 
-	if( CheckAttribute(&InterfaceStates,"SimpleSea") ) {
-		optref.cameramode.SimpleSeaMode = sti(InterfaceStates.SimpleSea);
+	if( CheckAttribute(&InterfaceStates,"EnabledAutoSaveMode") ) {
+		optref.cameramode.EnabledAutoSaveMode = sti(InterfaceStates.EnabledAutoSaveMode);
 	} else {
-		optref.cameramode.SimpleSeaMode = true;
+		optref.cameramode.EnabledAutoSaveMode = true;
 	}
 
 	GetControlsOptions(optref);
@@ -197,35 +197,35 @@ void SetCurentOptions(ref optref)
 	SeaGridStep
 	SeaMaxWaveDistance
 	*/
+	
+	if( CheckAttribute(optref,"cameramode.SimpleSeaMode") ) {
+		InterfaceStates.SimpleSea = optref.cameramode.SimpleSeaMode;
+	} else {
+		InterfaceStates.SimpleSea = false;
+	}
 
 	if( CheckAttribute(optref,"cameramode.ShowBattleMode") ) {
 		InterfaceStates.ShowBattleMode = optref.cameramode.ShowBattleMode;
 	} else {
 		InterfaceStates.ShowBattleMode = false;
 	}
-
-	if( CheckAttribute(optref,"cameramode.EnabledAutoSaveMode") ) {
-		InterfaceStates.EnabledAutoSaveMode = optref.cameramode.EnabledAutoSaveMode;
+	
+	if( CheckAttribute(optref,"cameramode.SkipStartVideo") ) {
+		InterfaceStates.SkipStartVideo = optref.cameramode.SkipStartVideo;
 	} else {
-		InterfaceStates.EnabledAutoSaveMode = true;
+		InterfaceStates.SkipStartVideo = false;
 	}
-
-	if( CheckAttribute(optref,"cameramode.EnabledQuestsMarks") ) {
-		InterfaceStates.EnabledQuestsMarks = optref.cameramode.EnabledQuestsMarks;
-	} else {
-		InterfaceStates.EnabledQuestsMarks = true;
-	}
-
+	
 	if( CheckAttribute(optref,"cameramode.EnabledShipMarks") ) {
 		InterfaceStates.EnabledShipMarks = optref.cameramode.EnabledShipMarks;
 	} else {
 		InterfaceStates.EnabledShipMarks = true;
 	}
 
-	if( CheckAttribute(optref,"cameramode.SimpleSeaMode") ) {
-		InterfaceStates.SimpleSea = optref.cameramode.SimpleSeaMode;
+	if( CheckAttribute(optref,"cameramode.EnabledAutoSaveMode") ) {
+		InterfaceStates.EnabledAutoSaveMode = optref.cameramode.EnabledAutoSaveMode;
 	} else {
-		InterfaceStates.SimpleSea = false;
+		InterfaceStates.EnabledAutoSaveMode = true;
 	}
 
 	// mouse
