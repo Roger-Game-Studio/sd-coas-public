@@ -245,6 +245,11 @@ int SetVAligmentFormatedText(string sNodeName)  // boal нарыл в ядре, 
 {
 	return SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,sNodeName, 5);
 }
+
+int SetAlignmentFormatedText(string nodeName, int alignment)
+{
+    return SendMessage(&GameInterface, "lsll", MSG_INTERFACE_MSG_TO_NODE, nodeName, 14, alignment);
+}
 //-------------------------------------------------------------------------------------------------------------
 // Warship -->
 void SetFormattedTextLastLineColor(string _sNodeName, int _iColor)
