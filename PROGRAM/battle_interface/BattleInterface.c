@@ -2100,7 +2100,7 @@ ref procGetSailTextureData()
 			//if( CheckAttribute(&characters[chrIdx],"ShipSails.gerald_name") ) // не наследуется при обмене кораблей, потому не в  ship.
 			if( CheckAttribute(shref,"ShipSails.gerald_name") ) // 1.2.3 герб теперь атрибут корабля, а не НПС
 			{
-				BI_objRetValue.geraldTex = "Ships\Gerald\" + shref.ShipSails.gerald_name + ".tga";
+				BI_objRetValue.geraldTex = "Ships\Gerald\" + shref.ShipSails.gerald_name;
 			}
 			/*
 			switch(sti(Characters[chrIdx].nation))  // Не работает это :(

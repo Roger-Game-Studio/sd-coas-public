@@ -92,8 +92,9 @@ int ScrollGetTexture()
 	string sName = GetEventData();
 	int iPicIndex = GetEventData();
 	string sScrollID = GetEventData();
-	int iTexture = NFGetTexture(sScrollID, sName);
-	//Trace("ScrollGetTexture: " + iTexture + ", " + sName);
+	
+	string sAttr = "pic" + (iPicIndex + 1);
+	int iTexture = sti(GameInterface.(sScrollID).(sAttr).TexId);
 
 	return iTexture;
 }
@@ -120,7 +121,7 @@ void CheckChangeSailStatus()
 		int nEmblem = sti(GameInterface.SCROLL_GERALD.current);
 
 		string sattr = "pic"+(nEmblem+1);
-		if (GameInterface.SCROLL_GERALD.(sattr).FileName.Name != shref.ShipSails.Gerald_Name)
+		if (GameInterface.SCROLL_GERALD.(sattr).FileName != shref.ShipSails.Gerald_Name)
 		{
 			bNewValue = true;
 		}
@@ -134,7 +135,7 @@ void SetNewSailsGerald()
 	int nEmblem = sti(GameInterface.SCROLL_GERALD.current);
 
 	string sattr = "pic"+(nEmblem+1);
-	shref.ShipSails.Gerald_Name = GameInterface.SCROLL_GERALD.(sattr).FileName.Name;
+	shref.ShipSails.Gerald_Name = GameInterface.SCROLL_GERALD.(sattr).FileName;
 	Log_testInfo(shref.ShipSails.Gerald_Name);
 	AddMoneyToCharacter(Pchar, -price);
 	WaitDate("",0,0,0, 1, 30);
