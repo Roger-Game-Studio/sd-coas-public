@@ -95,11 +95,6 @@ void OptionsPress()
 	IDoExit( RC_INTERFACE_DO_OPTIONS, false );
 }
 
-void ControlsPress()
-{
-	IDoExit( RC_INTERFACE_DO_CONTROLS, false );
-}
-
 void CreditsPress()
 {
 	IDoExit( RC_INTERFACE_DO_CREDITS, false );
@@ -120,14 +115,6 @@ void QuitPress()
 void procGameQuit()
 {
 	ExitProgram();
-}
-
-void MultiPress()
-{
-	//PrepareNetEnvironment();
-	DeleteBackEnvironment();
-	IDoExit(RC_INTERFACE_NET_FINDGAME, false);
-	InterfaceStates.BackEnvironmentIsCreated = false;
 }
 
 void IDoExit(int exitCode, bool bClear)
@@ -155,7 +142,6 @@ void ProcCommand()
 	case "Load":		LoadPress(); break;
 	case "Save":		SavePress(); break;
 	case "Options":		OptionsPress(); break;
-	//case "Multiplayer":	MultiPress(); break;
 	case "Credits":		CreditsPress(); break;
 	case "Exit":		SetEventHandler("frame","QuitPress",0);  break;
 	}
@@ -195,18 +181,9 @@ void CreateBackEnvironment()
 	arMenu.l1.locname = "menu02";	arMenu.l1.sel = "mainmenu\menu02_active";	arMenu.l1.norm = "mainmenu\menu02_passive"; arMenu.l1.event = "New";			arMenu.l1.path = LanguageGetLanguage();
 	arMenu.l2.locname = "menu03";	arMenu.l2.sel = "mainmenu\menu03_active";	arMenu.l2.norm = "mainmenu\menu03_passive"; arMenu.l2.event = "Load";			arMenu.l2.path = LanguageGetLanguage();
 	arMenu.l3.locname = "menu04";	arMenu.l3.sel = "mainmenu\menu04_active";	arMenu.l3.norm = "mainmenu\menu04_passive"; arMenu.l3.event = "Options";		arMenu.l3.path = LanguageGetLanguage();
-	//arMenu.l4.locname = "menu05";	arMenu.l4.sel = "mainmenu\menu05_active";	arMenu.l4.norm = "mainmenu\menu05_passive"; arMenu.l4.event = "Multiplayer";	arMenu.l4.path = LanguageGetLanguage();
-	//arMenu.l5.locname = "menu06";	arMenu.l5.sel = "mainmenu\menu06_active";	arMenu.l5.norm = "mainmenu\menu06_passive"; arMenu.l5.event = "Credits";		arMenu.l5.path = LanguageGetLanguage();
-	//arMenu.l6.locname = "menu07";	arMenu.l6.sel = "mainmenu\menu07_active";	arMenu.l6.norm = "mainmenu\menu07_passive"; arMenu.l6.event = "Exit";			arMenu.l6.path = LanguageGetLanguage();
 	arMenu.l4.locname = "menu05";	arMenu.l4.sel = "mainmenu\menu05_active";	arMenu.l4.norm = "mainmenu\menu05_passive"; arMenu.l4.event = "Credits";		arMenu.l4.path = LanguageGetLanguage();
 	arMenu.l5.locname = "menu06";	arMenu.l5.sel = "mainmenu\menu06_active";	arMenu.l5.norm = "mainmenu\menu06_passive"; arMenu.l5.event = "Exit";			arMenu.l5.path = LanguageGetLanguage();
 	SendMessage(&InterfaceBackScene, "lla", 3, 1, arMenu ); // set menu
-	//SendMessage(&InterfaceBackScene, "lll", 7, 0, true ); // set menu
-	//SendMessage(&InterfaceBackScene, "lll", 7, 1, true ); // set menu
-	//SendMessage(&InterfaceBackScene, "lll", 7, 2, true ); // set menu
-	//SendMessage(&InterfaceBackScene, "lll", 7, 3, true ); // set menu
-	//SendMessage(&InterfaceBackScene, "lll", 7, 4, true ); // set menu
-	//SendMessage(&InterfaceBackScene, "lll", 7, 5, true ); // set menu
 
 	// create ship
 	// MainMenu_CreateShip(); // Hokkins: в оригинальной сцене главного меню ГПК нет смысла генерировать корабль, он там не нужен!

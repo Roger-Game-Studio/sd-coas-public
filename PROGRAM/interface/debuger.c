@@ -326,12 +326,6 @@ void ProcCommand()
 		{
 			CalculateInfoDataF32();
 		}
-	    break;		
-	    case "B_BETA":
-		  if(comName=="activate" || comName=="click")
-		  {
-              IDoExit(RC_INTERFACE_DO_BOAL_BETA);
-		  }
 	    break;
 	    case "B_RELOAD":
 		  if(comName=="activate" || comName=="click")

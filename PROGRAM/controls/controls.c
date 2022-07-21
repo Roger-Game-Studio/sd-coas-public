@@ -266,7 +266,6 @@ void procUpdateControlKeyGroup()
 string GetCurControlGroup()
 {
 	if( IsEntity(&aviVideoObj) ) return "VideoPlayer";
-	//if( bRunHelpChooser ) return "HelpChooser";
 
 	if( sti(InterfaceStates.Launched) == true ) return "MainInterface";
 

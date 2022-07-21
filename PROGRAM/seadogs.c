@@ -503,12 +503,14 @@ void InterfaceDoExit()
 	{
 		case RC_INTERFACE_FORTCAPTURE_EXIT:
 			ReloadAfterFortCapture();
-			break;
+		break;
 
 		case RC_INTERFACE_DO_NOTHING:
-			break;
+		break;
+			
 		case RC_INTERFACE_MAIN_MENU_EXIT:
-			break;
+		break;
+		
 		case RC_INTERFACE_DO_NEW_GAME:
 			InterfaceStates.doUnFreeze = false;
 			DeleteEntities();
@@ -548,26 +550,27 @@ void InterfaceDoExit()
 			{
 				LaunchLoadGame(true);
 			}
-			break;
+		break;
+		
 		case RC_INTERFACE_DO_SAVE_GAME:
 			LaunchSaveGame();
-			break;
+		break;
 
 		case RC_INTERFACE_DO_OPTIONS:
 			LaunchOptionScreen();
-			break;
-		/*case RC_INTERFACE_DO_CONTROLS:
-			LaunchControlsScreen();
-			break;
-			*/
+		break;
+			
 		case RC_INTERFACE_DO_CREDITS:
 		    LaunchAboutScreen();
 		break;
+		
 		case RC_INTERFACE_DO_RESUME_GAME:
 		break;
+		
 		case RC_INTERFACE_RANSACK_MAIN_EXIT:
 			Return2SeaAfterAbordage();
-			break;
+		break;
+		
 		case RC_INTERFACE_CHARACTER_SELECT_EXIT:
 			DeleteEntities();
 			ClearEvents();
@@ -575,47 +578,14 @@ void InterfaceDoExit()
 			InterfaceStates.doUnFreeze = false;
 		break;
 		
-		/*case RC_INTERFACE_SPEAK_EXIT_AND_CAPTURE:
-			string sTargetChr = pchar.speakchr;
-			
-			pchar.abordage = 1;
-			
-			Sea_AbordageStartNow(SHIP_ABORDAGE, GetCharacterIndex(sTargetChr), true, true);
-			
-			
-			SetTimeScale(1.0);
-			TimeScaleCounter = 0;
-			DelPerkFromActiveList("TimeSpeed"); //boal
-			
-			pchar.speakchr = 0;
-			pchar.whospeak = 0;
-		break;
-		
-		case RC_INTERFACE_SPEAK_EXIT_AND_TRADE:
-			LaunchStore(SHIP_STORE);
-		break;  */
-		
 		case RC_INTERFACE_TO_CHAR:
 			pchar = GetMainCharacter();
 			LaunchCharacter(pchar);
 		break;
 		
-		/*
-		case RC_INTERFACE_TO_PASS:
-			pchar = GetMainCharacter();
-			LaunchPassengers(pchar);
-		break;
-		*/
-		
 		case RC_INTERFACE_TO_SHIP:
 			LaunchShipState();
 		break;
-		
-		/*
-		case RC_INTERFACE_TO_TRADEBOOK:
-			LaunchTradeBook();
-		break;
-		*/
 		
 		case RC_INTERFACE_TO_LOGBOOK:
 			LaunchQuestBook();
@@ -628,11 +598,6 @@ void InterfaceDoExit()
 		case RC_INTERFACE_LAUNCH_GAMEMENU:
 			LaunchGameMenuScreen();
 		break;
-		// boal -->
-  		case RC_INTERFACE_DO_BOAL_BETA:
-		     LaunchBoalBetaScreen();
-        break;
-		// boal <--
 		
 		// Warship -->
 		case RC_INTERFACE_BEST_MAP:
@@ -1057,8 +1022,6 @@ void ProcessControls()
 	if (ControlName == "WhrPrevWeather")	{ Whr_LoadNextWeather(-1); }
 	if (ControlName == "WhrNextWeather")	{ Whr_LoadNextWeather(1); }
 	if (ControlName == "WhrUpdateWeather")	{ Whr_UpdateWeather(); }
-	
-	//if (ControlName == "Help") RunHelpChooser();
 
 	if(bSeaActive && !bAbordageStarted)
 	{
@@ -1338,28 +1301,6 @@ void ProcessControls()
 			}
 		break;
 		
-		// Hokkins: хоткеи на получение координат корабля, нужны были для тестов видимо, поэтому закоменчены в релизе, не определился до конца удалять или нет, но по идее надо удалить! -->
-		//
-		/* case "WMapGetCoords": // Получение координат корабля на глобальной карте
-			if(IsEntity(worldMap))
-			{		
-				//Log_SetStringToLog("X = " + worldMap.playerShipX + " Z = " + worldMap.playerShipZ + " AY = " + worldMap.playerShipAY);
-				//Log_SetStringToLog("Текущие координаты : " + Map_GetRealCoordZ(makefloat(worldMap.playerShipZ)) + "  " + Map_GetRealCoordX(makefloat(worldMap.playerShipX)));
-			}	
-		break;
-		
-		case "Ship_GetCoordinates": // Получение координат корабля в режиме моря
-			if (bSeaActive && !bAbordageStarted)
-			{
-				if (CheckAttribute(pchar, "Ship.pos.x"))
-				{
-					Log_SetStringToLog("Текущие координаты : " + Sea_GetRealCoordZ(makefloat(pchar.Ship.pos.z)) + "  " + Sea_GetRealCoordX(makefloat(pchar.Ship.pos.x)));	
-				}	
-			}	
-		break; */	
-		//
-		// <--
-		
         case "BOAL_ActivateRush":  // boal KEY_F
 			if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
             {
@@ -1409,20 +1350,6 @@ void ProcessControls()
 		       LaunchDebuderMenu();
 		    }
 		break;
-
-		case "BOAL_Control3":
-		    // по F9 вызывает окно отладчика
-		    if (MOD_BETTATESTMODE == "On")
-		    {
-		       //LaunchBoalDebugScreenSecond();
-		    }
-		break;
-		
-	case "Person_Say": // KEY_T
-		// Интерфейс отдыха
-		/*if(bLandInterfaceStart) // В "Мыслях вслух"
-			LaunchTavernWaitScreen();*/
-	break;
 		
 	case "Say": // KEY_Y
 		// Интерфейс автозакупки товаров

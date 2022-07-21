@@ -289,7 +289,6 @@ void Sea_LandLoad()
 			{
 				if (Colonies[iColony].disease != "1" && sti(Colonies[iColony].nation) != PIRATE)
 				{
-					LaunchDiseaseAlert(DISEASE_ON_SHIP);
 					return;
 				}
 			}
@@ -298,7 +297,6 @@ void Sea_LandLoad()
 		{
 			if(sti(Colonies[iColony].disease.time > 0))
 			{
-				LaunchDiseaseAlert(DISEASE_ON_COLONY);  // to_do
 				return;
 			}
 		}
