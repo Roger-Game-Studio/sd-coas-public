@@ -1337,8 +1337,10 @@ void ProcessControls()
 				}
 			}
 		break;
-/*		
-		case "WMapGetCoords":
+		
+		// Hokkins: хоткеи на получение координат корабля, нужны были для тестов видимо, поэтому закоменчены в релизе, не определился до конца удалять или нет, но по идее надо удалить! -->
+		//
+		/* case "WMapGetCoords": // Получение координат корабля на глобальной карте
 			if(IsEntity(worldMap))
 			{		
 				//Log_SetStringToLog("X = " + worldMap.playerShipX + " Z = " + worldMap.playerShipZ + " AY = " + worldMap.playerShipAY);
@@ -1346,7 +1348,7 @@ void ProcessControls()
 			}	
 		break;
 		
-		case "Ship_GetCoordinates":
+		case "Ship_GetCoordinates": // Получение координат корабля в режиме моря
 			if (bSeaActive && !bAbordageStarted)
 			{
 				if (CheckAttribute(pchar, "Ship.pos.x"))
@@ -1354,8 +1356,10 @@ void ProcessControls()
 					Log_SetStringToLog("Текущие координаты : " + Sea_GetRealCoordZ(makefloat(pchar.Ship.pos.z)) + "  " + Sea_GetRealCoordX(makefloat(pchar.Ship.pos.x)));	
 				}	
 			}	
-		break;
-*/		
+		break; */	
+		//
+		// <--
+		
         case "BOAL_ActivateRush":  // boal KEY_F
 			if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
             {
@@ -1422,7 +1426,7 @@ void ProcessControls()
 		
 	case "Say": // KEY_Y
 		// Интерфейс автозакупки товаров
-		if(bLandInterfaceStart && IsPCharHaveTreasurer() && CheckAttribute(PChar, "TransferGoods.Enable")) // Если есть казначей, включена автозакупка и ГГ находится на суше
+		if(bLandInterfaceStart && IsPCharHaveTreasurer() && !CheckAttribute(pchar, "TransferGoods.Enable")) // Если есть казначей, включена автозакупка и ГГ находится на суше
 			LaunchTransferGoodsScreen();
 	break;
         

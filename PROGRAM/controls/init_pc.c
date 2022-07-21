@@ -59,20 +59,20 @@ void ExternControlsInit(bool bFirst)
 	CI_CreateAndSetControls( "", "TimeScale", CI_GetKeyCode("KEY_R"), 0, false );
 
 	// Cameras =====================================================================
-		// character camera
-	CI_CreateAndSetControls( "", "ChrCamTurnV", 257, 0, false );
+	// character camera
+	CI_CreateAndSetControls( "", "ChrCamTurnV", CI_GetKeyCode("VK_MROTATION_VERTICAL"), 0, false );
 	SetControlForInverting("ChrCamTurnV",false);
-	CI_CreateAndSetControls( "", "ChrCamTurnH", 256, 0, false );
+	CI_CreateAndSetControls( "", "ChrCamTurnH", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
 	CI_CreateAndSetControls( "", "ChrCamSpecMode", CI_GetKeyCode("VK_CONTROL"), 0, false );
-	CI_CreateAndSetControls( "", "Turn V", 257, INVERSE_CONTROL, false );
+	CI_CreateAndSetControls( "", "Turn V", CI_GetKeyCode("VK_MROTATION_VERTICAL"), INVERSE_CONTROL, false );
 	SetControlForInverting("Turn V",true);
-	CI_CreateAndSetControls( "", "Turn H", 256, 0, false );
+	CI_CreateAndSetControls( "", "Turn H", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
 	CI_CreateAndSetControls( "PrimaryLand", "ChrCamCameraSwitch", CI_GetKeyCode("VK_TAB"), 0, true );
 		// ship follow camera
-	CI_CreateAndSetControls( "Sailing3Pers", "ShipCamera_Turn_V", 257, INVERSE_CONTROL, false );
+	CI_CreateAndSetControls( "Sailing3Pers", "ShipCamera_Turn_V", CI_GetKeyCode("VK_MROTATION_VERTICAL"), INVERSE_CONTROL, false );
 	MapControlToGroup("ShipCamera_Turn_V", "BattleInterfaceControls");
 	SetControlForInverting("ShipCamera_Turn_V",true);
-	CI_CreateAndSetControls( "Sailing3Pers", "ShipCamera_Turn_H", 256, 0, false );
+	CI_CreateAndSetControls( "Sailing3Pers", "ShipCamera_Turn_H", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
 	MapControlToGroup("ShipCamera_Turn_H", "BattleInterfaceControls");
 	//CI_CreateAndSetControls( "Sailing3Pers", "ShipCamera_Forward", CI_GetKeyCode("VK_LBUTTON"), 0, true );
 	CI_CreateAndSetControls( "Sailing3Pers", "ShipCamera_Forward", CI_GetKeyCode("VK_MWHEEL_UP"), 0, true );
@@ -83,24 +83,24 @@ void ExternControlsInit(bool bFirst)
 
 		// deck camera
 	//Trace("DeckCamera_Turn_V");
-	CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Turn_V", 257, 0, false );
+	CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Turn_V", CI_GetKeyCode("VK_MROTATION_VERTICAL"), 0, false );
 	SetControlForInverting("DeckCamera_Turn_V",false);
-	CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Turn_H", 256, 0, false );
+	CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Turn_H", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
 	CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Forward", CI_GetKeyCode("VK_RBUTTON"), 0, true );
 	CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Backward", CI_GetKeyCode("VK_MBUTTON"), 0, true );
 	//CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Left", CI_GetKeyCode("KEY_A"), 0, true );
 	//CI_CreateAndSetControls( "Sailing1Pers", "DeckCamera_Right", CI_GetKeyCode("KEY_D"), 0, true );
 
 		// free camera
-	CI_CreateAndSetControls( "", "FreeCamera_Turn_V", 257, INVERSE_CONTROL, false );
+	CI_CreateAndSetControls( "", "FreeCamera_Turn_V", CI_GetKeyCode("VK_MROTATION_VERTICAL"), INVERSE_CONTROL, false );
 	SetControlForInverting("FreeCamera_Turn_V",true);
-	CI_CreateAndSetControls( "", "FreeCamera_Turn_H", 256, 0, false );
+	CI_CreateAndSetControls( "", "FreeCamera_Turn_H", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
 	CI_CreateAndSetControls( "", "FreeCamera_Forward", CI_GetKeyCode("VK_LBUTTON"), 0, false );  //VK_LBUTTON
 	CI_CreateAndSetControls( "", "FreeCamera_Backward", CI_GetKeyCode("VK_RBUTTON"), 0, false );   //VK_RBUTTON
 
 
 // Character ===================================================================
-	CI_CreateAndSetControls( "", "ChrTurnH", 256, 0, false );
+	CI_CreateAndSetControls( "", "ChrTurnH", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
 	CI_CreateAndSetControls( "PrimaryLand", "ChrAction", CI_GetKeyCode("VK_LBUTTON"), 0, true );
 	CI_CreateAndSetControls( "PrimaryLand", "ChrForward", CI_GetKeyCode("KEY_W"), 0, true );
 	CI_CreateAndSetControls( "PrimaryLand", "ChrForward2", CI_GetKeyCode("VK_RBUTTON"), 0, true ); // вторая команда
@@ -208,12 +208,12 @@ void ExternControlsInit(bool bFirst)
 	CI_CreateAndSetControls( "Sailing1Pers", "TelescopeIn", CI_GetKeyCode("VK_CONTROL"), 0, true );
 	CI_CreateAndSetControls( "Sailing1Pers", "TelescopeOut", CI_GetKeyCode("VK_CONTROL"), INVERSE_CONTROL, true );
 
-	CI_CreateAndSetControls( "Sailing3Pers", "Ship_GetCoordinates", CI_GetKeyCode("KEY_V"), 0, true );
-	MapControlToGroup("Ship_GetCoordinates","Sailing1Pers");
+	// CI_CreateAndSetControls( "Sailing3Pers", "Ship_GetCoordinates", CI_GetKeyCode("KEY_V"), 0, true );
+	// MapControlToGroup("Ship_GetCoordinates","Sailing1Pers");
 
 // World map ===================================================================
-	CI_CreateAndSetControls( "", "WMapTurnH", 256, 0, false );
-	CI_CreateAndSetControls( "", "WMapTurnV", 257, INVERSE_CONTROL, false );
+	CI_CreateAndSetControls( "", "WMapTurnH", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
+	CI_CreateAndSetControls( "", "WMapTurnV", CI_GetKeyCode("VK_MROTATION_VERTICAL"), INVERSE_CONTROL, false );
 	//SetControlForInverting("WMapTurnV",true);
 	CI_CreateAndSetControls( "WorldMapControls", "WMapCameraRotate", CI_GetKeyCode("VK_CONTROL"), 0, true );
 	//CI_CreateAndSetControls( "WorldMapControls", "WMapForward", CI_GetKeyCode("VK_LBUTTON"), 0, true );
@@ -232,13 +232,13 @@ void ExternControlsInit(bool bFirst)
 	CI_CreateAndSetControls( "WorldMapControls", "WMapShipTurnRight", CI_GetKeyCode("KEY_D"), 0, true );
 	CI_CreateAndSetControls( "WorldMapControls", "WMapCancel", CI_GetKeyCode("VK_SPACE"), 0, true );
 	CI_CreateAndSetControls( "WorldMapControls", "WMapSkipEncounter", CI_GetKeyCode("VK_RETURN"), 0, true );
-	CI_CreateAndSetControls( "WorldMapControls", "WMapGetCoords", CI_GetKeyCode("KEY_C"), 0, true );
+	// CI_CreateAndSetControls( "WorldMapControls", "WMapGetCoords", CI_GetKeyCode("KEY_C"), 0, true );
 
 
 // Interface ===================================================================
 	//				Main interface
-	CI_CreateAndSetControls( "", "ITurnH", 256, 0, false );
-	CI_CreateAndSetControls( "", "ITurnV", 257, INVERSE_CONTROL, false );
+	CI_CreateAndSetControls( "", "ITurnH", CI_GetKeyCode("VK_MROTATION_HORIZONTAL"), 0, false );
+	CI_CreateAndSetControls( "", "ITurnV", CI_GetKeyCode("VK_MROTATION_VERTICAL"), INVERSE_CONTROL, false );
 	CI_CreateAndSetControls( "", "ILClick", CI_GetKeyCode("VK_LBUTTON"), 0, false );
 	CI_CreateAndSetControls( "", "IRClick", CI_GetKeyCode("VK_RBUTTON"), 0, false );
 	CI_CreateAndSetControls( "Sailing1Pers", "Interface", CI_GetKeyCode("VK_F2"), 0, false );
@@ -325,45 +325,6 @@ void ExternControlsInit(bool bFirst)
 	CI_CreateAndSetControls( "DialogControls", "DlgDown3", CI_GetKeyCode("KEY_S"), 0, false );
 	CI_CreateAndSetControls( "DialogControls", "DlgScrollUp", CI_GetKeyCode("VK_PRIOR"), 0, false );
 	CI_CreateAndSetControls( "DialogControls", "DlgScrollDown", CI_GetKeyCode("VK_NEXT"), 0, false );
-
-	// Net Controls =====================================================================
-	CI_CreateAndSetControls( "NetShipControls", "Net_Menu", CI_GetKeyCode("VK_ESCAPE"), 0, true );
-	CI_CreateAndSetControls( "NetShipControls", "Say", CI_GetKeyCode("KEY_Y"), 0, true );
-	CI_CreateAndSetControls( "NetShipControls", "Team_Say", CI_GetKeyCode("KEY_O"), 0, true );
-	CI_CreateAndSetControls( "NetShipControls", "Person_Say", CI_GetKeyCode("KEY_T"), 0, true );
-	CI_CreateAndSetControls( "", "gamestat", CI_GetKeyCode("VK_F1"), 0, true );
-	CI_CreateAndSetControls( "", "toplist", CI_GetKeyCode("VK_F2"), 0, true );
-	//CI_CreateAndSetControls( "", "gamechat", CI_GetKeyCode("VK_F3"), 0, true );
-
-	MapControlToGroup("ShipCamera_Turn_H", "NetShipControls");
-	MapControlToGroup("ShipCamera_Turn_V", "NetShipControls");
-
-	MapControlToGroup("DeckCamera_Turn_H", "NetShipControls");
-	MapControlToGroup("DeckCamera_Turn_V", "NetShipControls");
-
-	MapControlToGroup("BICommandsActivate", "NetShipControls");
-
-	// temporary control
-	CI_CreateAndSetControls( "NetShipControls", "Ship_StartRepair", CI_GetKeyCode("KEY_L"), 0, true );
-	
-	MapControlToGroup("Ship_TurnLeft", "NetShipControls");
-	MapControlToGroup("Ship_TurnRight", "NetShipControls");
-	MapControlToGroup("Ship_SailUp", "NetShipControls");
-	MapControlToGroup("Ship_SailDown", "NetShipControls");
-	MapControlToGroup("Ship_Fire", "NetShipControls");
-
-	MapControlToGroup("Sea_CameraSwitch", "NetShipControls");
-	MapControlToGroup("TelescopeIn", "NetShipControls");
-
-	MapControlToGroup("hk_charge1", "NetShipControls");
-	MapControlToGroup("hk_charge2", "NetShipControls");
-	MapControlToGroup("hk_charge3", "NetShipControls");
-	MapControlToGroup("hk_charge4", "NetShipControls");
-
-	MapControlToGroup("ShipCamera_Forward", "NetShipControls");
-	MapControlToGroup("ShipCamera_Backward", "NetShipControls");
-	MapControlToGroup("DeckCamera_Forward", "NetShipControls");
-	MapControlToGroup("DeckCamera_Backward", "NetShipControls");
 }
 
 void ExternInitKeyCodes()
@@ -527,7 +488,11 @@ void ExternInitKeyCodes()
 	objControlsState.key_codes.VK_F8.img = "";
 	objControlsState.key_codes.VK_F9		= 120;
 	objControlsState.key_codes.VK_F9.img = "";
-
+	
+	objControlsState.key_codes.VK_MROTATION_HORIZONTAL = 256;
+	objControlsState.key_codes.VK_MROTATION_HORIZONTAL.img = ">";
+	objControlsState.key_codes.VK_MROTATION_VERTICAL = 257;
+	objControlsState.key_codes.VK_MROTATION_VERTICAL.img = ">";
 	objControlsState.key_codes.VK_MWHEEL_UP		= 258;
 	objControlsState.key_codes.VK_MWHEEL_UP.img = ">";
 	objControlsState.key_codes.VK_MWHEEL_DOWN	= 259;
