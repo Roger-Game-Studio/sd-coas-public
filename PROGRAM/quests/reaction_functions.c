@@ -5900,6 +5900,7 @@ void CapBloodLineInit(string qName)
     LAi_SetPlayerType(Pchar);
     //Рабство
     LAi_SetImmortal(Pchar, false);
+    RemoveCharacterEquip(pchar, GUN_ITEM_TYPE); // Hokkins: Fix активного индикатора огнестрельного оружия, при старте на плантации!
     DeleteAttribute(Pchar, "items");
     DeleteAttribute(Pchar, "equip");
     DeleteAttribute(Pchar, "ship");
