@@ -183,7 +183,7 @@ void SetControlsTabMode(int nMode)
 	int nColor3 = nColor1;
 	int nColor4 = nColor1;
 
-	string sPic1 = "TabDeSelected";
+	string sPic1 = "TabSelected";
 	string sPic2 = sPic1;
 	string sPic3 = sPic1;
 	string sPic4 = sPic1;
@@ -191,19 +191,19 @@ void SetControlsTabMode(int nMode)
 	switch( nMode )
 	{
 	case 1: // море от первого лица
-		sPic1 = "TabSelected";
+		sPic1 = "TabDeSelected";
 		nColor1 = argb(255,255,255,255);
 	break;
 	case 2: // режим путешествий на земле
-		sPic2 = "TabSelected";
+		sPic2 = "TabDeSelected";
 		nColor2 = argb(255,255,255,255);
 	break;
 	case 3: // море от 3-го лица
-		sPic3 = "TabSelected";
+		sPic3 = "TabDeSelected";
 		nColor3 = argb(255,255,255,255);
 	break;
-	case 4: // режим бо€ на земле
-		sPic4 = "TabSelected";
+	case 4: // режим боя на земле
+		sPic4 = "TabDeSelected";
 		nColor4 = argb(255,255,255,255);
 	break;
 	}
@@ -427,8 +427,6 @@ void ChangePerspDetail()
 			InterfaceStates.PerspDetails = fPerspDetail;
 			float fCamPersp = CalcSeaPerspective();
             string sMsg = "#"+ FloatToString(fCamPersp, 3);
-            //PerspMax is 17 in coll.
-            // SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "TITLES_STR", 1, 17, sMsg);
 	}
 }
 
@@ -441,7 +439,6 @@ void ChangeRadDetail()
 			InterfaceStates.RadDetails = fPerspDetail;
 			float fCamPersp = CalcLandRadius();
             string sMsg = "#"+ FloatToString(fCamPersp, 1);
-            //CamRadMax is 24 in coll.
             SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "TITLES_STR", 1, 24, sMsg);
 	}
 }
@@ -494,7 +491,7 @@ bool AddToControlsList(int row, string sControl, string sKey, bool bRemapable)
 	if( GameInterface.controls_list.(rowname).td2.str == "" ) {
 		trace("Warning!!! " + sControl + " hav`t translate value");
 	}
-	if( !bRemapable ) { // выделение контролок которые нельз€ помен€ть
+	if( !bRemapable ) { // выделение контролок которые нельзя поменять
 		GameInterface.controls_list.(rowname).td2.color = argb(255,128,128,128);
 	}
 	if( CheckAttribute(&objControlsState,"key_codes."+sKey+".img") ) {
@@ -596,11 +593,13 @@ void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSe
 	if(fCurSeaDetails<0.0) fCurSeaDetails = 0.0;
 	if(fCurSeaDetails>1.0) fCurSeaDetails = 1.0;
 	
+	//Hokkins: настройки камеры -->
 	if(fPerspDetails<0.0) fPerspDetails = 0.0;
 	if(fPerspDetails>1.0) fPerspDetails = 1.0;
 	
 	if(fRad<0.0) fRad = 0.0;
 	if(fRad>1.0) fRad = 1.0;
+	//Hokkins: настройки камеры <--
 
 	GameInterface.nodes.CONTRAST_SLIDE.value = fCurContrast;
 	GameInterface.nodes.GAMMA_SLIDE.value = fCurGamma;
@@ -615,13 +614,12 @@ void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSe
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"CONTRAST_SLIDE", 0,fCurContrast);
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"GAMMA_SLIDE", 0,fCurGamma);
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"BRIGHT_SLIDE", 0,fCurBright);
-
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_DETAILS_SLIDE", 0, fCurSeaDetails);
 	
 	//Hokkins: настройки камеры -->
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_CAM_PERSP_SLIDE", 0, fPerspDetails);
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"LAND_CAM_RAD_SLIDE", 0, fRad);
-	//Hokkins: настройки камеры <-->
+	//Hokkins: настройки камеры <--
 
 	XI_SetColorCorrection(fContrast,fGamma,fBright);
 	//Set sea detail

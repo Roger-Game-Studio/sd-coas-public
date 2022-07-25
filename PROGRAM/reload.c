@@ -379,6 +379,7 @@ void ReloadEndFade()
 	PostEvent("LoadSceneSound", 500);
 	ReloadProgressUpdate();
 	ReloadProgressEnd();
+	// Hokkins: настройки камеры -->
 	SetPerspectiveSettings();
 }
 

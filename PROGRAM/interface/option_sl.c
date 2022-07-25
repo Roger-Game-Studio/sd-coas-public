@@ -34,6 +34,7 @@ void PrepareDefaultOption(ref optref)
 	optref.alwaysrun = true;
 	optref.video.grassquantity = 0;
 	optref.seadetails = 1.0;
+	// Hokkins: настройки камеры -->
 	optref.perspdetails = 0.0;
 	optref.raddetails = 0.0;
 	
@@ -306,6 +307,7 @@ void SetCurentOptions(ref optref)
 
 	ControlsMakeInvert();
 	SetRealMouseSensitivity();
+	// Hokkins: настройки камеры -->
 	SetPerspectiveSettings();
 }
 

@@ -2,6 +2,7 @@
 #define LOCCAMERA_TOPOS		2
 #define LOCCAMERA_FREE		3
 
+// Hokkins: радиус наземной камеры -->
 #define DEFAULT_CAM_RAD 3.0
 #define DEFAULT_CAM_RAD_DEN 0.22
 
