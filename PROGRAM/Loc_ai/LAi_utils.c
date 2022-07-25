@@ -719,11 +719,8 @@ void LAi_SetHuberSitAnimation(aref chr)
 object LAi_QuestFader;
 void LAi_Fade(string questFadeOut, string questFadeIn)
 {
-	// if(questFadeOut != "") LAi_QuestDelay(questFadeOut, 0.5);
-	// if(questFadeIn != "") LAi_QuestDelay(questFadeIn, 1.0);
-	
-	if(questFadeOut != "") LAi_QuestDelay(questFadeOut, 0.55);
-	if(questFadeIn != "") LAi_QuestDelay(questFadeIn, 1.10);
+	if(questFadeOut != "") LAi_QuestDelay(questFadeOut, 1.0); // default - 0.5; Fix Artess999 - 0.55
+	if(questFadeIn != "") LAi_QuestDelay(questFadeIn, 1.2); // default - 1.0; Fix Artess999 - 1.10
 	
 	if(IsEntity(&LAi_QuestFader))
 	{
