@@ -141,6 +141,8 @@ void ExternControlsInit(bool bFirst)
 	MapControlToGroup("OfficersFollow","FightModeControls");
 	MapControlToGroup("OfficersFollow","BattleInterfaceControls");
 	// <-- JA
+	
+	CI_CreateAndSetControls( "PrimaryLand", "Say", CI_GetKeyCode("KEY_Y"), 0, true );
 
 	
 	//CI_CreateContainer("", "ChrTurnH1", 15.0);

@@ -1,224 +1,41 @@
-// Интерфейс закупки товара казначеем
+// Hokkins: интерфейс закупки товаров казначеем. Переписан с нуля (06.07.2022)
 
-int iCurGoodIndex;
+int	nCurScrollNum = 0;
 int iCurCompanion = 0;
+int iCurGoodIndex;
+string CurRow;
+
+ref refCharacter;
 
 void InitInterface(string iniName)
 {
-	string sGood;
-	int i;
-	int X = 90;
-	int Y = 95;
-
-	GameInterface.title = "titleGoodsTransfer";
-
-	for(i = 0; i < GOODS_QUANTITY; i++)	// Картинки товаров
-	{
-		if(i == 6 || i == 12 || i == 18 || i == 24 || i == 30)	// Другой столбец
-		{
-			X += 123;
-			Y = 95;
-		}
-		
-		sGood = goods[i].name;
-				
-		// Это к магазину никакого отношения не имеет
-		if(HasSubStr(sGood, "Cannon") || HasSubStr(sGood, "Culverine")) continue;
-				
-		GameInterface.GOODS_ICONS.imagelist.(sGood).group = "GOODS";
-		GameInterface.GOODS_ICONS.imagelist.(sGood).width = 64;
-		GameInterface.GOODS_ICONS.imagelist.(sGood).height = 64;
-		GameInterface.GOODS_ICONS.imagelist.(sGood).x = X;
-		GameInterface.GOODS_ICONS.imagelist.(sGood).y = Y;
-		GameInterface.GOODS_ICONS.imagelist.(sGood).pic = sGood;
-		
-		Y += 82; // Интервал между картинками
-	}
+	StartAboveForm(true);
 	
-	SendMessage(&GameInterface, "ls", MSG_INTERFACE_INIT, iniName);
-	
-	// Нужно после инициализации интерфейса
-	CreateGoodNamesStrings();
-	
-	// Тут, т.к. изначально все по нулям и на кнопку можно не нажать
-	if(!CheckAttribute(PChar, "TransferGoods.AllGoodsWeight")) PChar.TransferGoods.AllGoodsWeight = 0;
-		
+	FillShipsScroll();
+	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
+	FillGoodsTable();
 	SetCheckButtonsStates();
+	SetVariable();
 	
-	CreateString(true, "CurCompanion", XI_ConvertString(GetShipTypeName(PChar)) + " '" + PChar.Ship.Name + "'", FONT_CAPTION, COLOR_NORMAL, 650, 568, SCRIPT_ALIGN_CENTER, 0.9);
+	CreateString(true,"ShipName","",FONT_NORMAL,COLOR_MONEY, 400,85,SCRIPT_ALIGN_CENTER,0.9);
 	
-	CreateString(true, "GameVersionInfo1", VERSION_NUMBER1, FONT_CAPTION, COLOR_NORMAL,150, 10, SCRIPT_ALIGN_CENTER, 0.8);
-	CreateString(true, "GameVersionInfo2", GetVerNum(), FONT_CAPTION, COLOR_NORMAL, 650, 10, SCRIPT_ALIGN_CENTER, 0.8);
-	
-	SetEventHandler("UnShowTGWindow", "UnShowTGWindow", 0);
-	SetEventHandler("ShowItemsWindow", "ShowItemsWindow", 0);
+	if (CheckAttribute(pchar, "ship.name"))
+	{
+		GameInterface.strings.shipname = pchar.ship.name;
+	}
+	else 
+	{
+		GameInterface.strings.shipname = "";
+	}
+
 	SetEventHandler("exitCancel", "ProcessCancelExit", 0);
 	SetEventHandler("ievnt_command", "ProcCommand", 0);
-	SetEventHandler("evntDoPostExit", "DoPostExit", 0);
-}
-
-void SetCheckButtonsStates()
-{
-	String companionId = Characters[GetCompanionIndex(PChar, iCurCompanion)].Id;
-	
-	if(CheckAttribute(PChar, "TransferGoods." + companionId + ".BuyContraband"))
-	{
-		CheckButton_SetState("CHECK_BUYCONTRABAND", 1, true);
-}
-	else
-	{
-		CheckButton_SetState("CHECK_BUYCONTRABAND", 1, false);
-	}
-}
-
-void CreateGoodNamesStrings()
-{
-	int x, y;
-	int buyCount;
-	String sGood;
-	String companionId = Characters[GetCompanionIndex(PChar, iCurCompanion)].Id;
-	
-	for(int i = 0; i < GOODS_QUANTITY; i++)	// Названия товаров
-	{
-		sGood = Goods[i].name;
-		
-		if(CheckAttribute(GameInterface, "GOODS_ICONS.imagelist." + sGood))
-		{
-			x = MakeInt(GameInterface.GOODS_ICONS.imagelist.(sGood).x);
-			y = MakeInt(GameInterface.GOODS_ICONS.imagelist.(sGood).y) - 40;
-			
-			if(CheckAttribute(PChar, "TransferGoods." + companionId + "." + sGood))
-			{
-				buyCount = sti(PChar.TransferGoods.(companionId).(sGood));
-			}
-			else
-			{
-				buyCount = 0;
-			}
-			
-			// Строки
-			SendMessage(&GameInterface,"lslsssllllllfl",MSG_INTERFACE_MSG_TO_NODE, "GOODS_NAMES", 0, sGood, XI_ConvertString(sGood), FONT_CAPTION, X, Y, COLOR_NORMAL, COLOR_NORMAL, SCRIPT_ALIGN_CENTER, true, 1, 100);
-			SendMessage(&GameInterface,"lslsssllllllfl",MSG_INTERFACE_MSG_TO_NODE, "GOODS_NAMES", 0, "Transfer" + sGood, XI_ConvertString("BuyGoods") + buyCount, FONT_CAPTION, x, y + 52, COLOR_NORMAL, COLOR_NORMAL, SCRIPT_ALIGN_CENTER, true, 1, 100);
-		}
-	}
-}
-
-void RefreshGoodsCountStrings()
-{
-	int buyCount;
-	int curString = 2; // Со второй, т.к. первая - название
-	String sGood;
-	String companionId = Characters[GetCompanionIndex(PChar, iCurCompanion)].Id;
-	
-	for(int i = 0; i < GOODS_QUANTITY; i++)	// Названия товаров
-	{
-		sGood = Goods[i].name;
-		
-		if(CheckAttribute(GameInterface, "GOODS_ICONS.imagelist." + sGood))
-		{
-			if(CheckAttribute(PChar, "TransferGoods." + companionId + "." + sGood))
-			{
-				buyCount = sti(PChar.TransferGoods.(companionId).(sGood));
-			}
-			else
-			{
-				buyCount = 0;
-			}
-			
-			SendMessage(&GameInterface, "lslls", MSG_INTERFACE_MSG_TO_NODE, "GOODS_NAMES", 1, curString, "#" + XI_ConvertString("BuyGoods") + buyCount);
-			curString += 2;
-		}
-	}
-}
-
-void ShowItemsWindow()	// Принцип тот-же, что и в интерфейса отличной карты
-{
-	float fMouseX = stf(GameInterface.mousepos.x) - 6.0 + 5;
-	float fMouseY = stf(GameInterface.mousepos.y) - 50.0 + 5;
-
-	//определяем верхний левый угол картинки
-	float fOffsetX = stf(GameInterface.GOODS_ICONS.offset.x);
-	float fOffsetY = stf(GameInterface.GOODS_ICONS.offset.y);
-
-	fMouseX = fOffsetX + fMouseX * stf(GameInterface.GOODS_ICONS.scale.x);
-	fMouseY = fOffsetY + fMouseY * stf(GameInterface.GOODS_ICONS.scale.y);
-
-	string sGood;
-	for(int i=0; i<GOODS_QUANTITY; i++)
-	{
-		sGood = goods[i].name;
-		if(CheckAttribute(&GameInterface, "GOODS_ICONS.imagelist." + sGood))
-		{
-			if(fMouseX >= stf(GameInterface.GOODS_ICONS.imagelist.(sGood).x) - 32)
-			{
-				if(fMouseX <= stf(GameInterface.GOODS_ICONS.imagelist.(sGood).x) + 32.0)
-				{
-					if(fMouseY >= stf(GameInterface.GOODS_ICONS.imagelist.(sGood).y) - 80)
-					{
-						if(fMouseY <= stf(GameInterface.GOODS_ICONS.imagelist.(sGood).y) - 16)
-						{
-							ShowMainWindow(false);
-							ShowTransferGoods(i);
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-void ShowMainWindow(bool _truefalse)
-{
-	if(_truefalse)
-	{	// Видим главное окно
-		CreateGoodNamesStrings(); // Обновим
-		XI_WindowDisable("MAIN_WINDOW", false);
-		XI_WindowDisable("GOODS_TRANSFER_WINDOW", true);
-		XI_WindowShow("GOODS_TRANSFER_WINDOW", false);
-		SetCurrentNode("MAIN_BACK");
-	}
-	else
-	{
-		XI_WindowDisable("MAIN_WINDOW", true);
-		XI_WindowDisable("GOODS_TRANSFER_WINDOW", false);
-		XI_WindowShow("GOODS_TRANSFER_WINDOW", true);
-		SetCurrentNode("TG_CANCEL_BUTTON");
-	}
-}
-
-void UnShowTGWindow()
-{
-	ShowMainWindow(true);
-}
-
-void ShowTransferGoods(int iGood)
-{
-	string sText;
-	String sGood = Goods[iGood].name;
-	String companionId = Characters[GetCompanionIndex(PChar, iCurCompanion)].Id;
-	int buyCount;
-	
-	iCurGoodIndex = iGood; // Какой товар выбрали
-	
-	if(CheckAttribute(PChar, "TransferGoods." + companionId + "." + sGood))
-	{
-		buyCount = sti(PChar.TransferGoods.(companionId).(sGood));
-	}
-	else
-	{
-		buyCount = 0;
-	}
-	
-	GameInterface.TG_EDIT.str = buyCount;
-	
-	sText = XI_ConvertString("titleGoodsTransfer"); // Заголовок
-	SetFormatedText("TG_GOODS_CAPTION", sText);
-	
-	SendMessage(&GameInterface, "lslss", MSG_INTERFACE_MSG_TO_NODE, "TG_GOODS_PICTURE", 6, "GOODS", sGood); // Ставим картинку
-	sText = GetConvertStr(sGood, "GoodsDescribe.txt") + NewStr(); // описание товара
-	sText = sText + GetAssembledString(GetConvertStr(sGood + "_descr", "GoodsDescribe.txt"), &Goods[iGood]);
-	SetFormatedText("TG_GOODS_INFO", sText);
-	
+	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
+	SetEventHandler("MouseRClickUP","HideInfo", 0);
+	SetEventHandler("CheckButtonChange", "ProcessCheckBox", 0);
+	SetEventHandler("ShowItemInfo", "ShowItemInfo", 0);
+	SetEventHandler("UnShowWindow", "UnShowWindow", 0);
+	SetEventHandler("frame","ProcessFrame",1);
 }
 
 void ProcessCancelExit()
@@ -226,143 +43,332 @@ void ProcessCancelExit()
 	IDoExit(RC_INTERFACE_GOODS_TRANSFER);
 }
 
+void ProcessFrame()
+{
+	if (GetCurrentNode() == "SHIPS_SCROLL")
+	{
+		if (sti(GameInterface.SHIPS_SCROLL.current) != nCurScrollNum)
+		{
+			nCurScrollNum = sti(GameInterface.SHIPS_SCROLL.current);
+			FillGoodsTable();
+			SetCheckButtonsStates();
+			SetVariable();
+		}
+	}
+}
+
 void IDoExit(int exitCode)
 {
-	SetContrabandBuyFromCheckBox();
+	EndAboveForm(true);
 	
 	DelEventHandler("exitCancel", "ProcessCancelExit");
 	DelEventHandler("ievnt_command", "ProcCommand");
-	DelEventHandler("evntDoPostExit", "DoPostExit");
-	DelEventHandler("UnShowTGWindow", "UnShowTGWindow");
-	DelEventHandler("ShowItemsWindow", "ShowItemsWindow");
+	DelEventHandler("TableSelectChange", "TableSelectChange");
+	DelEventHandler("MouseRClickUP","HideInfo");
+	DelEventHandler("CheckButtonChange", "ProcessCheckBox");
+	DelEventHandler("ShowItemInfo", "ShowItemInfo");
+	DelEventHandler("UnShowWindow", "UnShowWindow");
+	DelEventHandler("frame","ProcessFrame");
 
 	interfaceResultCommand = exitCode;
 	EndCancelInterface(true);
+}
+
+void HideInfo()
+{
+	CloseTooltip();
+}
+
+void SetCheckButtonsStates()
+{
+	String companionId = Characters[iCurCompanion].Id;
+	
+	if(CheckAttribute(Characters[iCurCompanion], "TransferGoods.Enable"))
+	{
+		CheckButton_SetState("NOTGOODSTRANSFER_CHECK", 1, true);
+	}
+	else
+	{
+		CheckButton_SetState("NOTGOODSTRANSFER_CHECK", 1, false);
+	}
+
+	if(CheckAttribute(Characters[iCurCompanion], "TransferGoods.BuyContraband"))
+	{
+		CheckButton_SetState("BUYCONTRABAND_CHECK", 1, true);
+	}
+	else
+	{
+		CheckButton_SetState("BUYCONTRABAND_CHECK", 1, false);
+	}
+}
+
+void ShowWindow(int WindowNum)
+{
+	switch (WindowNum)
+	{
+		case 0:
+		    XI_WindowDisable("MAIN_WINDOW", false);
+		    XI_WindowDisable("QTY_WINDOW", true);
+		    XI_WindowShow("QTY_WINDOW", false);
+		    SetCurrentNode("MAIN_BACK");
+		break;
+		case 1:
+		    XI_WindowDisable("MAIN_WINDOW", true);
+		    XI_WindowDisable("QTY_WINDOW", false);
+		    XI_WindowShow("QTY_WINDOW", true);
+		    SetCurrentNode("QTY_CANCEL_BUTTON");
+		break;
+	}
+}
+
+void UnShowWindow()
+{
+	ShowWindow(0);
+}
+
+void ShowTransferGoods()
+{
+	string describeStr = "";
+	string sHeader;
+	int buyCount;
+	
+	//показ товара левой таблицы
+	String sGood = Goods[iCurGoodIndex].name;
+	SendMessage(&GameInterface, "lslss", MSG_INTERFACE_MSG_TO_NODE, "QTY_PICTURE", 6, "GOODS", sGood);//картинка
+	sHeader = XI_ConvertString(sGood);
+	describeStr = GetAssembledString(GetConvertStr(sGood + "_descr", "GoodsDescribe.txt"), &Goods[iCurGoodIndex]);
+
+	String companionId = Characters[iCurCompanion].Id;
+	if (CheckAttribute(Characters[iCurCompanion], "TransferGoods." + sGood)) buyCount = sti(Characters[iCurCompanion].TransferGoods.(sGood)); else buyCount = 0;
+
+	SetFormatedText("QTY_CAPTION", sHeader);//заголовок
+	SetFormatedText("QTY_INFO", describeStr);//описание
+	GameInterface.QTY_EDIT.str = buyCount;
+}
+
+void OnAddBtnClick(int _add)
+{
+	int iNum = MakeInt(GameInterface.QTY_EDIT.str);
+
+	ref rGood = &Goods[iCurGoodIndex];
+	int _Units = sti(rGood.Units);
+	_add = _add * abs(_add);
+
+	iNum = iNum + _add * _Units;
+	if (iNum < 0) iNum = 0;
+	// максимум 15000 грузоподъемности, хотя и 10000 много было бы
+	if (iNum > 15000 / sti(rGood.Weight) * _Units) iNum = 15000 / sti(rGood.Weight) * _Units;
+
+	GameInterface.QTY_EDIT.str = iNum;
 }
 
 void ProcCommand()
 {
 	string comName = GetEventData();
 	string nodName = GetEventData();
-	
+
 	int iNum = 0;
 	string sGood;
 	int iTemp = 0;
 	ref rGood;
-	
-	String companionId = Characters[GetCompanionIndex(PChar, iCurCompanion)].Id;
-	
+	int iMult = 1;//правой кнопкой множитель x5
+	if (comName == "rclick") iMult=5;
+	String companionId = Characters[iCurCompanion].Id;
+
 	switch(nodName)
 	{
-		case "TG_ADD_ALL_BUTTON":
-			GameInterface.TG_EDIT.str = 10000;
-			break;
-	
-		case "TG_ADD_BUTTON":
-			OnAddBtnClick();
-			break;
+		case "CLEAR_TABLE_LIST":
+			DeleteAttribute(&Characters[iCurCompanion],"TransferGoods");
+			FillGoodsTable();
+			SetCheckButtonsStates();
+		break;
 			
-		case "TG_REMOVE_ALL_BUTTON":
-			GameInterface.TG_EDIT.str = 0;
-			break;
-			
-		case "TG_REMOVE_BUTTON":
-			OnRemoveBtnClick();
-			break;	
-			
-		case "TG_CANCEL_BUTTON":
+		case "QTY_REMOVE_ALL_BUTTON":
+			OnAddBtnClick(-10*iMult);
+		break;
+		
+		case "QTY_REMOVE_BUTTON":
+			OnAddBtnClick(-1*iMult);
+		break;
+		
+		case "QTY_ADD_BUTTON":
+			OnAddBtnClick(1*iMult);
+		break;
+
+		case "QTY_ADD_ALL_BUTTON":
+			OnAddBtnClick(10*iMult);
+		break;
+
+		case "QTY_CANCEL_BUTTON":
 			if(comName == "click" || comName == "activate")
 			{
-				UnShowTGWindow();
+				UnShowWindow();
 			}
-			break;
-			
-		case "TG_OK_BUTTON":
+		break;
+
+		case "QTY_OK_BUTTON":
 			if(comName == "click" || comName == "activate")
 			{
 				rGood = &Goods[iCurGoodIndex];
 				sGood = rGood.name;
-				iNum =  sti(GameInterface.TG_EDIT.str);
+				if (!checkattribute(Characters[iCurCompanion],"TransferGoods." + sGood)) Characters[iCurCompanion].TransferGoods.(sGood) = 0;
+				iNum =  sti(GameInterface.QTY_EDIT.str);
+				if (iNum >999999) iNum = 999999;
+				if (iNum == 0) DeleteAttribute(&Characters[iCurCompanion],"TransferGoods." + sGood); else Characters[iCurCompanion].TransferGoods.(sGood) = iNum; // Прибавим в список закупок
+				GameInterface.TABLE_LIST.(CurRow).td5.str = iNum;
+				Table_UpdateWindow("TABLE_LIST");
 				
-				PChar.TransferGoods.(companionId).(sGood) = iNum; // Прибавим в список закупок
-				
-				UnShowTGWindow();	
+				UnShowWindow();
 			}
-			break;
-		
-		// Warship 19.08.09 Выбор корабля, для кого запукаем
-		case "BTN_CHOOSESHIP_LEFT":
-			SetCurrentCompanion(iCurCompanion - 1);
-		break;
-		
-		case "BTN_CHOOSESHIP_RIGHT":
-			SetCurrentCompanion(iCurCompanion + 1);
 		break;
 	}
 }
 
-void SetCurrentCompanion(int _num)
+void ProcessCheckBox()
 {
-	ref character;
-	int characterIndex = GetCompanionIndex(PChar, _num);
+	string sControl = GetEventData();
+	int iSelectedCB = GetEventData();
+	int iNewState = GetEventData();
 	
-	if(characterIndex > 0)
+	if (sControl == "NOTGOODSTRANSFER_CHECK")
 	{
-		character = &Characters[characterIndex];
-		
-		if(GetRemovable(character))
+		if (iNewState) 
 		{
-			SetContrabandBuyFromCheckBox();
-			
-			iCurCompanion = _num;
-			GameInterface.Strings.CurCompanion = XI_ConvertString(GetShipTypeName(character)) + " '" + character.Ship.Name + "'";
-			
-			SetCheckButtonsStates();
-			RefreshGoodsCountStrings();
+			Characters[iCurCompanion].TransferGoods.Enable = true;
 		}
+		else
+		{
+			DeleteAttribute(&Characters[iCurCompanion], "TransferGoods.Enable");
+		}
+		return;
 	}
-}
-
-void OnAddBtnClick()
-{
-	ref rGood;
-	int iNum = MakeInt(GameInterface.TG_EDIT.str);
 	
-	if(iNum < 10000)
+	if (sControl == "BUYCONTRABAND_CHECK")
 	{
-		rGood = &Goods[iCurGoodIndex];
-		GameInterface.TG_EDIT.str = iNum + sti(rGood.Units);
+		if (iNewState) 
+		{
+			Characters[iCurCompanion].TransferGoods.BuyContraband = true;
+		}
+		else
+		{
+			DeleteAttribute(&Characters[iCurCompanion], "TransferGoods.BuyContraband");
+		}
+		return;
 	}
 }
 
-void OnRemoveBtnClick()
+void ShowItemInfo()
 {
-	ref rGood;
-	int iNum = MakeInt(GameInterface.TG_EDIT.str);;
+	ShowWindow(1);
+	ShowTransferGoods();
+}
+
+void FillShipsScroll()
+{
+	FillScrollImageWithCompanionShips("SHIPS_SCROLL", 5);
+
+	if(!CheckAttribute(&GameInterface,"SHIPS_SCROLL.current"))
+	{
+		GameInterface.SHIPS_SCROLL.current = 0;
+	}
+}
+
+void FillGoodsTable()
+{
+	string sGoods, sItem, row, qty;
+	int i, n, buyCount;
+	string attributeName = "pic" + (nCurScrollNum+1);
+	iCurCompanion = GameInterface.SHIPS_SCROLL.(attributeName).companionIndex;
+	String companionId = Characters[iCurCompanion].Id;
+	ref refCharacter = characterFromID(companionId);
+	n = 1;
 	
-	if(iNum > 0)
-	{
-		rGood = &Goods[iCurGoodIndex];
-		GameInterface.TG_EDIT.str = iNum - sti(rGood.Units);
-	}
-}
-
-void SetContrabandBuyFromCheckBox()
-{
-	String companionId = Characters[GetCompanionIndex(PChar, iCurCompanion)].Id;
+	Table_Clear("TABLE_LIST", false, true, false);
 	
- 	if(SendMessage(&GameInterface, "lsll", MSG_INTERFACE_MSG_TO_NODE, "CHECK_BUYCONTRABAND", 3, 1))
+	if(GameInterface.SHIPS_SCROLL.current == 0) SetFormatedText("CAPACITY", XI_ConvertString("Captain") + NewStr() + GetFullName(refCharacter));
+	else SetFormatedText("CAPACITY", XI_ConvertString("companionship") + NewStr() + GetFullName(refCharacter));
+	SetFormatedText("STORE_CAPACITY", XI_ConvertString("treasurer") + NewStr() + GetFullName(Characters[sti(pchar.Fellows.Passengers.treasurer)]));
+	
+	if(CheckAttribute(refCharacter, "ship.name")) GameInterface.strings.shipname = refCharacter.ship.name;
+	else GameInterface.strings.shipname = "";
+	
+	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + refCharacter.FaceId + ".tga");
+	SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + Characters[sti(refCharacter.Fellows.Passengers.treasurer)].FaceId + ".tga");
+	
+	
+	GameInterface.TABLE_LIST.hr.td1.str = XI_ConvertString("In the hold");
+	GameInterface.TABLE_LIST.hr.td1.scale = 0.85;
+	GameInterface.TABLE_LIST.hr.td2.str = XI_ConvertString("weight");
+	GameInterface.TABLE_LIST.hr.td2.scale = 0.85;
+	GameInterface.TABLE_LIST.hr.td3.str = "Пачка\n/Вес";
+	GameInterface.TABLE_LIST.hr.td3.scale = 0.85;
+	GameInterface.TABLE_LIST.hr.td4.str = XI_ConvertString("Good name");
+	GameInterface.TABLE_LIST.hr.td4.scale = 0.85;
+	GameInterface.TABLE_LIST.hr.td5.str = XI_ConvertString("GoodsToBuy");
+	GameInterface.TABLE_LIST.hr.td5.scale = 0.85;
+	GameInterface.TABLE_LIST.hr.td6.str = XI_ConvertString("weight");
+	GameInterface.TABLE_LIST.hr.td6.scale = 0.85;
+	GameInterface.TABLE_LIST.hr.td7.str = XI_ConvertString("Cost");
+	GameInterface.TABLE_LIST.hr.td7.scale = 0.85;
+
+	for (i = 0; i< GOODS_QUANTITY; i++)
 	{
-		PChar.TransferGoods.(companionId).BuyContraband = true;
+		row = "tr" + n;
+		sGoods = Goods[i].name;
+		if (CheckAttribute(Goods[i],"CannonIdx")) continue;
+		
+		qty = GetCargoGoods(refCharacter, i);
+		
+		GameInterface.TABLE_LIST.(row).td1.str = qty;
+		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(qty));
+		
+		if(qty > 0)
+		{
+			GameInterface.TABLE_LIST.(row).td3.str = Goods[i].Units + " / " + Goods[i].Weight;
+		}
+		else
+		{
+			GameInterface.TABLE_LIST.(row).td3.str = "0";
+		}
+
+		GameInterface.TABLE_LIST.(row).index = i;
+		GameInterface.TABLE_LIST.(row).td4.icon.group = "GOODS";
+		GameInterface.TABLE_LIST.(row).td4.icon.image = sGoods;
+		GameInterface.TABLE_LIST.(row).td4.icon.offset = "0, 0";
+		GameInterface.TABLE_LIST.(row).td4.icon.width = 29;
+		GameInterface.TABLE_LIST.(row).td4.icon.height = 29;
+		GameInterface.TABLE_LIST.(row).td4.textoffset = "25,0";
+		GameInterface.TABLE_LIST.(row).td4.str = XI_ConvertString(sGoods);
+		
+		if (CheckAttribute(Characters[iCurCompanion], "TransferGoods." + sGoods))
+		{
+			buyCount = sti(Characters[iCurCompanion].TransferGoods.(sGoods));
+		}
+		else 
+		{
+			buyCount = 0;
+		}
+		GameInterface.TABLE_LIST.(row).td5.str = buyCount;
+		
+		GameInterface.TABLE_LIST.(row).td6.str = Goods[i].Weight + " / " + Goods[i].Units;//вес/пачка
+		GameInterface.TABLE_LIST.(row).td7.str = Goods[i].Cost;
+		
+		n++;
 	}
-	else
-	{
-		DeleteAttribute(PChar, "TransferGoods." + companionId + ".BuyContraband");
-	}
+	GameInterface.TABLE_LIST.select = 0;
+	Table_UpdateWindow("TABLE_LIST");
 }
 
-void DoPostExit()
+void TableSelectChange()
 {
-	int exitCode = GetEventData();
-	IDoExit(exitCode);
+	string sControl = GetEventData();
+	int iSelected = GetEventData();
+	string sRow = "tr" + (iSelected);
+
+	iCurGoodIndex = sti(GameInterface.TABLE_LIST.(sRow).index); CurRow = sRow;
+}
+
+void SetVariable()
+{
+	
 }

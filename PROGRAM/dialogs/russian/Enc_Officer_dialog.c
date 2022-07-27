@@ -81,17 +81,8 @@ void ProcessDialogEvent()
 			    Link.l8 = "Дай мне полный отчет о корабле, " + GetStrSmallRegister(XI_ConvertString("treasurer")) + ".";
 			    Link.l8.go = "QMASTER_1";
 			        
-			    // Warship. Автозакупка товара
-			    if(!CheckAttribute(PChar, "TransferGoods.Enable"))
-			    {
-				    Link.l11 = "Я хочу, чтобы, во время стоянки в колонии, ты закупал товары.";
-				    Link.l11.go = "TransferGoodsEnable";
-			    }
-			    else
-			    {
-				    Link.l11 = "Знаешь, закупать товары в колониях не нужно.";
-				    Link.l11.go = "TransferGoodsDisable";
-			    }
+				Link.l11 = "Я хочу, чтобы, во время стоянки в колонии, ты закупал товары.";
+				Link.l11.go = "TransferGoodsEnable";
 			}
 			
 			Link.l4 = "Офицер, я более не нуждаюсь в ваших услугах.";
@@ -130,11 +121,8 @@ void ProcessDialogEvent()
 				Diag.TempNode = "Hired";
 				break;
 	        }
-	        	
-			PChar.TransferGoods.Enable = true;
-		//	PChar.TransferGoods.TreasurerID = NPChar.id;
-			Dialog.text = "Будет исполнено, "+ GetSexPhrase("господин","госпожа") +" капитан!";
-			Link.l1 = "Вольно.";
+			dialog.text = RandPhraseSimple("Капитан, назовите конкретный список товаров и я буду закупать их всегда, когда это потребуется!", "Что именно вы желаете закупать, Капитан?");
+			Link.l1 = "Да, давай пройдемся по товарам.";
 			Link.l1.go = "TransferGoodsEnable_2";
         break;
         	
@@ -142,14 +130,6 @@ void ProcessDialogEvent()
 			Diag.CurrentNode = "Hired";
 			DialogExit();
 			LaunchTransferGoodsScreen(); // Интерфейс автозакупки товаров
-		break;
-		
-		case "TransferGoodsDisable":
-			DeleteAttribute(PChar, "TransferGoods.Enable");
-			Dialog.text = "Будет исполнено, "+ GetSexPhrase("господин","госпожа") +" капитан.";
-			Link.l1 = "Вольно.";
-			Link.l1.go = "exit";
-			Diag.TempNode = "Hired";
 		break;
         
 		case "ShowParam_exit":
