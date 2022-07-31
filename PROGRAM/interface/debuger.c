@@ -1,17 +1,13 @@
-//  boal 14.02.06 меню дебугера
+// boal 14.02.06 меню дебугера
+// Hokkins: Обновленная верстка (25.07.2022)
 string totalInfo;
 int idLngFile = -1;
 int remInt = 0;
+string textLine = "***********************************"
 
 void InitInterface(string iniName)
 {
  	StartAboveForm(true);
- 	//SetTimeScale(0.0);
-	//locCameraSleep(true);
-
-	//EngineLayersOffOn(true);
-	
-	GameInterface.title = "titleBoal_Debug";
 	
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 	
@@ -19,10 +15,10 @@ void InitInterface(string iniName)
 
 	CalculateCheatsInfo(); // Warship. Статистика - сколько читов юзали
 
-	SetFormatedText("INFO_TEXT",totalInfo);//"Информация отладчика");
-	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"INFO_TEXT",5);
+	SetFormatedText("DEBUGER_INFO",totalInfo);//"Информация отладчика");
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"DEBUGER_INFO",5);
 
-	SetEventHandler("InterfaceBreak","ProcessBreakExit",0); 
+	SetEventHandler("InterfaceBreak","ProcessCancelExit",0); 
 	SetEventHandler("exitCancel","ProcessCancelExit",0); 
 	SetEventHandler("evntDoPostExit","DoPostExit",0); 
 	SetEventHandler("ievnt_command","ProcCommand",0);
@@ -30,12 +26,7 @@ void InitInterface(string iniName)
 	SetEventHandler("ScrollPosChange","ProcScrollPosChange",0);
 	SetEventHandler("ScrollTopChange","ProcScrollChange",0);
 
-    GameInterface.reload_edit.str = "Pirates_Shipyard, reload, reload1";//"Pearl_town_1, reload, reload1";
-}
-
-void ProcessBreakExit()
-{
-	IDoExit( RC_INTERFACE_QUICK_SAVE );
+    GameInterface.teleport_edit.str = "Pirates_Shipyard, reload, reload1";
 }
 
 void ProcessCancelExit()
@@ -46,10 +37,8 @@ void ProcessCancelExit()
 void IDoExit(int exitCode)
 {
     EndAboveForm(true);
-    //SetTimeScale(1.0);
-	//locCameraSleep(false);
 	
-	DelEventHandler("InterfaceBreak","ProcessBreakExit");
+	DelEventHandler("InterfaceBreak","ProcessCancelExit");
 	DelEventHandler("exitCancel","ProcessCancelExit");
 	DelEventHandler("evntDoPostExit","DoPostExit");
 	DelEventHandler("ievnt_command","ProcCommand");
@@ -75,8 +64,18 @@ void DoPostExit()
 
 void CalculateInfoData()
 {
-	// тут высчитываем нужную информацию и выводим в totalInfo - Инициализация -->
-	totalInfo = "Это отладчик. Позволяет выполнять заданные скриптологом функции. Кнопки: "+NewStr();
+	totalInfo = textLine + textLine + textLine + NewStr();
+	totalInfo = totalInfo + "S1 - " + descS1 + NewStr() +
+	            "S2 - " + descS2 + NewStr() +
+				"S3 - " + descS3 + NewStr() +
+				"S4 - " + descS4 + NewStr() +
+				"S5 - " + descS5 + NewStr() +
+				"S6 - " + descS6 + NewStr() +
+				"S7 - " + descS7 + NewStr() +
+				"S8 - " + descS8 + NewStr() +
+				"S9 - " + descS9 + NewStr() +
+				textLine + textLine + textLine + NewStr();
+				
 	totalInfo = totalInfo + "F1 - " + descF1 + NewStr() +
 	                        "F2 - " + descF2 + NewStr() +
 	                        "F3 - " + descF3 + NewStr() +
@@ -97,20 +96,62 @@ void CalculateInfoData()
 	                        "F18 - " + descF18 + NewStr() +
                             "F19 - " + descF19 + NewStr() +
                             "F20 - " + descF20 + NewStr() +
-                            "F21 - " + descF21 + NewStr() +
-                            "F22 - " + descF22 + NewStr() +
-                            "F23 - " + descF23 + NewStr() +
-	                        "F24 - " + descF24 + NewStr() +
-	                        "F25 - " + descF25 + NewStr() +
-	                        "F26 - " + descF26 + NewStr() +
-	                        "F27 - " + descF27 + NewStr() +
-	                        "F28 - " + descF28 + NewStr() +
-	                        "F29 - " + descF29 + NewStr() +
-	                        "F30 - " + descF30 + NewStr() +
-							"F31 - " + descF31 + NewStr() +
-	                        "F32 - " + descF32;
-	// перевод строки (по другому у меня не вышло) +LanguageConvertString(idLngFile,"new_string");
-    // тут высчитываем нужную информацию и выводим в totalInfo <--
+				            "F21 - " + descF21 + NewStr() +
+				            "F22 - " + descF22 + NewStr() +
+				            "F23 - " + descF23 + NewStr() +
+				            "F24 - " + descF24 + NewStr() +
+				            "F25 - " + descF25 + NewStr() +
+				            "F26 - " + descF26 + NewStr() +
+				            "F27 - " + descF27 + NewStr() +
+				            "F28 - " + descF28 + NewStr() +
+				            "F29 - " + descF29 + NewStr() +
+				            "F30 - " + descF30 + NewStr() +
+				            "F31 - " + descF31 + NewStr() +
+				            "F32 - " + descF32 + NewStr() +
+				            textLine + textLine + textLine;
+	
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL1", 0, "#S1" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL2", 0, "#S2" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL3", 0, "#S3" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL4", 0, "#S4" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL5", 0, "#S5" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL6", 0, "#S6" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL7", 0, "#S7" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL8", 0, "#S8" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_SPECIAL9", 0, "#S9" );
+	
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F1", 0, "#F1" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F2", 0, "#F2" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F3", 0, "#F3" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F4", 0, "#F4" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F5", 0, "#F5" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F6", 0, "#F6" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F7", 0, "#F7" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F8", 0, "#F8" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F9", 0, "#F9" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F10", 0, "#F10" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F11", 0, "#F11" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F12", 0, "#F12" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F13", 0, "#F13" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F14", 0, "#F14" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F15", 0, "#F15" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F16", 0, "#F16" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F17", 0, "#F17" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F18", 0, "#F18" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F19", 0, "#F19" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F20", 0, "#F20" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F21", 0, "#F21" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F22", 0, "#F22" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F23", 0, "#F23" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F24", 0, "#F24" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F25", 0, "#F25" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F26", 0, "#F26" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F27", 0, "#F27" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F28", 0, "#F28" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F29", 0, "#F29" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F30", 0, "#F30" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F31", 0, "#F31" );
+	SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_F32", 0, "#F32" );
 }
 void ProcCommand()
 {
@@ -119,30 +160,104 @@ void ProcCommand()
 
 	switch(nodName)
 	{
+		case "TELEPORT_BTN":
+		  if(comName=="activate" || comName=="click")
+		  {
+              ReloadByStr();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL1":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataS1();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL2":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataS2();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL3":
+		  if(comName=="activate" || comName=="click")
+		  {
+		     CalculateInfoDataS3();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL4":
+		  if(comName=="activate" || comName=="click")
+		  {
+		     CalculateInfoDataS4();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL5":
+		  if(comName=="activate" || comName=="click")
+		  {
+		    CalculateInfoDataS5();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL6":
+		  if(comName=="activate" || comName=="click")
+		  {
+		     CalculateInfoDataS6();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL7":
+		  if(comName=="activate" || comName=="click")
+		  {
+		     CalculateInfoDataS7();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL8":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataS8();
+		  }
+	    break;
+		
+		case "BTN_SPECIAL9":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataS9();
+		  }
+	    break;
+		
 	    case "B_F1":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF1();
 		  }
 	    break;
+		
 	    case "B_F2":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF2();
 		  }
 	    break;
+		
 	    case "B_F3":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF3();
 		  }
 	    break;
+		
 	    case "B_F4":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF4();
 		  }
 	    break;
+		
 	    case "B_F5":
 		  if(comName=="activate" || comName=="click")
 		  {
@@ -261,105 +376,218 @@ void ProcCommand()
 		      CalculateInfoDataF21();
 		  }
 	    break;
+		
 	    case "B_F22":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF22();
 		  }
 	    break;
+		
 	    case "B_F23":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF23();
 		  }
 	    break;
+		
 	    case "B_F24":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF24();
 		  }
 	    break;
+		
 	    case "B_F25":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF25();
 		  }
 	    break;
+		
 	    case "B_F26":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF26();
 		  }
 	    break;
+		
 	    case "B_F27":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF27();
 		  }
 	    break;
+		
 	    case "B_F28":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF28();
 		  }
 	    break;
+		
 	    case "B_F29":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF29();
 		  }
 	    break;
+		
 	    case "B_F30":
 		  if(comName=="activate" || comName=="click")
 		  {
 		      CalculateInfoDataF30();
 		  }
 	    break;
-	    case "B_31":
+		
+	    case "B_F31":
 		if(comName=="activate" || comName=="click")
 		{
 			CalculateInfoDataF31();
 		}
 	    break;
-	    case "B_32":
+		
+	    case "B_F32":
 		if(comName=="activate" || comName=="click")
 		{
 			CalculateInfoDataF32();
 		}
 	    break;
-	    case "B_RELOAD":
-		  if(comName=="activate" || comName=="click")
-		  {
-              ReloadByStr();
-		  }
-	    break;
 	}
 	
 	CalculateCheatsInfo(); // Статистика по читам
 }
-/*
-float GetShipMaxNeededValue(int iShipType, string _param)
+
+string descS1 = "Не потреблять провизию и не получать ущерб от крыс";
+void CalculateInfoDataS1()
 {
-	float NeededValue = makefloat(GetBaseShipParamFromType(iShipType, _param));
-	switch (_param)
-	{
-		case "speedrate":
-			NeededValue += ((0.77 + frandSmall(0.3)) * (NeededValue/10.0)); 
-		break;
-		case "turnrate":
-			NeededValue += ((0.77 + frandSmall(0.3)) * (NeededValue/10.0)); 
-		break;
-		case "capacity":
-			NeededValue += ((0.77 + frandSmall(0.3)) * (NeededValue/8.0)); 
-		break;
-	}
-	return NeededValue;
+	totalInfo = descS1;
+	bNoEatNoRats = !bNoEatNoRats;
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S1", 1);
 }
-*/
 
-////////////////////////////////////////////////////////////////////////
+string descS2 = "Логирование квестов";
+void CalculateInfoDataS2()
+{
+	totalInfo = descS2;
+	bQuestLogShow = !bQuestLogShow;
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S2", 1);
+}
+
+string descS3 = "Капитаны всегда сдаются";
+void CalculateInfoDataS3()
+{
+	totalInfo = descS3;
+	TestRansackCaptain = !TestRansackCaptain;
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S3", 1);
+}
+
+string descS4 = "Показывать локаторы";
+void CalculateInfoDataS4()
+{
+	totalInfo = descS4;
+	bLocatorShow = !bLocatorShow;
+	if(bLocatorShow)
+	{
+		ShowAllLocators(); 
+		worldMap.debug = "true"; 
+		worldMap.evwin = "true";
+	}
+	else
+	{
+		HideAllLocators();
+		worldMap.debug = "false";
+		worldMap.evwin = "false";
+	}
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+
+	Statistic_AddValue(PChar, "Cheats.S4", 1);
+}
+
+string descS5 = "Логирование опыта";
+void CalculateInfoDataS5()
+{
+	totalInfo = descS5;
+	bExpLogShow = !bExpLogShow;
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S5", 1);
+}
+
+string descS6 = "Логирование капитанов (ПГГ)";
+void CalculateInfoDataS6()
+{
+	totalInfo = descS6;
+	bPGGLogShow = !bPGGLogShow;
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S6", 1);
+}
+
+string descS7 = "Свободная камера (должны быть включены дебаг клавиши в engine.ini!)";
+void CalculateInfoDataS7()
+{
+	totalInfo = descS7;
+	locCameraEnableFree = !locCameraEnableFree;
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S7", 1);
+}
+
+string descS8 = "Живой мир - снять ограничения для наций";
+void CalculateInfoDataS8()
+{
+	totalInfo = descS8;
+	bWorldAlivePause = !bWorldAlivePause;
+	
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S8", 1);
+}
+
+string descS9 = "Режим Бетатеста";
+void CalculateInfoDataS9()
+{
+	totalInfo = descS9;
+	bBettaTestMode = !bBettaTestMode;
+		
+	totalInfo = totalInfo + NewStr();
+	totalInfo = totalInfo + "Команда отработала успешно!";
+    SetFormatedText("DEBUGER_INFO",totalInfo);
+	
+	Statistic_AddValue(PChar, "Cheats.S9", 1);
+}
+
 string descF1 = "Золото + 50 000";
-
 void CalculateInfoDataF1()
 {
 	// тут высчитываем нужную информацию и выводим в totalInfo - Инициализация -->
@@ -374,20 +602,13 @@ void CalculateInfoDataF1()
     // тут высчитываем нужную информацию и выводим в totalInfo <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
 
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F1", 1);
-/*	
-	for(int i = 0; i < 30; i++)
-	{
-		trace("Needed Value = " + GetShipMaxNeededValue(SHIP_SLOOP, "speedrate"));	
-	}
-*/	
 }
-////////////////////////////////////////////////////////////////////////
-string descF2 = "CreateSiege";
 
+string descF2 = "CreateSiege";
 void CalculateInfoDataF2()
 {
 	// -->
@@ -397,7 +618,7 @@ void CalculateInfoDataF2()
     // <
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
 
 	ProcessCancelExit();
 	
@@ -471,7 +692,7 @@ void CalculateInfoDataF3()
     // <
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	GetRealCoordsObjects();
 	
@@ -500,7 +721,7 @@ void CalculateInfoDataF4()
     // <
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F4", 1);
@@ -521,7 +742,7 @@ void CalculateInfoDataF5()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F5", 1);
@@ -589,7 +810,7 @@ void CalculateInfoDataF6()
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
 	
-	SetFormatedText("INFO_TEXT", totalInfo);
+	SetFormatedText("DEBUGER_INFO", totalInfo);
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F6", 1);
@@ -649,7 +870,7 @@ void CalculateInfoDataF6()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
 
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F6", 1);
@@ -690,7 +911,7 @@ void CalculateInfoDataF7()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F7", 1);
@@ -736,7 +957,7 @@ void CalculateInfoDataF8()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F8", 1);
@@ -777,7 +998,7 @@ void CalculateInfoDataF9()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F9", 1);
@@ -804,7 +1025,7 @@ void CalculateInfoDataF10()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F10", 1);
@@ -835,7 +1056,7 @@ void CalculateInfoDataF11()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F11", 1);
@@ -881,7 +1102,7 @@ void CalculateInfoDataF12()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно! ";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F12", 1);
@@ -919,7 +1140,7 @@ void CalculateInfoDataF13()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F13", 1);
@@ -944,7 +1165,7 @@ void CalculateInfoDataF14()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно! Qfreze=";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F14", 1);
@@ -963,7 +1184,7 @@ void CalculateInfoDataF15()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     ProcessCancelExit();
     
 	// Статистика по читам
@@ -987,7 +1208,7 @@ void CalculateInfoDataF16()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F16", 1);
@@ -1062,7 +1283,7 @@ void CalculateInfoDataF17()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F17", 1);
@@ -1089,7 +1310,7 @@ void CalculateInfoDataF18()
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F18", 1);
@@ -1113,7 +1334,7 @@ void CalculateInfoDataF19()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F19", 1);
@@ -1131,7 +1352,7 @@ void CalculateInfoDataF20()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F20", 1);
@@ -1151,7 +1372,7 @@ void CalculateInfoDataF21()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F21", 1);
@@ -1176,7 +1397,7 @@ void CalculateInfoDataF22()
 	}
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F22", 1);
@@ -1197,7 +1418,7 @@ void CalculateInfoDataF23()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F23", 1);
@@ -1212,7 +1433,7 @@ void CalculateInfoDataF24()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F24", 1);
@@ -1226,7 +1447,7 @@ void CalculateInfoDataF25()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
     ProcessCancelExit();
     if( bSeaActive && !bAbordageStarted )
@@ -1266,7 +1487,7 @@ void CalculateInfoDataF26()
 	// <--
 	totalInfo = totalInfo + NewStr() + NewStr() +
 		"Команда отработала успешно!";
-	SetFormatedText("INFO_TEXT",totalInfo);
+	SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.26", 1);
@@ -1288,7 +1509,7 @@ void CalculateInfoDataF27()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F27", 1);
@@ -1303,7 +1524,7 @@ void CalculateInfoDataF28()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F28", 1);
@@ -1321,7 +1542,7 @@ void CalculateInfoDataF29()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F29", 1);
@@ -1337,7 +1558,7 @@ void CalculateInfoDataF30()
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
+    SetFormatedText("DEBUGER_INFO",totalInfo);
     
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F30", 1);
@@ -1403,7 +1624,7 @@ void CalculateInfoDataF31()
 	 	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
 	
-	SetFormatedText("INFO_TEXT", totalInfo);
+	SetFormatedText("DEBUGER_INFO", totalInfo);
 		
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F31", 1);
@@ -1466,7 +1687,7 @@ void CalculateInfoDataF32()
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
 	
-	SetFormatedText("INFO_TEXT", totalInfo);
+	SetFormatedText("DEBUGER_INFO", totalInfo);
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F32", 1);
@@ -1476,9 +1697,9 @@ void CalculateInfoDataF32()
 void ReloadByStr()
 {
 	// разбор строки
-	string  loc = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 0));
-	string  grp = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 1));
-	string  ltr = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 2));
+	string  loc = stripblank(GetSubStringByNum(GameInterface.teleport_edit.str, 0));
+	string  grp = stripblank(GetSubStringByNum(GameInterface.teleport_edit.str, 1));
+	string  ltr = stripblank(GetSubStringByNum(GameInterface.teleport_edit.str, 2));
 
     int i = FindLocation(loc);
     if (i != -1)
@@ -1513,7 +1734,7 @@ void ReloadByStr()
 
 void XI_SetScroller(float pos)
 {
-	SendMessage(&GameInterface,"lsf",MSG_INTERFACE_SET_SCROLLER,"QUESTSCROLL",pos);
+	SendMessage(&GameInterface,"lsf",MSG_INTERFACE_SET_SCROLLER,"DEBUGER_SCROLL",pos);
 }
 
 void SetScrollerPos()
@@ -1526,7 +1747,8 @@ void SetScrollerPos()
 void ProcScrollPosChange()
 {
 	float newPos = GetEventData();
-    SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"INFO_TEXT",2, newPos);
+    SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEBUGER_INFO",2, newPos);
+	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEBUGER_INFO_2",2, newPos);
 }
 
 void ProcScrollChange()
@@ -1534,7 +1756,8 @@ void ProcScrollChange()
 	int changeNum = GetEventData();
 	if(changeNum==0) return;
 	string controlNode = "";
-	if( GetSelectable("INFO_TEXT") ) controlNode = "INFO_TEXT";
+	if( GetSelectable("DEBUGER_INFO") ) controlNode = "DEBUGER_INFO";
+	if( GetSelectable("DEBUGER_INFO_2") ) controlNode = "DEBUGER_INFO_2";
 	
 	if(controlNode!="")
 	{
@@ -1709,3 +1932,41 @@ void GetRealCoordsObjects()
 	trace("Shore62 (Истапалапу)					: " + Map_GetRealCoordX(-935.811) + " " + Map_GetRealCoordZ(-316.162));
 	trace("---------");	
 }
+
+// Hokkins: перенес сюда из quest.c вообще не понятно что оно там делало??? -->
+void CalculateCheatsInfo() // Для статистики по читам. Используется в интерфейсе Debuger
+{
+	int i;
+	string sCheat;
+	
+	for(i=1; i<=40; i++)
+	{
+		sCheat = i;
+		if(Statistic_AddValue(PChar, "Cheats." + sCheat, 0) == 0) PChar.Statistic.Cheats.(sCheat) = 0;
+	}
+	
+	if(Statistic_AddValue(PChar, "Cheats.ReloadByStr", 0) == 0) PChar.Statistic.Cheats.ReloadByStr = 0;
+		
+	aref arAllCheats;
+	makearef(arAllCheats, PChar.Statistic.Cheats);
+	int iAllCheats = GetAttributesNum(arAllCheats);
+	int iAllCheatsCount = 0;
+	
+	SetFormatedText("DEBUGER_INFO_2", "Использовавшиеся читы:");
+	
+	for(i=0; i<iAllCheats; i++)
+	{
+		sCheat = GetAttributeName(GetAttributeN(arAllCheats, i));
+		int iCurCheatCount = Statistic_AddValue(PChar, "Cheats." + sCheat, 0);
+		if(iCurCheatCount == 0) continue;
+		AddLineToFormatedText("DEBUGER_INFO_2", sCheat + " - " + iCurCheatCount + " раз.");
+			
+		iAllCheatsCount = iAllCheatsCount + iCurCheatCount;
+	}
+	
+	PChar.Statistic.Cheats = iAllCheatsCount;
+	AddLineToFormatedText("DEBUGER_INFO_2", XI_ConvertString("Total") + " " + iAllCheatsCount + " раз.");
+	
+	if(iAllCheatsCount == 0) SetFormatedText("DEBUGER_INFO_2", "Читов не использовалось!");
+}
+// Hokkins: <--

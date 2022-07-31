@@ -7,20 +7,16 @@ void InitInterface(string iniName)
 	
     SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
-    SetFormatedText("MAP_CAPTION", XI_ConvertString("titleLeaveBattle"));
-
-	SetFormatedText("INFO_TEXT_QUESTION", XI_ConvertString("MapWhatYouWantToDo"));
-
 	CalculateInfoData();
 
-	SetFormatedText("INFO_TEXT",totalInfo);
+	SetFormatedText("INFO_TEXT",totalInfo + "\n\n" + XI_ConvertString("MapWhatYouWantToDo"));
 
 	SetEventHandler("InterfaceBreak","ProcessBreakExit",0); // Выход на море
 	SetEventHandler("exitCancel","ProcessCancelExit",0); // Выход на море по крестику или Esc
 	SetEventHandler("ievnt_command","ProcCommand",0); // выход на карту только тут (по НЕТ)
 	SetEventHandler("evntDoPostExit","DoPostExit",0); // выход из интерфейса
 	
-	EI_CreateFrame("INFO_BORDERS", 250,152,550,342);
+	EI_CreateFrame("INFO_BORDERS", 245,154,555,330);
 	PlaySound("interface\_EvShip1.wav");
 }
 
@@ -59,6 +55,7 @@ void ProcCommand()
 		{
 			// бросить
 			KillCompanions();
+			ChangeShowIntarface();
    			IDoExit(RC_INTERFACE_ANY_EXIT);
 		}
 		if(comName=="downstep")

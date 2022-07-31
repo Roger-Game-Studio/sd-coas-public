@@ -1877,48 +1877,6 @@ void DeleteQuestCondition(string sQuest)
 	PChar.Quest.(sQuest).over = "yes";
 }
 
-void CalculateCheatsInfo() // Для статистики по читам. Используется в интерфейсе Debuger
-{
-	int i;
-	string sCheat;
-	
-	for(i=1; i<=31; i++)
-	{
-		sCheat = "F" + i;
-		if(Statistic_AddValue(PChar, "Cheats." + sCheat, 0) == 0)
-			PChar.Statistic.Cheats.(sCheat) = 0;
-	}
-	
-	if(Statistic_AddValue(PChar, "Cheats.ReloadByStr", 0) == 0)
-		PChar.Statistic.Cheats.ReloadByStr = 0;
-		
-	aref arAllCheats;
-	makearef(arAllCheats, PChar.Statistic.Cheats);
-	int iAllCheats = GetAttributesNum(arAllCheats);
-	int iAllCheatsCount = 0;
-	
-	SetFormatedText("INFO_TEXT2", "Использовавшиеся читы:");
-	
-	for(i=0; i<iAllCheats; i++)
-	{
-		sCheat = GetAttributeName(GetAttributeN(arAllCheats, i));
-		int iCurCheatCount = Statistic_AddValue(PChar, "Cheats." + sCheat, 0);
-		if(iCurCheatCount == 0) continue; // Если чит не юзался - пропускаем
-		if(HasSubStr(sCheat, "F"))
-			AddLineToFormatedText("INFO_TEXT2", XI_ConvertString("D_" + sCheat) + " - " + iCurCheatCount + " раз.");
-		else
-			AddLineToFormatedText("INFO_TEXT2", sCheat + " - " + iCurCheatCount + " раз.");
-			
-		iAllCheatsCount = iAllCheatsCount + iCurCheatCount;
-	}
-	
-	PChar.Statistic.Cheats = iAllCheatsCount;
-	AddLineToFormatedText("INFO_TEXT2", XI_ConvertString("Total") + " " + iAllCheatsCount + " раз.");
-	
-	if(iAllCheatsCount == 0) // Исли 0, значит читов не юзали
-		SetFormatedText("INFO_TEXT2", "Читов не использовалось!");
-}
-
 // Два метода для закупки товара 10.07.08
 
 // 20.08.09 Метод полностью переписан - вернет, сколько веса реально будет добавляться при закупке

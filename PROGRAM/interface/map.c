@@ -13,16 +13,8 @@ void InitInterface(string iniName)
     bQuestCheckProcessFreeze = true;
     bEncType = false; // обычный тип
     bShowVideo = false;
-    
-    GameInterface.title = "title_map";
 
     SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
-
-    SetFormatedText("MAP_CAPTION", XI_ConvertString("title_map"));
-
-	SetFormatedText("INFO_TEXT_QUESTION", XI_ConvertString("MapWhatYouWantToDo"));
-
-	SetCurrentNode("INFO_TEXT_QUESTION");
 	
 	CalculateInfoData();
 
@@ -30,30 +22,31 @@ void InitInterface(string iniName)
 
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"INFO_TEXT",5);
 	
-	SetEventHandler("InterfaceBreak","ProcessBreakExit",0); // Выход на море
-	SetEventHandler("exitCancel","ProcessCancelExit",0); // Выход на море по крестику или Esc
-	SetEventHandler("ievnt_command","ProcCommand",0); // выход на карту только тут (по НЕТ)
-	SetEventHandler("evntDoPostExit","DoPostExit",0); // выход из интерфейса
+	SetEventHandler("InterfaceBreak","ProcessCancelExit",0);
+	SetEventHandler("exitCancel","ProcessCancelExit",0);
+	SetEventHandler("ievnt_command","ProcCommand",0);
+	SetEventHandler("evntDoPostExit","DoPostExit",0);
 	
-	EI_CreateFrame("INFO_BORDERS", 250,152,550,342);
+	EI_CreateFrame("BORDERS", 245,154,555,330);
 	PlaySound("interface\_EvShip"+rand(1)+".wav");
-}
-
-void ProcessBreakExit()
-{
-	IDoExit( RC_INTERFACE_MAP_EXIT );
-	wdmReloadToSea();
 }
 
 void ProcessCancelExit()
 {
-	IDoExit( RC_INTERFACE_MAP_EXIT );
-	wdmReloadToSea();
+	if(isSkipable == true)
+	{
+		IDoExit(RC_INTERFACE_MAP_EXIT);
+	}
+	else
+	{
+		IDoExit(RC_INTERFACE_MAP_EXIT);
+		wdmReloadToSea();
+	}
 }
 
 void IDoExit(int exitCode)
 {
-	DelEventHandler("InterfaceBreak","ProcessBreakExit");
+	DelEventHandler("InterfaceBreak","ProcessCancelExit");
 	DelEventHandler("exitCancel","ProcessCancelExit");
 	DelEventHandler("ievnt_command","ProcCommand");
 	DelEventHandler("evntDoPostExit","DoPostExit");
@@ -78,7 +71,7 @@ void ProcCommand()
 	
 	switch(nodName)
 	{
-		case "B_OK":
+		case "BTN_OK":
 			if(comName=="activate" || comName=="click")
 			{
 				if (sQuestSeaCharId != "")
@@ -91,11 +84,11 @@ void ProcCommand()
 			}
 			if(comName=="downstep")
 			{
-				if(GetSelectable("B_CANCEL"))	{SetCurrentNode("B_CANCEL");}
+				if(GetSelectable("BTN_CANCEL"))	{SetCurrentNode("BTN_CANCEL");}
 			}
 		break;
 
-		case "B_CANCEL":
+		case "BTN_CANCEL":
 			if(comName=="activate" || comName=="click")
 			{
 				//пропустить
@@ -105,7 +98,7 @@ void ProcCommand()
 			}	
 			if(comName=="upstep")
 			{
-				if(GetSelectable("B_OK"))	{SetCurrentNode("B_OK");}
+				if(GetSelectable("BTN_OK"))	{SetCurrentNode("BTN_OK");}
 			}
 		break;
 	}
@@ -266,13 +259,14 @@ void wdmRecalcReloadToSea()
 				SetNewPicture("INFO_PICTURE", "loading\flplndra.tga"); 
 			}			
 			totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("SpecialSituation") + totalInfo;
-			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_OK",0, "#"+XI_ConvertString("GetItemToBort"));
+			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BTN_OK",0, "#"+XI_ConvertString("GetItemToBort"));
 		}
 		else
 		{
 			totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("someone sails") + totalInfo;
 		}	
 	}
+	totalInfo = totalInfo + "\n\n" + XI_ConvertString("MapWhatYouWantToDo");
 }
 
 void DoPostExit()
@@ -289,26 +283,26 @@ void CalculateInfoData()
 	{
 		isSkipable = true;
 	}
-	SetCurrentNode("B_OK");
+	SetCurrentNode("BTN_OK");
 		
-    SetSelectable("B_CANCEL",true);
+    SetSelectable("BTN_CANCEL",true);
 
         if (!isSkipable && !bBettaTestMode)
         {
         	if (CheckOfficersPerk(pchar, "SailingProfessional"))
         	{
-			if (rand(100) > 75) SetSelectable("B_CANCEL",false);
+			if (rand(100) > 75) SetSelectable("BTN_CANCEL",false);
         	}
 		else
 		{
-			if (rand(100) > 25) SetSelectable("B_CANCEL",false);
+			if (rand(100) > 25) SetSelectable("BTN_CANCEL",false);
         }
 	}
 	if (pchar.space_press == "1") bEncType = false;
 	
 	if (bEncType && !bBettaTestMode) // спец тип не пропустить
 	{
-        SetSelectable("B_CANCEL",false);
+        SetSelectable("BTN_CANCEL",false);
 	}
 	pchar.space_press = 0;
 }

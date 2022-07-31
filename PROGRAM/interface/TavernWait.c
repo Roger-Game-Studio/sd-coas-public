@@ -6,8 +6,8 @@ void InitInterface(string iniName)
 	locCameraSleep(true);
 	SetTimeScale(0.0);
 	EngineLayersOffOn(true);
-	CreateString(true, "Frame_Caption", "ќтдых", FONT_CAPTION, COLOR_NORMAL, 400, 205, SCRIPT_ALIGN_CENTER, 1.2);
-	CreateString(true, "MainString", "—колько часов вы желаете отдыхать ?", FONT_CAPTION, COLOR_NORMAL, 400, 235, SCRIPT_ALIGN_CENTER, 1.2);
+	CreateString(true, "Frame_Caption", "Отдых", FONT_CAPTION, COLOR_NORMAL, 400, 205, SCRIPT_ALIGN_CENTER, 1.2);
+	CreateString(true, "MainString", "Сколько часов вы желаете отдыхать ?", FONT_CAPTION, COLOR_NORMAL, 400, 235, SCRIPT_ALIGN_CENTER, 1.2);
 	SetEventHandler("ievnt_command", "ProcCommand", 0);
 	SetEventHandler("exitcancel", "ExitCancel", 0);
 	SetEventHandler("eSlideChange", "ProcSlideChange", 0);

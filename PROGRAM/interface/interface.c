@@ -1,7 +1,5 @@
 #include "storm-engine\interface\messages.h"
 #include "interface\utils\interface.c"
-#include "interface\utils\MessageBox.c"
-#include "interface\utils\IconSelector.c"
 #include "interface\utilite.c"
 #include "interface\interface_utils.c"
 #include "interface\perks\perks.c"
@@ -703,9 +701,6 @@ void EndOkInterface()
 
 void EndCancelInterface(bool bYesRelease)
 {
-	KillMessageBox();
-	KillIconSelector();
-
 	ref refObj1,refObj2;
 	bGamePadChangeEnable = false;
 	InterfaceStates.doUnFreeze = bYesRelease;

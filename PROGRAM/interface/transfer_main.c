@@ -87,7 +87,6 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 	SetEventHandler("TransactionOK", "TransactionOK", 0);
 	SetEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT", 0);
 	SetEventHandler("ExitShipChangeMenu", "ExitShipChangeMenu", 0);
-	SetEventHandler("ShowOtherClick", "ShowOtherClick", 0);
 	SetEventHandler("GoToShipChange", "GoToShipChange", 0);
 	SetEventHandler("ExitOfficerMenu","ExitOfficerMenu",0);
 	SetEventHandler("acceptaddofficer","AcceptAddOfficer",0);
@@ -283,7 +282,6 @@ void IDoExit(int exitCode)
 	DelEventHandler("TransactionOK", "TransactionOK");
 	DelEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT");
 	DelEventHandler("ExitShipChangeMenu", "ExitShipChangeMenu");
-	DelEventHandler("ShowOtherClick", "ShowOtherClick");
 	DelEventHandler("GoToShipChange", "GoToShipChange");
 	DelEventHandler("ExitOfficerMenu","ExitOfficerMenu");
 	DelEventHandler("acceptaddofficer","AcceptAddOfficer");
@@ -1396,11 +1394,6 @@ void ShowOkMessage()
 	SetNodeUsing("REMOVE_CANCEL_OFFICER", false);
 	
 	SetCurrentNode("REMOVE_OK");
-}
-
-void ShowOtherClick()
-{
-	// test не работает  :( CreateMessageBox("sCaptionID", "sMessageID", "", "", "", "");
 }
 
 void SwapProcess()

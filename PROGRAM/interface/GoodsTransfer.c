@@ -116,7 +116,7 @@ void ShowWindow(int WindowNum)
 		    XI_WindowDisable("MAIN_WINDOW", true);
 		    XI_WindowDisable("QTY_WINDOW", false);
 		    XI_WindowShow("QTY_WINDOW", true);
-		    SetCurrentNode("QTY_CANCEL_BUTTON");
+		    SetCurrentNode("TABLE_LIST");
 		break;
 	}
 }
@@ -132,7 +132,6 @@ void ShowTransferGoods()
 	string sHeader;
 	int buyCount;
 	
-	//показ товара левой таблицы
 	String sGood = Goods[iCurGoodIndex].name;
 	SendMessage(&GameInterface, "lslss", MSG_INTERFACE_MSG_TO_NODE, "QTY_PICTURE", 6, "GOODS", sGood);//картинка
 	sHeader = XI_ConvertString(sGood);

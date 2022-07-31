@@ -1,4 +1,4 @@
-// BOAL переделка дл€ SLib 02.07.06
+// BOAL переделка для SLib 02.07.06
 #define DEFAULT_NAME "Player"
 #define DEFAULT_PASS ""
 
@@ -477,7 +477,7 @@ void selectEngland()
 
 void selectFrance()
 {
-    //homo блокировка нации дл€ ѕитера Ѕлада
+    //homo блокировка нации для ѕитера Ѕлада
     if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(FRANCE);
 
@@ -485,7 +485,7 @@ void selectFrance()
 
 void selectSpain()
 {
-    //homo блокировка нации дл€ ѕитера Ѕлада
+    //homo блокировка нации для ѕитера Ѕлада
     if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(SPAIN);
 
@@ -493,7 +493,7 @@ void selectSpain()
 
 void selectHolland()
 {
-    //homo блокировка нации дл€ ѕитера Ѕлада
+    //homo блокировка нации для ѕитера Ѕлада
     if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(HOLLAND);
 
@@ -501,7 +501,7 @@ void selectHolland()
 
 void selectPirate()
 {
-    	//homo блокировка нации дл€ ѕитера Ѕлада
+    	//homo блокировка нации для ѕитера Ѕлада
 	if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(PIRATE);
 }

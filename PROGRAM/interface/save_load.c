@@ -147,7 +147,7 @@ void ProcessCancelExit()
 
 	if( CheckAttribute(&InterfaceStates,"showGameMenuOnExit") && sti(InterfaceStates.showGameMenuOnExit) == true)
 	{	
-		// Warship Fix свечени€
+		// Warship Fix свечения
 		if(CheckAttribute(InterfaceStates, "GlowEffect"))
 		{
 			SetGlowParams(1.0, sti(InterfaceStates.GlowEffect), 2));
@@ -304,7 +304,7 @@ void SaveLoadCurrentIntoSlot()
 		}
 	} else {
 		// чтение
-		if( g_nCurrentSaveIndex<0 || g_nCurrentSaveIndex>=g_nSaveQuantity ) { // нет такой €чейки с записью
+		if( g_nCurrentSaveIndex<0 || g_nCurrentSaveIndex>=g_nSaveQuantity ) { // нет такой ячейки с записью
 			return;
 		}
 		if( bIsGameProcessNow ) { // в данный момент уже идет игра?
@@ -496,7 +496,7 @@ bool GetMoveToOtherSave( int nNewSaveIndex, ref rLeft, ref rTop, ref rRight, ref
 		nNewSaveIndex = g_nCurrentSaveIndex;
 		if( nNewIdx == nOldIdx ) {
 			ReloadSaveInfo();
-			return false; // нельз€ перейти на новый элемент (на первый всегда можно)
+			return false; // нельзя перейти на новый элемент (на первый всегда можно)
 		}
 	}
 
@@ -890,7 +890,7 @@ void ProcessDeleteSaveFile()
 	}
 	g_oSaveContainer.listsize = g_nSaveQuantity;
 	SetClickable("SAVESCROLL",g_nSaveQuantity>10);
-	// при интерфейсе загрузки выделение об€зательно оставл€ем на реальном сейве
+	// при интерфейсе загрузки выделение обязательно оставляем на реальном сейве
 	attrDst = "s" + g_nCurrentSaveIndex;
 	if( !CheckAttribute(&g_oSaveContainer,attrDst) ) {
 		if( g_oSaveContainer > g_nFirstSaveIndex ) {
@@ -941,7 +941,7 @@ void LaunchCustomSaveGame()
 	XI_WindowShow("CUSTOM_SAVE_WINDOW", true);    
 
 	GameInterface.CUSTOM_SAVE_NAME.str = saveName;
-	SetFormatedText("CUSTOM_SAVE_MSG", "¬ведите им€ сохран€емой игры :");
+	SetFormatedText("CUSTOM_SAVE_MSG", "Введите имя сохраняемой игры: ");
 }
 
 void ExitSaveCustomGame()
@@ -964,7 +964,7 @@ void ProcessCustomSaveAction()
 			string sSaveDescriber = GetSaveDataString(saveName);
 			SetEventHandler("evntSave","SaveGame",1);
 			PostEvent("evntSave",0,"ss", "SAVE\"+currentProfile+"\"+saveName, sSaveDescriber);
-            // Warship Fix свечени€
+            // Warship Fix свечения
 	        if(CheckAttribute(InterfaceStates, "GlowEffect"))
 	        {
 				SetGlowParams(1.0, sti(InterfaceStates.GlowEffect), 2));

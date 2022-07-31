@@ -978,7 +978,7 @@ bool KeyAlreadyUsed(string sGrpName, string sControl, string sKey)
 
 	if( bAlreadyUsed ) {return bAlreadyUsed;}
 
-	// найдем группу в которой эта контролка также отображаетс€
+	// найдем группу в которой эта контролка также отображается
 	makearef(arGrpList, objControlsState.keygroups);
 	grp = GetAttributesNum(arGrpList);
 	for( i=0; i<grp; i++ )

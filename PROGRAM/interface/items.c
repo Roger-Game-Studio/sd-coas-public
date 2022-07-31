@@ -171,13 +171,15 @@ void SetVariable()
 	}
 }
 
-void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
+void FillItemsTable(int _mode)
 {
 	int n, i;
 	string row;
 	string sGood;
+	string groupID;
+	string itemType;
 	int  idLngFile;
-	bool ok, ok2 = true;
+	bool ok, ok1, ok2, ok3;
 	aref rootItems, arItem;
 	aref  curItem;
 	
@@ -200,26 +202,49 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальн
     for (i=0; i<GetAttributesNum(rootItems); i++)
     {
 		curItem = GetAttributeN(rootItems, i);
+		groupID = "";
+		itemType = "";
 
 		if (Items_FindItem(GetAttributeName(curItem), &arItem)>=0 )
 		{
 			row = "tr" + n;
 			sGood = arItem.id;
-			ok = arItem.ItemType == "WEAPON" || arItem.ItemType == "SUPPORT";
-			if(CheckAttribute(arItem,"mapSpecial"))
-			{
-				ok2 = false;
-			}
-			else
-			{
-				ok2 = true;
-			}
-			if (_mode == 1 && arItem.ItemType == "MAP" && ok2) continue
-			ok2 = ok2 && arItem.ItemType == "MAP";
-			if (_mode == 2 && !ok && ok2) continue;
-			ok = ok || arItem.ItemType == "MAP";
-			if (_mode == 3 && ok && ok2) continue;
-			if (_mode == 4 && arItem.ItemType != "MAP") continue;
+			
+			// Hokkins: новая сортировка предметов -->
+			if(CheckAttribute(arItem,"groupID")) groupID = arItem.groupID;
+			if(CheckAttribute(arItem,"itemType")) itemType = arItem.itemType;
+			
+			// Снаряжение -->
+			ok = (groupID == BLADE_ITEM_TYPE) || 	// холодное оружие
+				 (groupID == GUN_ITEM_TYPE)	||		// огнестрельное оружие
+                 (groupID == SPYGLASS_ITEM_TYPE) || // подзорные трубы
+				 (groupID == CIRASS_ITEM_TYPE) ||   // костюмы и доспехи
+				 (arItem.id == "bullet") ||         // пули
+				 (arItem.id == "GunPowder");        // порох
+				 
+			// Зелья -->
+			ok1 = (arItem.id == "potion1") ||
+				  (arItem.id == "potion2") ||
+				  (arItem.id == "potion3") ||
+				  (arItem.id == "potion4") ||
+				  (arItem.id == "potion5") ||
+				  (arItem.id == "potionrum") ||
+				  (arItem.id == "potionwine");
+			
+			// Важное -->
+			ok2 = (groupID == PATENT_ITEM_TYPE)	||	// патенты
+				  (itemType == "QUESTITEMS") || 	// квестовые предметы
+				  (arItem.id == "Map_Best");        // отличная карта
+			
+			// Разное -->
+			ok3 = (arItem.price <= 500);         // хламовые предметы
+			                                      // Hokkins: потом нужно придумать что то получше, чем проверка на цену =)
+			
+			if(_mode == 1 && groupID == MAPS_ITEM_TYPE && arItem.id != "MapsAtlas" && arItem.id != "Map_Best")	continue;
+			if(_mode == 2 && !ok) continue;
+			if(_mode == 3 && !ok1) continue;
+			if(_mode == 4 && !ok2) continue;
+			if(_mode == 5 && !ok3) continue;
 			
 			if (GetCharacterItem(xi_refCharacter, sGood) > 0)
 			{		
@@ -413,6 +438,11 @@ void procTabChange()
 		SetControlsTabMode( 4 );
 		return;
 	}
+	if( sNodName == "TABBTN_5" )
+	{
+		SetControlsTabMode( 5 );
+		return;
+	}
 }
 
 void SetControlsTabMode(int nMode)
@@ -421,11 +451,13 @@ void SetControlsTabMode(int nMode)
 	int nColor2 = nColor1;
 	int nColor3 = nColor1;
 	int nColor4 = nColor1;
+	int nColor5 = nColor1;
 
 	string sPic1 = "TabSelected";
 	string sPic2 = sPic1;
 	string sPic3 = sPic1;
 	string sPic4 = sPic1;
+	string sPic5 = sPic1;
 
 	switch (nMode)
 	{
@@ -445,16 +477,22 @@ void SetControlsTabMode(int nMode)
 			sPic4 = "TabDeSelected";
 			nColor4 = argb(255,255,255,255);
 		break;
+		case 5:
+			sPic5 = "TabDeSelected";
+			nColor5 = argb(255,255,255,255);
+		break;
 	}
     
 	SetNewGroupPicture("TABBTN_1", "TABS", sPic1);
 	SetNewGroupPicture("TABBTN_2", "TABS", sPic2);
 	SetNewGroupPicture("TABBTN_3", "TABS", sPic3);
 	SetNewGroupPicture("TABBTN_4", "TABS", sPic4);
+	SetNewGroupPicture("TABBTN_5", "TABS", sPic5);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_1", 8,0,nColor1);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_2", 8,0,nColor2);
     SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_3", 8,0,nColor3);
     SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_4", 8,0,nColor4);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_5", 8,0,nColor5);
 	FillControlsList(nMode);
 }
 
@@ -464,8 +502,9 @@ void FillControlsList(int nMode)
 	{
 	    case 1: FillItemsTable(1); break;  // все
 	    case 2: FillItemsTable(2); break;  // снаряжение
-	    case 3: FillItemsTable(3); break;  // остальное
-	    case 4: FillItemsTable(4); break;  // карты
+	    case 3: FillItemsTable(3); break;  // зелья
+	    case 4: FillItemsTable(4); break;  // важное
+		case 5: FillItemsTable(5); break;  // разное
 	}
 }
 

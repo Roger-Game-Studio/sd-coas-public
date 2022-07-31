@@ -10,7 +10,7 @@ void InitInterface(string iniName)
     bNeedResetSound = false;
 	if (CheckAttribute(pchar, "AutoQuest.FramePic")) // признак картинки
 	{
-	    SetNewPicture("SCROLLPICT", pchar.AutoQuest.FramePic);
+	    SetNewPicture("MAIN_PICTURE", pchar.AutoQuest.FramePic);
 	    DeleteAttribute(pchar, "AutoQuest.FramePic");
 	    bNeedResetSound = true;
 	}
