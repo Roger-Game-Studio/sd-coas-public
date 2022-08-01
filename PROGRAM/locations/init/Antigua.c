@@ -62,7 +62,7 @@ int LocationInitAntigua(int n)
 	locations[n].environment.sea = "true";
 	//Reload map
 	
-    // --> Типовые городские локации, четкаљ фиксациљ на 10 номеров.
+    // --> Типовые городские локации, четкая фиксация на 10 номеров.
 	locations[n].reload.l1.name = "reload1_back";
 	locations[n].reload.l1.go = "Antigua";
 	locations[n].reload.l1.emerge = "reload_1";
@@ -276,7 +276,7 @@ int LocationInitAntigua(int n)
 	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Tavern upstairs";
-	locations[n].reload.l2.disable = 1; // закроем, но свљзку сделаем длљ квестовых нужд.
+	locations[n].reload.l2.disable = 1; // закроем, но связку сделаем для квестовых нужд.
 
     ////////////////////////==> подсобка таверны
 	locations[n].reload.l3.name = "reload3";

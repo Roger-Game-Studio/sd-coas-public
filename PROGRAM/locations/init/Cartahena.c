@@ -68,7 +68,7 @@ int LocationInitCartahena(int n)
 	locations[n].environment.sea = "true";
 	//Reload map
 
-    // --> Типовые городские локации, четкаљ фиксациљ на 10 номеров.
+    // --> Типовые городские локации, четкая фиксация на 10 номеров.
 	locations[n].reload.l1.name = "reload1_back";
 	locations[n].reload.l1.go = "Cartahena";
 	locations[n].reload.l1.emerge = "reload_1";
@@ -137,7 +137,7 @@ int LocationInitCartahena(int n)
 	locations[n].reload.gate.autoreload = "0";
 	locations[n].reload.gate.label = "ExitTown";
 
-    // --> Комоны, загрушки. Номера с начинаютсљ с 20.
+    // --> Комоны, загрушки. Номера с начинаются с 20.
 	locations[n].reload.l20.name = "houseS1";
 	locations[n].reload.l20.go = "CommonCobHouse";
 	locations[n].reload.l20.emerge = "reload1";
@@ -250,7 +250,7 @@ int LocationInitCartahena(int n)
 	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Tavern upstairs";
-	locations[n].reload.l2.disable = 1; // закроем, но свљзку сделаем длљ квестовых нужд.
+	locations[n].reload.l2.disable = 1; // закроем, но связку сделаем для квестовых нужд.
 	LAi_LocationFightDisable(&locations[n], true);
 	n = n + 1;
 

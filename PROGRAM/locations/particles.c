@@ -400,7 +400,7 @@ void CreateParticles(ref Location)
 		for(n = 0; n < num; n++)
 		{
 			locator = GetAttributeN(locator_group, n);
-			//Candles_p =   // boal нигде не используетс€
+			//Candles_p =   // boal нигде не используется
 			CreateParticleSystem("candle",stf(locator.x),stf(locator.y) + 0.04,stf(locator.z),-1.57,0,0,0);
 		}
 	}
@@ -573,7 +573,7 @@ void LaunchCananada()
 	}
 }
 
-// Warship. —оздаем партикл огн€ + дым
+// Warship. создаем партикл огня + дым
 bool CreateFireParticles(string sGroup, string sLocator)
 {
 	ref rLoc = &locations[FindLocation(PChar.location)];
@@ -582,8 +582,8 @@ bool CreateFireParticles(string sGroup, string sLocator)
 	float y = stf(rLoc.locators.(sGroup).(sLocator).y);
 	float z = stf(rLoc.locators.(sGroup).(sLocator).z);
 	
-	CreateParticleSystemX("Fire", x, y+0.15, z, x, y+0.15, z, 0); // ќгонь
-	CreateParticleSystemX("Fire", x, y+0.3, z, x, y+0.3, z, 0); // ƒл€ пущей красоты создаем два партикла
-	CreateParticleSystemX("Smoke", x, y+1.15, z, x, y+1.15, z, 0); // ƒым
+	CreateParticleSystemX("Fire", x, y+0.15, z, x, y+0.15, z, 0); // огонь
+	CreateParticleSystemX("Fire", x, y+0.3, z, x, y+0.3, z, 0); // для пущей красоты создаем два партикла
+	CreateParticleSystemX("Smoke", x, y+1.15, z, x, y+1.15, z, 0); // дым
 	return true;
 }

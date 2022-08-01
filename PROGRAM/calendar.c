@@ -132,17 +132,17 @@ int AddTimeToCurrent(int hour,int minute)
 		addingDays++;
 	}
 	AddDataToCurrent(0,0,addingDays);
-    /*if(addingDays>0) PostEvent("NextDay",0); Ќах.. оно нужно не знаю, если до этого вызываетс€ метод
-                              AddDataToCurrent() с соответствующим вызовом событи€. navy. */
+    /*if(addingDays>0) PostEvent("NextDay",0); Нах.. оно нужно не знаю, если до этого вызывается метод
+                              AddDataToCurrent() с соответствующим вызовом события. navy. */
 	Environment.time = nexttime;
 	Environment.date.hour = makeint(nexttime);
 	worldMap.date.hour = makeint(nexttime);
 	nexttime = (nexttime - stf(Environment.date.hour))*60.0;
 	Environment.date.min = makeint(nexttime);
 	worldMap.date.min = makeint(nexttime);
-    Weather.Time.time = GetTime(); // нова€ погода
+    Weather.Time.time = GetTime(); // новая погода
     
-	return addingDays; // boal верунть число дней, чтоб пон€ть, что новый наступил
+	return addingDays; // boal вернуть число дней, чтоб понять, что новый наступил
 }
 void AddDataToCurrent(int addYear,int addMonth,int addDay)
 {
@@ -166,7 +166,7 @@ void AddDataToCurrent(int addYear,int addMonth,int addDay)
 	worldMap.date.year = nextYear;
 	worldMap.date.month = nextMonth;
 	worldMap.date.day = nextDay;
-	if(addYear!=0 || addMonth!=0 || addDay!=0)	PostEvent("NextDay",500); // fix boal ќтложить врем€, чтоб успеть выйти из форм
+	if(addYear!=0 || addMonth!=0 || addDay!=0)	PostEvent("NextDay",500); // fix boal отложить время, чтоб успеть выйти из форм
 	//  for (int i=0; i<addDay; i++) PostEvent("NextDay",0);
 }
 
@@ -227,7 +227,7 @@ void SetCurrentTime(int hour, int minutes)
 	worldMap.date.hour = makefloat(hour);
 	worldMap.date.min = makefloat(minutes);
 }
-// boal этот метод дублирует  GetPastTime и нигде е используетс€
+// boal этот метод дублирует  GetPastTime и нигде не используется
 /*
 int GetFuterTime(string timeUnit,
 				int pastYear,int pastMonth,int pastDay, float pastTime,

@@ -82,11 +82,11 @@ string GetShipLocationID(ref chref)
 		if( CheckAttribute(ar_FindLoc,"go") ) 
 		{
 			MakeCloneFortBoarding(ar_FindLoc.go); // инитим локацию из разных городов
-            return "BOARDING_FORT"; // всегда клонова€ локаци€
+            return "BOARDING_FORT"; // всегда клоновая локация
 		}
 		return "";
 	}
-	// в данный метод на вход всегда идет враг √√, метод только на абордаже
+	// в данный метод на вход всегда идет враг ГГ, метод только на абордаже
 	// решаем, что за палуба
 	bool bBig1 = (ShipsTypes[iShipType].DeckType == "Big");
 	bool bBig2 = (RealShips[sti(pchar.ship.type)].DeckType == "Big");

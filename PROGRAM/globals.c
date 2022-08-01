@@ -16,10 +16,10 @@ int iRealDay = 0;
 
 int iGrassQuality = 0; //0 full, 1 middle, 2 low, 3 off
 
-int iEncountersRate = 1;   // работает на карте и будет работать дл€ скорости смены отношений и тп
+int iEncountersRate = 1;   // работает на карте и будет работать для скорости смены отношений и тп
 int	iArcadeSails = 1;   // GetRSRollSpeed
 
-#define KVL_MODS_FILE "Mods_On_Off_File.txt" // Warship. √лоб. файл дл€ включени€/выключени€ вс€ких фич игры
+#define KVL_MODS_FILE "Mods_On_Off_File.txt" // Warship. глоб. файл для включения/выключения всяких фич игры
 #define INVALID_SOUND_ID	0
 
 int ngMusicID = 0;
@@ -82,7 +82,7 @@ string 	sFrManGenNames[11], sFrWomenGenNames[8], sFrGenFamilies[86];
 string 	sSpManGenNames[21], sSpWomenGenNames[9], sSpGenFamilies[54];
 
 
-// ѕадежи
+// падежи
 #define NAME_NOM "Nom"  // именительный
 #define NAME_GEN "Gen"  // родительный
 #define NAME_DAT "Dat"  // дательный
@@ -90,7 +90,7 @@ string 	sSpManGenNames[21], sSpWomenGenNames[9], sSpGenFamilies[54];
 #define NAME_ABL "Abl"  // творительный
 #define NAME_VOC "Voc"  // предложный
 
-// “ипы имен
+// типы имен
 #define NAMETYPE_ORIG "Orig"
 #define NAMETYPE_NICK "Nick"
 #define NAMETYPE_VIP "Vip"
@@ -186,13 +186,13 @@ int EventReturn_iGrassQuality()
 	return iGrassQuality;
 }
 
-// boal 13.11.06 спец прерывание €дра, дл€ выбора шейдера подсветки и без
+// boal 13.11.06 спец прерывание ядра, для выбора шейдера подсветки и без
 #event_handler("GOpt_isGrassLightsOn","EventReturn_isGrassLightsOn");
 
 int EventReturn_isGrassLightsOn()
 {
-	// trace("EventReturn_isGrassLightsOn"); это € перевел на 1 раз за все врем€ создани€ травы
-	// 1 - светитс€, 0 - темна€
+	// trace("EventReturn_isGrassLightsOn"); это я перевел на 1 раз за все время создания травы
+	// 1 - светится, 0 - темная
 	if (bSeaActive || bStorm || bTornado)
 	{
 		return 0;

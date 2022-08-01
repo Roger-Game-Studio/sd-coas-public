@@ -1,7 +1,7 @@
 /*
-“ип: Ѕедн€г
+Тип: Бедняг
 
-	»спользуемые шаблоны:
+	Используемые шаблоны:
 		stay
 		dialog
 		ani
@@ -11,7 +11,7 @@
 #define LAI_TYPE_POOR		"poor"
 
 
-//»нициализаци€
+//Инициализация
 void LAi_type_poor_Init(aref chr)
 {
 	DeleteAttribute(chr, "location.follower");
@@ -20,7 +20,7 @@ void LAi_type_poor_Init(aref chr)
 	LAi_tmpl_stay_InitTemplate(chr);
 	chr.chr_ai.type.AttackIndex = -1;
 	chr.chr_ai.type.GroundAfraid = false;
-	//‘лаги
+	//Флаги
 	chr.chr_ai.type.wait = 1.0;
 	LAi_SetDefaultStayAnimation(chr);	
 	//нищий сидит или стоит. пропишем анимацию.
@@ -36,7 +36,7 @@ void LAi_type_poor_Init(aref chr)
 	SendMessage(&chr, "lsl", MSG_CHARACTER_EX_MSG, "SetFightWOWeapon", false);
 }
 
-//ѕроцессирование типа персонажа
+//Процессирование типа персонажа
 void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 {
 	ref by;
@@ -51,19 +51,19 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 			return; //режем анимацию
 		}
 		else
-		{	//тут все действи€ после проигрывани€ анимаций
+		{	//тут все действия после проигрывания анимаций
 			if (sti(chr.chr_ai.type.SitState))
 			{	//сидим
 				if (!CheckAttribute(chr, "chr_ai.type.StandAndGoExit"))
 				{
 					if (sti(chr.chr_ai.type.AttackIndex) > 0 && !sti(chr.chr_ai.type.GroundAfraid))
-					{	//после выполнени€ анимации быстрого вставани€ от удара
+					{	//после выполнения анимации быстрого вставания от удара
 						by = &characters[sti(chr.chr_ai.type.AttackIndex)]; //здесь помним индекс врага с прошлых тактов
 						LAi_tmpl_afraid_SetAfraidCharacter(chr, by, true);
-						chr.chr_ai.type.SitState = false; //теперь нпс будет сто€чим нищий
+						chr.chr_ai.type.SitState = false; //теперь нпс будет стоячим нищий
 					}
 					else
-					{	//после выполнени€ анимации ground_afraid
+					{	//после выполнения анимации ground_afraid
 						LAi_tmpl_stay_InitTemplate(chr);
 						chr.chr_ai.type.GroundAfraid = false;
 					}
@@ -80,13 +80,13 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 						LAi_tmpl_goto_SetLocator(chr, "patrol",  LAi_FindRandomLocator("patrol"), -1);
 						DeleteAttribute(chr, "chr_ai.type.StandAndGoExit");
 					}
-					chr.chr_ai.type.SitState = false; //теперь нпс будет сто€чим нищим
+					chr.chr_ai.type.SitState = false; //теперь нпс будет стоячим нищим
 				}				
 			}
 			else
 			{	//стоим
 				LAi_tmpl_stay_InitTemplate(chr);
-				chr.chr_ai.type.SitState = true; //теперь нпс будет сид€чим нищим
+				chr.chr_ai.type.SitState = true; //теперь нпс будет сидячим нищим
 			}
 			chr.chr_ai.type.wait = 0.0;
 		}
@@ -101,7 +101,7 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 	{
 		else chr.chr_ai.type.wait = 2.0;
 	}
-	// --> сид€чий нищий
+	// --> сидячий нищий
 	if (sti(chr.chr_ai.type.SitState))
 	{
 		num = FindNearCharacters(chr, 5.0, -1.0, -1.0, 0.001, false, true);
@@ -168,18 +168,18 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 			}
 		}
 	}
-	// <-- сид€чий нищий
+	// <-- сидячий нищий
 	else
-	// --> сто€чий нищий
+	// --> стоячий нищий
 	{	
-		//если боимс€
+		//если боимся
 		if(chr.chr_ai.tmpl == LAI_TMPL_AFRAID)
 		{
 			if(LAi_tmpl_afraid_IsNoActive(chr))
 			{
 				//команда идти и сесть в локатор
 				LAi_SetDefaultDead(chr);
-				chr.chr_ai.type.GoAndSit = true; //чтобы сработала анимаци€ садитьс€ в типе goto
+				chr.chr_ai.type.GoAndSit = true; //чтобы сработала анимация садиться в типе goto
 				DeleteAttribute(chr, "chr_ai.type.StandAndGoExit");
 				LAi_tmpl_goto_InitTemplate(chr);
 				if (!CheckAttribute(chr, "forSit"))
@@ -193,7 +193,7 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 				}
 			}
 		}
-		//если идем к месту сидени€
+		//если идем к месту сидения
 		if(chr.chr_ai.tmpl == LAI_TMPL_GOTO)
 		{
 			idx = LAi_type_poor_FindNearEnemy(chr);
@@ -202,7 +202,7 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 				LAi_tmpl_afraid_SetAfraidCharacter(chr, &Characters[idx], true);
 				LAi_SetAfraidDead(chr);
 			}
-			//если нпс прошелс€ и встал после выполнени€, то переводим в темплейт stay
+			//если нпс прошелся и встал после выполнения, то переводим в темплейт stay
 			if (chr.chr_ai.tmpl.state == "stay")
 			{
 				LAi_tmpl_stay_InitTemplate(chr);
@@ -221,7 +221,7 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 			{				
 				//команда идти и сесть в локатор
 				LAi_SetDefaultDead(chr);
-				chr.chr_ai.type.GoAndSit = true; //чтобы сработала анимаци€ садитьс€ в типе goto
+				chr.chr_ai.type.GoAndSit = true; //чтобы сработала анимация садиться в типе goto
 				DeleteAttribute(chr, "chr_ai.type.StandAndGoExit");
 				LAi_tmpl_goto_InitTemplate(chr);
 				if (!CheckAttribute(chr, "forSit"))
@@ -236,44 +236,44 @@ void LAi_type_poor_CharacterUpdate(aref chr, float dltTime)
 			}
 		}
 	}
-	// <-- сто€чий нищий
+	// <-- стоячий нищий
 }
 
-//«агрузка персонажа в локацию
+//Загрузка персонажа в локацию
 bool LAi_type_poor_CharacterLogin(aref chr)
 {
 	return true;
 }
 
-//¬ыгрузка персонажа из локацию
+//Выгрузка персонажа из локацию
 bool LAi_type_poor_CharacterLogoff(aref chr)
 {
 	return true;
 }
 
-//«авершение работы темплейта
+//Завершение работы темплейта
 void LAi_type_poor_TemplateComplite(aref chr, string tmpl)
 {
 }
 
-//—ообщить о желании завести диалог
+//Сообщить о желании завести диалог
 void LAi_type_poor_NeedDialog(aref chr, aref by)
 {
 }
 
-//«апрос на диалог, если возвратить true то в этот момент можно начать диалог
+//Запрос на диалог, если возвратить true то в этот момент можно начать диалог
 bool LAi_type_poor_CanDialog(aref chr, aref by)
 {
-	//≈сли уже говорим, то откажем
+	//если уже говорим, то откажем
 	if(chr.chr_ai.tmpl == LAI_TMPL_DIALOG || chr.chr_ai.tmpl == LAI_TMPL_ANI) return false;
-	//—огласимс€ на диалог
+	//согласимся на диалог
 	return true;
 }
 
-//Ќачать диалог
+//Начать диалог
 void LAi_type_poor_StartDialog(aref chr, aref by)
 {
-	//≈сли мы пасивны, запускаем шаблон без времени завершени€
+	//если мы пасивны, запускаем шаблон без времени завершения
 	if (!sti(chr.chr_ai.type.SitState))
 	{
 		LAi_CharacterSaveAy(chr);
@@ -282,19 +282,19 @@ void LAi_type_poor_StartDialog(aref chr, aref by)
 	LAi_tmpl_SetActivatedDialog(chr, by);
 }
 
-//«акончить диалог
+//Закончить диалог
 void LAi_type_poor_EndDialog(aref chr, aref by)
 {
 	LAi_tmpl_stay_InitTemplate(chr);
 }
 
-//ѕерсонаж выстрелил
+//Персонаж выстрелил
 void LAi_type_poor_Fire(aref attack, aref enemy, float kDist, bool isFindedEnemy)
 {
 }
 
 
-//ѕерсонаж атакован
+//Персонаж атакован
 void LAi_type_poor_Attacked(aref chr, aref by)
 {
 	
@@ -330,7 +330,7 @@ int LAi_type_poor_FindNearEnemy(aref chr)
 
 void LAi_SetSitPoorAnimation(aref chr)
 {
-	//”становим анимацию сид€чему нищему
+	//Установим анимацию сидячему нищему
 	BeginChangeCharacterActions(chr);
 	chr.actions.idle.i1 = "Ground_sitting";
 	chr.actions.idle.i2 = "Ground_look_around";

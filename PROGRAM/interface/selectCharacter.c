@@ -67,7 +67,7 @@ void InitInterface(string iniName)
     heroQty   = sti(GetNewMainCharacterParam("hero_qty"));
     
     if (!CheckAttribute(&NullCharacter, "HeroParam.HeroType") || !CheckAttribute(&NullCharacter, "HeroParam.nation"))
-    {   // иначе уже загружен и выбран √√, смотрим настройки и идем обратно
+    {   // иначе уже загружен и выбран гг, смотрим настройки и идем обратно
 		SetVariable(true);
 	}
 	else
@@ -477,7 +477,7 @@ void selectEngland()
 
 void selectFrance()
 {
-    //homo блокировка нации для ѕитера Ѕлада
+    //homo блокировка нации для Питера Блада
     if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(FRANCE);
 
@@ -485,7 +485,7 @@ void selectFrance()
 
 void selectSpain()
 {
-    //homo блокировка нации для ѕитера Ѕлада
+    //homo блокировка нации для Питера Блада
     if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(SPAIN);
 
@@ -493,7 +493,7 @@ void selectSpain()
 
 void selectHolland()
 {
-    //homo блокировка нации для ѕитера Ѕлада
+    //homo блокировка нации для Питера Блада
     if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(HOLLAND);
 
@@ -501,7 +501,7 @@ void selectHolland()
 
 void selectPirate()
 {
-    	//homo блокировка нации для ѕитера Ѕлада
+    	//homo блокировка нации для Питера Блада
 	if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(PIRATE);
 }

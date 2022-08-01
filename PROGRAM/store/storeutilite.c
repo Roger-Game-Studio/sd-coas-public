@@ -66,7 +66,7 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 			tradeModify = 2.4 + stf(refGoods.RndPriceModify); //2.4
 			break;
 		case TRADE_TYPE_AMMUNITION:
-			//return basePrice; делаю все тоже, что и дл€ нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
+			//return basePrice; делаю все тоже, что и для нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
 			tradeModify = 0.85 + stf(refGoods.RndPriceModify);
 			break;  
 		case TRADE_TYPE_CANNONS:
@@ -210,7 +210,7 @@ void StoreDayUpdateStart()
 	storeDayUpdateCnt = 0;
 	PostEvent("EvStoreDayUpdate", 30);
 
-	Event("EvSituationsUpdate", "l", 0);   // вызов размазаных вычислений на Ќехтƒай
+	Event("EvSituationsUpdate", "l", 0);   // вызов размазаных вычислений на НехтДай
 }
 
 void StoreDayUpdate()
@@ -237,7 +237,7 @@ void UpdateStore(ref pStore)
 		tmpstr = Goods[i].name;
 		if (!CheckAttribute(gref,tmpstr) ) continue;		
 		makearef(curref, gref.(tmpstr));
-        // пересмотр системы 24.01.08. Ќова€ - "круги на воде"
+        // пересмотр системы 24.01.08. Новая - "круги на воде"
         oldQty = sti(curref.Quantity);
         delta = makeint((oldQty - sti(curref.Norm))/7);
         curref.Quantity = oldQty - delta + (rand(2) - 1)*rand(sti(sti(curref.Norm)/100));
@@ -259,7 +259,7 @@ void UpdateStore(ref pStore)
 		}	
         
 		if (abs(rateInc - 1) < 0.015 )
-		{  // нормализаци€ врем€ от времени
+		{  // нормализация время от времени
 		    curref.RndPriceModify = curref.NormPriceModify;
 		}
 		else
@@ -452,8 +452,8 @@ string GetGoodsNameAlt(int idx)
 
     return ret;
 }
-// запоминаем цены в √√
-void SetPriceListByStoreMan(ref rchar)   //rchar - это колони€
+// запоминаем цены в ГГ
+void SetPriceListByStoreMan(ref rchar)   //rchar - это колония
 {
     ref refStore, nulChr;
     string attr1, sGoods;
@@ -523,7 +523,7 @@ void SetNull2StoreMan(ref rchar)
         }
     }
 }
-// делим колво товара - остаток дл€ грабежа rchar - это колони€
+// делим колво товара - остаток для грабежа rchar - это колония
 void SetNull2StoreManPart(ref rchar, float part)
 {
     ref refStore;
@@ -550,7 +550,7 @@ void SetNull2Deposit(string _city)
 {
     if (CheckAttribute(Pchar, "quest.Deposits." + _city))
     {
-        Log_Info("¬се вклады у ростовщика в городе " + GetCityName(_city) + " пропали.");
+        Log_Info("Все вклады у ростовщика в городе " + GetCityName(_city) + " пропали.");
         DeleteAttribute(Pchar, "quest.Deposits." + _city);
     }
 }

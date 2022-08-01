@@ -230,7 +230,7 @@ void BLI_ExecuteCommand()
 	break;
 	case "BI_ItemsChange":
 		tmpi = SendMessage(pchar,"ls",MSG_CHARACTER_EX_MSG,"FindDialogCharacter");
-		if(tmpi>=0 && isOfficerInShip(GetCharacter(tmpi), true))//fix вот дыра дл€ обмена с матросом
+		if(tmpi>=0 && isOfficerInShip(GetCharacter(tmpi), true))//fix вот дыра для обмена с матросом
         {
             LaunchCharacterItemChange(GetCharacter(tmpi));
         }
@@ -446,7 +446,7 @@ void BLI_SetObjectData()
 	objLandInterface.Commands.DeadBox.selPicNum		= 4;
 	objLandInterface.Commands.DeadBox.texNum		= 0;
 	objLandInterface.Commands.DeadBox.event			= "BI_DeadBox";
-	objLandInterface.Commands.DeadBox.note			= "ќбыск тела";
+	objLandInterface.Commands.DeadBox.note			= XI_ConvertString("titleDeadItems");
 	// диалог сам с собой -->
 	objLandInterface.Commands.TalkSelf.enable	= true;
  	objLandInterface.Commands.TalkSelf.picNum	 	= 18;
@@ -609,7 +609,7 @@ void BLI_SetObjectData()
 	objLandInterface.textinfo.timetext.text = makeint(GetHour())+":"+makeint(GetMinute());
     */
     
-    // Ёто у вас нет, у мен€ все есть ;) - boal
+    // Ёто у вас нет, у меня все есть ;) - boal
 	objLandInterface.CommandList.CommandMaxIconQuantity = 10;
 	objLandInterface.CommandList.CommandIconSpace = 1;
 	objLandInterface.CommandList.CommandIconLeft = 108;//157;
@@ -730,7 +730,7 @@ void BLI_SetPossibleCommands()
 		// boal запрет всех переходов
 		if (chrDisableReloadToLocation) bTmpBool = false;
 		if (!CheckAttribute(loadedLocation,"fastreload")) bTmpBool = false;  // в каюте некуда переходить
-		if (bTmpBool) // все еще можно переходить, провер€ем город враг
+		if (bTmpBool) // все еще можно переходить, проверяем город враг
 		{
 		    string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
 			if (sNation != "none")
@@ -839,7 +839,7 @@ void BLI_SetPossibleCommands()
 		objLandInterface.Commands.Exit_Deck.enable = true;
     }
 	
-	// ugeen  --> отслеживаем ситуацию взрыва или эпидемии на захваченном корабле --> покидание каюты мину€ интерфейс грабежа
+	// ugeen  --> отслеживаем ситуацию взрыва или эпидемии на захваченном корабле --> покидание каюты минуя интерфейс грабежа
 	if(CheckAttribute(loadedLocation, "CabinType") && !chrDisableReloadToLocation) 
 	{
 		if(CheckShipSituation_GenQuest())
@@ -1129,7 +1129,7 @@ void LI_ProcessControlPress()
 
 	switch(ControlName)
 	{
-		case "hk_Cure": // TO_DO не работет - у мен€ в др месте
+		case "hk_Cure": // TO_DO не работет - у меня в др месте
 			if( LAi_GetCharacterRelHP(pchar) < 1.0 )
 			{
 				float dhlt = LAi_GetCharacterMaxHP(pchar) - LAi_GetCharacterHP(pchar);

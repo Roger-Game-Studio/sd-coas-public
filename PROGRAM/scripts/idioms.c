@@ -410,7 +410,7 @@ string FindRussianQtyString(int _iQty)
     sTemp = _iQty + " " + sTemp;
     return sTemp;
 }
-//eddy. мес€цы
+//eddy. месяцы
 string FindRussianMonthString(int _Month)
 {
     string sTemp;

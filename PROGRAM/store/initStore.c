@@ -45,7 +45,7 @@ void FillStoreGoods(ref pRef)
 		if (islandIdx!=-1)
 		{
             ref rIsland = GetIslandByIndex(islandIdx);
-			makearef(arTypes, rIsland.Trade); // вс€ инфа как и в ѕ ћ по островам
+			makearef(arTypes, rIsland.Trade); // вся инфа как и в ПКМ по островам
 			nq = GetAttributesNum(arTypes);
 			for(i=0;i<nq;i++)
 			{
@@ -100,7 +100,7 @@ void FillStoreGoods(ref pRef)
 			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.1))); //1+Rand(50)*sti(goods[i].Units);
 				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.35; //0.5
 				break;
-			case TRADE_TYPE_AMMUNITION:  //делаю все тоже, что и дл€ нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
+			case TRADE_TYPE_AMMUNITION:  //делаю все тоже, что и для нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
 			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2))); //200 + Rand(2500) + rand(500);
 				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15;//0.2
 				break;
@@ -125,7 +125,7 @@ void FillStoreGoods(ref pRef)
 		}
 		// 24/01/08
 		pRef.Goods.(goodName).Norm            = pRef.Goods.(goodName).Quantity; // колво в начале, это норма магазина на всегда
-		pRef.Goods.(goodName).NormPriceModify = pRef.Goods.(goodName).RndPriceModify; // начальна€ цена - тоже limit стремлений
+		pRef.Goods.(goodName).NormPriceModify = pRef.Goods.(goodName).RndPriceModify; // начальная цена - тоже limit стремлений
 	}
 }
 
