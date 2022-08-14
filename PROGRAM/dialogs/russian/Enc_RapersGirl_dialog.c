@@ -478,7 +478,7 @@ void ProcessDialogEvent()
 			LAi_LocationDisableMonstersGen(pchar.location, false);
 			chrDisableReloadToLocation = false;
 			Log_Info("Вы получили свою долю клада");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			TakeNItems(pchar, "icollection", 1+drand(1));
 			TakeNItems(pchar, "chest", 2+drand(6));
 			TakeNItems(pchar, "jewelry1", 30+drand(15));

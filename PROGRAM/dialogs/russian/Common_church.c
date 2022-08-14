@@ -1092,7 +1092,7 @@ void ProcessDialogEvent()
 			AddCharacterExpToSkill(PChar, "Fortune", 50); // Бонус в удачу
 			//AddMoneyToCharacter(PChar, sti(PChar.GenQuest.ChurchQuest_1.AwardSumm));
 			TakeNItems(pchar, "chest", 3+drand(1));
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			sQuestTitle = NPChar.City + "ChurchGenQuest1";
 			characters[GetCharacterIndex("ChurchGenQuest1_Cap")].LifeDay = 0;
 			Group_DeleteGroup("ChurchGenQuest1_CapGroup"); // Трем кэпа

@@ -28,7 +28,7 @@ void InitInterface(string iniName)
 	SetEventHandler("evntDoPostExit","DoPostExit",0);
 	
 	EI_CreateFrame("BORDERS", 245,154,555,330);
-	PlaySound("interface\_EvShip"+rand(1)+".wav");
+	PlaySound("Encounter_Map_"+rand(1));
 }
 
 void ProcessCancelExit()

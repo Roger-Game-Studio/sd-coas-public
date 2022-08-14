@@ -234,7 +234,7 @@ void Item_OnUseItem()
     if (!CheckCharacterItem(chr, Items[activeItem].id))
     {
 		Log_SetStringToLog(XI_ConvertString("You have not need item"));
-        PlaySound("interface\knock.wav");
+        PlaySound("knock");
         return;
     }
     Log_SetActiveAction("Nothing");
@@ -259,7 +259,7 @@ void Item_OnUseItem()
 	youvegotString = LanguageConvertString(langFile, "used_item");
 	displayItemName = LanguageConvertString(langFile, Items[activeItem].name);
 	Log_SetStringToLog(youvegotString+" "+displayItemName+"!");
-    PlaySound("interface\sobitie_na_karte_001.wav");
+    PlaySound("EventMap");
 
     // ===> перехват на метод обрабоки для квестовых нужд при опускании предмета в локаторы button. Эдди.
     QuestCheckUseButton(activeLocation, chr.activeLocator, Items[activeItem].id);
@@ -563,7 +563,7 @@ void Box_EnterToLocator(aref loc, string locName)
 				if(CheckCharacterItem(pchar, loc.(locName).key)) //проверяем ключ
 				{
 					loc.(locName).opened = true;
-					PlaySound("interface\key.wav");
+					PlaySound("Key");
 					
 					if(CheckAttribute(loc, locName+".key.delItem"))
 					{
@@ -573,7 +573,7 @@ void Box_EnterToLocator(aref loc, string locName)
 				else 
 				{
 					Log_SetStringToLog(XI_ConvertString("You have not need key"));
-					PlaySound("interface\box_locked.wav");
+					PlaySound("BoxLocked");
 					return;
 			}
 			}
@@ -582,7 +582,7 @@ void Box_EnterToLocator(aref loc, string locName)
 				if(CheckAttribute(loc, locName+".closed")) //проверяем, не закрыт ли сундук
 				{
 					Log_SetStringToLog(XI_ConvertString("Box is closed"));
-					PlaySound("interface\door_locked.wav");
+					PlaySound("DoorLocked");
 					return;
 			}
 		}
@@ -593,7 +593,7 @@ void Box_EnterToLocator(aref loc, string locName)
 	if(CheckAttribute(loc, locName + ".QuestClosed"))
 	{
 		Log_SetStringToLog(XI_ConvertString("Box is closed"));
-		PlaySound("interface\door_locked.wav");
+		PlaySound("DoorLocked");
 		return;
 	}
 	
@@ -628,7 +628,7 @@ void OpenBoxProcedure()
 	if (sti(chr.GenQuest.God_hit_us) == 1 && rand(100) >= (85 + GetCharacterSkillToOld(chr, SKILL_FORTUNE)))
 	{
 		Log_Info("Ловушка!");
-		PlaySound("people\clothes1.wav");
+		PlaySound("Trapped");
 		DoQuestCheckDelay("God_hit_us", 0.2);
 	}
 	else

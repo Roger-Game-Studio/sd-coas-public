@@ -1310,7 +1310,7 @@ void ProcessControls()
             {
                 if (bLandInterfaceStart && curKeyGroupName == "FightModeControls")
                 {
-                    PlaySound("interface\knock.wav");
+                    PlaySound("knock");
                 }
             }
 	    break;

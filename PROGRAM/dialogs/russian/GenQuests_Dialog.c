@@ -2425,7 +2425,7 @@ void ProcessDialogEvent()
 			//addMoneyToCharacter(pchar, 25000);
 			TakeNItems(pchar, "chest", 3);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			AddQuestRecord("CaptainComission1", "14");
 			AddQuestUserData("CaptainComission1", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("CaptainComission1", "sName", pchar.GenQuest.CaptainComission.SlaveName);
@@ -2439,7 +2439,7 @@ void ProcessDialogEvent()
 			//addMoneyToCharacter(pchar, 25000);
 			TakeNItems(pchar, "chest", 2);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			dialog.text = "Я вас не понимаю... Мы же заранее оговорили сумму вознаграждения.";
 			link.l1 = "Да, но вместо 150000 золотых, мне пришлось выложить 200000. И ещё на Барбадос мотаться.";
 			link.l1.go = "CaptainComission_31_1";
@@ -2488,7 +2488,7 @@ void ProcessDialogEvent()
 			ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 15);			
 			GiveItem2Character(pchar, pchar.GenQuest.CaptainComission.Item); 
 			TakeNItems(pchar, "jewelry5", 100);
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			DialogExit();
 			AddDialogExitQuestFunction("CaptainComission_EndTavern");
 		break;

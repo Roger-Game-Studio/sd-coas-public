@@ -231,7 +231,7 @@ bool AISeaGoods_ShipEatGood()
 
 	if (iCharacterIndex == nMainCharacterIndex)
 	{
-        PlaySound("INTERFACE\_Gotcha.wav"); // boal
+        PlaySound("Gotcha"); // boal
 		string sGoodQuantity = iQuantity * iGoodWeight;
 		string sShipGotGood = LanguageConvertString(iSeaSectionLang, "Ship_got_good");
 		Event(PARSE_STRING, "aslss", &oRes, sShipGotGood, 2, sGoodQuantity, sGoodName);
@@ -267,7 +267,7 @@ void MakeMineBoom(int iCharacterIndex, int iGoodCharacterIndex, float damg)
 
 		PostEvent(SHIP_ACTIVATE_FIRE_PLACE, iRandStartTime, "ialsfl", rCharacter, rCharacter, 0, "ship_onfire", fTotalFireTime, iGoodCharacterIndex);
 		PostEvent(SHIP_FIRE_DAMAGE, iRandStartTime, "lllf", iCharacterIndex, iGoodCharacterIndex, 0, fTotalFireTime);
-		//    PlaySound("Sea Battles\vzriv_pogreb_002.wav");
+		//    PlaySound("BlastFort");
 	}
 	Ship_Detonate(rCharacter, false, false);
 }
@@ -275,7 +275,7 @@ void MakeMineBoom(int iCharacterIndex, int iGoodCharacterIndex, float damg)
 void SetMineFree(ref xi_refCharacter, int type)
 {
     AISeaGoods_AddGood(xi_refCharacter, "powder" + type, "barrel", 600.0, 1);
-    PlaySound("Ships\jakor_002.wav");
+    PlaySound("bortreloaded_all");
     RemoveCharacterGoods(xi_refCharacter, GOOD_POWDER, type * MINE_POWDER);
     xi_refCharacter.Tmp.SpeedRecall = 0;  // чтоб пересчитались скорость и маневр
 }

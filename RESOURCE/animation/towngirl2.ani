@@ -817,7 +817,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 411, normal
-event = "SndAlliace_W_death1", 285, normal
+event = "SndAlliace_w_death1", 285, normal
 
 [death_citizen_2]
 start_time = 455
@@ -830,7 +830,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 472, normal
-event = "SndAlliace_W_death2", 285, normal
+event = "SndAlliace_w_death2", 285, normal
 
 [death_citizen_3]
 start_time = 394
@@ -843,7 +843,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 411, normal
-event = "SndAlliace_W_death1", 285, normal
+event = "SndAlliace_w_death1", 285, normal
 
 [death_citizen_4]
 start_time = 455
@@ -856,7 +856,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 472, normal
-event = "SndAlliace_W_death2", 285, normal
+event = "SndAlliace_w_death2", 285, normal
 
 
 ;Смерть труса
@@ -884,7 +884,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 354, normal
-event = "SndAlliace_W_death4", 378, normal
+event = "SndAlliace_w_death4", 378, normal
 
 ;===================================================================================
 ;Диалоги

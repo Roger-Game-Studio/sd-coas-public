@@ -544,7 +544,7 @@ void SetTreasureBoxFromMap()
     if (GetCharacterItem(Pchar, "map_full")>0 )
     {
         Log_Info("Сокровища где-то рядом!");
-        PlaySound("interface\notebook.wav");
+        PlaySound("Notebook");
 		Statistic_AddValue(Pchar, "Treasure", 1);
         // немного веселой жизни
         TraderHunterOnMap();

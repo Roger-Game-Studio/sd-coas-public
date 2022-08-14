@@ -181,7 +181,7 @@ void ProcessDialogEvent()
 			//AddMoneyToCharacter(PChar, 3000);
 			TakeNItems(pchar, "jewelry17", 33);
 			Log_Info("Вы получили серебряные слитки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			bDisableFastReload = false;
 			chrDisableReloadToLocation = false;
 			LAi_LocationDisableOfficersGen("PortPax_town", false);
@@ -347,7 +347,7 @@ void ProcessDialogEvent()
 			link.l4.go = "AndreAbelQuestSetNationLicence_3";
 			TakeNItems(pchar, "icollection", 1);
 			Log_Info("Вы получили сокровища");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 		break;
 			
 		case "Andre_Abel_In_Tavern_Quest_Complete_2":

@@ -1143,7 +1143,7 @@ void ReasonToFast_SetTreasureBoxFromMap(string qName)
     if (GetCharacterItem(pchar, "mapQuest") > 0 )
     {
         Log_Info("Сокровища где-то рядом!");
-        PlaySound("interface\notebook.wav");
+        PlaySound("Notebook");
 		Statistic_AddValue(pchar, "Treasure", 1);
 		
         // немного веселой жизни
@@ -2007,7 +2007,7 @@ void ShipSituation_MakeDetonate(string qName)
 	ref sld = CharacterFromID(pchar.GenQuest.ShipSituation.Explosion.CapId + "_free");
 	ref rBaseShip = GetRealShip(sti(sld.Ship.Type));
 	Event(SHIP_BRANDER_DETONATE,"l", sti(sld.index));
-    PlaySound("Sea Battles\Vzriv_fort_001.wav");
+    PlaySound("BlastFort");
 	Ship_SetTaskNone(SECONDARY_TASK, sti(sld.index));
 	Log_Info("" + XI_ConvertString(rBaseShip.BaseName) + " '" + sld.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, "взорвал", "взорвала") + " крюйт камеру.");
 	bQuestDisableMapEnter = false;
@@ -5613,7 +5613,7 @@ void Hold_GenQuest_SetTreasureBoxFromMap(string qName)
 	if (GetCharacterItem(pchar, "mapQuest") > 0 )
     {
         Log_Info("Сокровища где-то рядом!");
-        PlaySound("interface\notebook.wav");
+        PlaySound("Notebook");
 		Statistic_AddValue(Pchar, "Treasure", 1);
 
 		Items_FindItem("mapQuest", &item);

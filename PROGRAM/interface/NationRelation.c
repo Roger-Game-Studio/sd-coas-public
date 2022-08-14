@@ -233,7 +233,7 @@ void FlagsProcess()
 	{
         if (!bBettaTestMode)
         {
-            PlaySound("interface\knock.wav");
+            PlaySound("knock");
             return;
         }
 	}

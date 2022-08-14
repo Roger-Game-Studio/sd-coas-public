@@ -5117,7 +5117,7 @@ void LSC_PedroRunOpenDoor()
 
 void LSC_Click(string qName)
 {	
-	PlaySound("interface\key.wav");
+	PlaySound("Key");
 	LocatorReloadEnterDisable("LostShipsCity_town", "reload48", false);
 	chrDisableReloadToLocation = true;
 }
@@ -6460,7 +6460,7 @@ void SpainSpyAttack(string qName)
 
 void _DeadSolder(string qName)
 {
-    PlaySound("People Fight\Death_NPC_04.WAV");
+    PlaySound("N_fight_death4");
     DoQuestFunctionDelay("DeadSolder", 1.0);
 }
 

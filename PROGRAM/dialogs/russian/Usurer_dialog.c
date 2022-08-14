@@ -1435,7 +1435,7 @@ void ProcessDialogEvent()
 			AddMoneyToCharacter(pchar, sti(npchar.quest.usurersJewel.money));
 			TakeNItems(pchar, npchar.quest.usurersJewel.jewel, 1);
 			Log_Info("Вы получили золотой слиток");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			DeleteAttribute(pchar, "questTemp.different.SeekUsurersJewel");
 			sTitle = npchar.city + "UsurersJewel";
 			CloseQuestHeader(sTitle);
@@ -1817,7 +1817,7 @@ void ProcessDialogEvent()
 			
 		case "Yestatue_1":
 			Log_Info("Вы отдали статую Шочипилли");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			dialog.text = "Так-так... Без сомнения, это она. Послушайте, " + pchar.name + ", продайте мне эту статую. Я готов заплатить за нее сто тысяч золотом.";
 			link.l1 = "Сто тысяч? Хм... Я соглас"+ GetSexPhrase("ен","на") +". Забирайте!";
 			link.l1.go = "Buystatue";
@@ -1848,7 +1848,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			TakeNItems(pchar, "suit_3", 1);
 			Log_Info("Вы получили дворянское платье");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			SaveCurrentQuestDateParam("pchar.questTemp.Slavetrader_wait_1");
 			pchar.questTemp.Slavetrader = "wait_1";
 		break;
@@ -1859,7 +1859,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			TakeNItems(pchar, "statue1", 1);
 			Log_Info("Вы получили статую Шочипилли");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			SaveCurrentQuestDateParam("pchar.questTemp.Slavetrader_wait_1");
 			pchar.questTemp.Slavetrader = "wait_1";
 		break;
@@ -2261,7 +2261,7 @@ void ProcessDialogEvent()
 		case "Wingalleon_yes_1":
 			TakeNItems(pchar, "chest", 15);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			SaveCurrentQuestDateParam("pchar.questTemp.Slavetrader_wait_4");
 			pchar.questTemp.Slavetrader = "wait_4";
 			AddQuestRecord("Slavetrader", "20");
@@ -2310,7 +2310,7 @@ void ProcessDialogEvent()
 			link.l1.go = "BG_PF";
 			AddMoneyToCharacter(pchar, 30000);
 			Log_Info("Вы отдали базальтовую голову");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			RemoveItems(PChar, "indian15", 1);
 		break;
 			
@@ -2320,7 +2320,7 @@ void ProcessDialogEvent()
 			link.l1.go = "BG_PF";
 			Log_Info("Вы отдали базальтовую голову");
 			Log_Info("Вы получили статуэтку Тлалока");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			RemoveItems(PChar, "indian15", 1);
 			TakeNItems(pchar, "indian19", 1);
 		break;
@@ -2362,7 +2362,7 @@ void ProcessDialogEvent()
 			link.l1.go = "FindRat_3";
 			AddMoneyToCharacter(pchar, 20000);
 			Log_Info("Вы отдали пугающую фигурку");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			RemoveItems(PChar, "indian2", 1);
 		break;
 			
@@ -2372,7 +2372,7 @@ void ProcessDialogEvent()
 			link.l1.go = "FindRat_3";
 			Log_Info("Вы отдали пугающую фигурку");
 			Log_Info("Вы получили амулет Шиукоатля");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			RemoveItems(PChar, "indian2", 1);
 			TakeNItems(pchar, "indian6", 1);
 		break;
@@ -2440,7 +2440,7 @@ void ProcessDialogEvent()
 			link.l1 = "Спасибо, " + npchar.name + ". В очередной раз повторюсь - с вами приятно работать.";
 			link.l1.go = "Wincorvette_3";
 			Log_Info("Вы получили идол Атлауа");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			TakeNItems(pchar, "indian18", 1);
 		break;
 			

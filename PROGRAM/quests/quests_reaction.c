@@ -201,7 +201,7 @@ void QuestComplete(string sQuestName, string qname)
 	    			sld.location = "none";
 	    			sld.location.from_sea = "";
     			}
-    			PlaySound("interface\_EvShip1.wav");
+    			PlaySound("Encounter_Map_1");
     			LAi_SetCurHPMax(npchar);
     			AddPassenger(Pchar, npchar, false);
     			Log_Info("Офицер " + GetFullName(npchar) + " поднялся на борт.");
@@ -219,7 +219,7 @@ void QuestComplete(string sQuestName, string qname)
 			if (iTemp != -1)
 			{
                 npchar = &Characters[iTemp];
-                PlaySound("interface\_EvShip1.wav");
+                PlaySound("Encounter_Map_1");
                 // лишнее, помер ПГГ и все тут if (findsubstr(sld.id, "PsHero_" , 0) != -1) npchar = sld.id; //homo for navy (ПГГ fix)
                 LAi_SetCurHPMax(npchar);
     			sld.location = "none";
@@ -356,7 +356,7 @@ void QuestComplete(string sQuestName, string qname)
                 //AddQuestTemplate("GhostShipQuest", "church_t2");
                 Statistic_AddValue(Pchar, "QuestChurchHelpGhostShip_Done", 1);
             }
-            PlaySound("interface\door_locked.wav");
+            PlaySound("DoorLocked");
             chrDisableReloadToLocation = false;
             bDisableFastReload         = false;
             SetLocationCapturedState(pchar.location, false);
@@ -562,7 +562,7 @@ void QuestComplete(string sQuestName, string qname)
         case "Munity_on_Ship":
             pchar.quest.Munity = "";
             pchar.GenQuest.MunityStart = true;
-            PlaySound("INTERFACE\_GTBoard2.wav");
+            PlaySound("Boarding_1");
             InterfaceStates.Buttons.Save.enable = 0;
             LAi_SetFightMode(Pchar, true);
 
@@ -629,7 +629,7 @@ void QuestComplete(string sQuestName, string qname)
 
 			if (!CheckAttribute(Pchar, "GenQuestFort.SoundOff"))
 			{
-            	PlaySound("INTERFACE\_GTTown2.wav");
+            	PlaySound("Landing_0");
             	AddCharacterExpToSkill(Pchar, "Leadership", 100);
 			    AddCharacterExpToSkill(Pchar, "Sneak", 100);
             }

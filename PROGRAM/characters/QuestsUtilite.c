@@ -2577,7 +2577,7 @@ void QuestCheckTakeBoxes(ref itemsRef)
 	if (CheckAttribute(itemsRef, "Treasure"))
 	{
 		Log_Info("Похоже, что это и есть клад.");
-		PlaySound("interface\notebook.wav");
+		PlaySound("Notebook");
 		DeleteAttribute(itemsRef, "Treasure");
 		//eddy. для безконфликтности квестов
 

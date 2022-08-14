@@ -883,7 +883,7 @@ speed = 1.8
 
 data = "Blend time", "0.02"	; sec
 data = "Walk speed", "2.2"		; m/sec
-event = "SndAlliace_w_recoil", 3103, normal
+event = "SndAlliace_W_recoil", 3103, normal
 
 [straif_weapon_left]
 start_time = 3380

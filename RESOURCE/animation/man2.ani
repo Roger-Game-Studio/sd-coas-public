@@ -444,7 +444,7 @@ speed = 1.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
-event = "SndAlliace_blockbreak", 665, normal	
+event = "SndAlliace_BlockBreak", 665, normal	
 
 ;РЕАКЦИИ
 

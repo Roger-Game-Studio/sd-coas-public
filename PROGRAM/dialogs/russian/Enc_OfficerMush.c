@@ -295,7 +295,7 @@ void ProcessDialogEvent()
 		case "Exit_hire_Lostpirate":
 			TakeNItems(pchar, "Mineral4", 5);
 			Log_Info("Вы получили бакланов");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			npchar.MusketerDistance = 10;
 			TakeNItems(npchar, "Mineral2", 1);
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);

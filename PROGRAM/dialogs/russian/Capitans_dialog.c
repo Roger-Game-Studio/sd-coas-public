@@ -399,7 +399,7 @@ void ProcessDialogEvent()
 			Dialog.Text = "Вот такие... (вы получили сводку цен на товары).";
 			Link.l1 = "Большое спасибо!";
 			Link.l1.go = "exit";
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 		break;
 		
         case "Talk_board":

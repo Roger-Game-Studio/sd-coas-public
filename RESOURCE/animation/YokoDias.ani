@@ -620,7 +620,7 @@ data = "Turn speed", "5.5"
 	data = "Angle", "330.0"
 	event = "RStep", 834, normal
 	event = "LStep", 839, normal
-	event = "SndAlliace_W_death1", 823, normal
+	event = "SndAlliace_w_death1", 823, normal
 
 [death_1]
 	speed = 1.5
@@ -632,7 +632,7 @@ data = "Turn speed", "5.5"
 	data = "Probability", "1.0"
 	data = "Angle", "330.0"
 	event = "LStep", 907, normal
-	event = "SndAlliace_W_death2", 894, normal
+	event = "SndAlliace_w_death2", 894, normal
 	
 [death_2]
 	speed = 1.5
@@ -643,7 +643,7 @@ data = "Turn speed", "5.5"
 	data = "Blend tim	e", "0.8"		; sec
 	data = "Probability", "1.0"
 	data = "Angle", "330.0"
-	event = "SndAlliace_W_death1", 1014, normal
+	event = "SndAlliace_w_death1", 1014, normal
 
 [death_3]
 	speed = 2.
@@ -655,7 +655,7 @@ data = "Turn speed", "5.5"
 	data = "Probability", "1.0"
 	data = "Angle", "330.0"
 	event = "RStep", 1090, normal
-	event = "SndAlliace_W_death2", 1071, normal
+	event = "SndAlliace_w_death2", 1071, normal
 
 ;===========================================================================
 ;======================================================== ћ»–Ќџ≈ јЌ»ћј÷»» 
@@ -1022,7 +1022,7 @@ data = "Turn speed", "5.5"
 	data = "Blend time", "0.3"		; sec
 	data = "Probability", "1.0"
 	data = "Angle", "340.0"
-	event = "SndAlliace_W_death4", 894, normal
+	event = "SndAlliace_w_death4", 894, normal
 		
 [death_afraid_1]
 	speed = 1.5

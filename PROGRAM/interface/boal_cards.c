@@ -166,7 +166,7 @@ void Exit()
 	}
 	else
     {
-        PlaySound("interface\knock.wav");
+        PlaySound("knock");
     }
 
 }
@@ -194,7 +194,7 @@ void ProcessCommandExecute()
                     }
                     else
                     {
-                        PlaySound("interface\knock.wav");
+                        PlaySound("knock");
                     }
                 }
                 else
@@ -204,13 +204,13 @@ void ProcessCommandExecute()
                     
                     if (dir_i == 1 && (iMoneyP - iRate) < 0)
                     {
-                        PlaySound("interface\knock.wav");
+                        PlaySound("knock");
                         SetFormatedText("INFO_TEXT", "Что, денежки кончились? Бедненький :)");
                         break;
                     }
                     if (dir_i == -1 && (iMoneyN - iRate) < 0)
                     {
-                        PlaySound("interface\knock.wav");
+                        PlaySound("knock");
                         SetFormatedText("INFO_TEXT", "Я на мели!!! Вот не пруха!");
                         break;
                     }
@@ -218,7 +218,7 @@ void ProcessCommandExecute()
                     if (dir_i == 1)
                     {
                         move_i = 0;
-                        PlaySound("interface\took_item.wav");
+                        PlaySound("Took_item");
                         PostEvent("My_eventMoveImg", 100);
                         
                         PutNextCoin();
@@ -264,7 +264,7 @@ void ProcessCommandExecute()
                         SetFormatedText("INFO_TEXT", "Так, теперь мне карту.");
                         
                         move_i = 0;
-                        PlaySound("interface\took_item.wav");
+                        PlaySound("Took_item");
                         PostEvent("My_eventMoveImg", 500);
                         
                         PutNextCoinOp();
@@ -279,7 +279,7 @@ void ProcessCommandExecute()
                 }
                 else
                 {
-                    PlaySound("interface\knock.wav");
+                    PlaySound("knock");
                 }
     		}
     	break;
@@ -287,7 +287,7 @@ void ProcessCommandExecute()
     	case "B_ICON_2":
     		if(comName=="activate" || comName=="click")
     		{
-                //PlaySound("interface\knock.wav");
+                //PlaySound("knock");
     		}
     	break;
 	}
@@ -304,7 +304,7 @@ void MoveImg()
     else
     {
         CreateImage("BLANK","","", 0, 0, 0, 0);
-        PlaySound("interface\button3.wav");
+        PlaySound("Button");
         // перерисуем все карты на руках
         RedrawCards();
         
@@ -504,7 +504,7 @@ void StartGame()
 {
     move_i = 0;
 
-    PlaySound("interface\took_item.wav");
+    PlaySound("Took_item");
     PostEvent("My_eventMoveImg", 100);
 
     if (dir_i == 1)
@@ -611,7 +611,7 @@ bool CheckGame()
             if (dir_i == -1 && bStartGame >= 2) // комп играет сам
             {
                 move_i = 0;
-                PlaySound("interface\took_item.wav");
+                PlaySound("Took_item");
                 PostEvent("My_eventMoveImg", 500);
 
                 PutNextCoinOp();

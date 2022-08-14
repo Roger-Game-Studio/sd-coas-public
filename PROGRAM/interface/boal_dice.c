@@ -176,7 +176,7 @@ void Exit()
 	}
 	else
     {
-        PlaySound("interface\knock.wav");
+        PlaySound("knock");
     }
 
 }
@@ -210,12 +210,12 @@ void ProcessCommandExecute()
 					{
                         bLockClick = true;
 						move_i = 0;
-				        PlaySound("interface\dice_mix.wav");
+				        PlaySound("DiceMix");
 						PostEvent("My_eventMoveImg", 100);
 					}
 					else
 					{
-					    PlaySound("interface\knock.wav");
+					    PlaySound("knock");
 					}
                 }
     		}
@@ -234,14 +234,14 @@ void ProcessCommandExecute()
 				    CheckGame();
 				    break;
 				}
-				PlaySound("interface\knock.wav");
+				PlaySound("knock");
     		}
     	break;
     	
     	case "B_ICON_2":
     		if(comName=="activate" || comName=="click")
     		{
-                //PlaySound("interface\knock.wav");
+                //PlaySound("knock");
     		}
     	break;
     	
@@ -305,7 +305,7 @@ void MoveImg()
         // сброс
         if (move_i == 12)
         {
-            PlaySound("interface\dice_end.wav");
+            PlaySound("interface\DiceEnd");
 			if (bSetRandDice)
 			{
             	SetDiceForTableRand(); // случайно, 2й ход компа будем жухлить!!!
@@ -399,10 +399,10 @@ void StartGame()
 	int i;
 	move_i = 0;
 
-    PlaySound("interface\took_item.wav");
+    PlaySound("Took_item");
 	if (dir_i == -1) // комп первый
 	{
-        PlaySound("interface\dice_mix.wav");
+        PlaySound("DiceMix");
 		SetFormatedText("INFO_TEXT","Я первый.");
 		PostEvent("My_eventMoveImg", 100);
     }
@@ -425,7 +425,7 @@ void StartGame()
         iMoneyN = iMoneyN - iRate;
 	}
     iChest += 10*iRate;
-    PlaySound("interface\took_item.wav");
+    PlaySound("Took_item");
     ShowMoney();
 }
 
@@ -593,12 +593,12 @@ void ClickHeroDice(int d)
 	    money_i++;
 	    iMoneyP = iMoneyP - iRate;
 	    iChest += iRate;
-	    PlaySound("interface\took_item.wav");
+	    PlaySound("Took_item");
 	    ShowMoney();
     }
     else
     {
-        PlaySound("interface\knock.wav");
+        PlaySound("knock");
     }
 }
 
@@ -670,7 +670,7 @@ bool CheckGame()
 		{
 			SetFormatedText("INFO_TEXT","Так, теперь мой ход.");
 			move_i = 0;
-	        PlaySound("interface\dice_mix.wav");
+	        PlaySound("DiceMix");
 	        PostEvent("My_eventMoveImg", 500);
         }
         else
@@ -1177,7 +1177,7 @@ void CompTurn()
     		// for test
     		ClickCompDice(1);
     		move_i = 0;
-            PlaySound("interface\dice_mix.wav");
+            PlaySound("DiceMix");
             PostEvent("My_eventMoveImg", 500);
             return;
     	}
@@ -1220,7 +1220,7 @@ void CompTurn()
     		if (ok)
     		{
                 move_i = 0;
-    	        PlaySound("interface\dice_mix.wav");
+    	        PlaySound("DiceMix");
     	        PostEvent("My_eventMoveImg", 500);
     	        return;
     		}
@@ -1258,7 +1258,7 @@ void CompTurn()
     		{
         		move_i = 0;
         		bSetRandDice = false;
-                PlaySound("interface\dice_mix.wav");
+                PlaySound("DiceMix");
                 PostEvent("My_eventMoveImg", 500);
                 return;
             }
@@ -1284,7 +1284,7 @@ bool ClickCompDice(int d)
         moneyOp_i++;
         iMoneyN = iMoneyN - iRate;
 	    iChest += iRate;
-	    PlaySound("interface\took_item.wav");
+	    PlaySound("Took_item");
 	    ShowMoney();
 	    return true;
     }

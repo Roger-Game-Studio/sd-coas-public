@@ -247,7 +247,7 @@ void BI_Frame()
 		if (boal_soundOn)
 		{
 		    boal_soundOn = false;
-            PlaySound("interface\_GTBoard0.wav");
+            PlaySound("Boarding_0");
 		}
 		// boal <--
 		return;
@@ -259,7 +259,7 @@ void BI_Frame()
 		if (boal_soundOn)
 		{
 		    boal_soundOn = false;
-            PlaySound("interface\_Abandon0.wav");
+            PlaySound("Abandon_0");
 		}
 		// boal <--
 		return;
@@ -276,7 +276,7 @@ void BI_Frame()
 		if (boal_soundOn)
 		{
 		    boal_soundOn = false;
-            PlaySound("interface\_Yakordrop.wav");
+            PlaySound("AnchorDrop");
 		}
 		// boal <--
 		return;
@@ -569,7 +569,7 @@ void BI_LaunchCommand()
 		}
 		else
 		{
-			PlaySound("interface\knock.wav");
+			PlaySound("knock");
 		}
     break;
 	case "BI_Charge":
@@ -578,22 +578,22 @@ void BI_LaunchCommand()
 		{
 		case 1:
 			//Log_SetStringToLog("Cannonballs");
-			PlaySound("interface\_balls.wav");
+			PlaySound("ChargeBalls");
 			chargeType=GOOD_BALLS;
 			break;
 		case 2:
 			//Log_SetStringToLog("Grapes");
-			PlaySound("interface\_grapes.wav");
+			PlaySound("ChargeGrapes");
 			chargeType=GOOD_GRAPES;
 			break;
 		case 3:
 			//Log_SetStringToLog("Knippels");
-			PlaySound("interface\_chain.wav");
+			PlaySound("ChargeKnippels");
 			chargeType=GOOD_KNIPPELS;
 			break;
 		case 4:
 			//Log_SetStringToLog("Bombs");
-			PlaySound("interface\_bombs.wav");
+			PlaySound("ChargeBombs");
 			chargeType=GOOD_BOMBS;
 			break;
 		}
@@ -663,12 +663,12 @@ void BI_LaunchCommand()
 		// boal 09.02.2004 -->
 	    if (bDisableMapEnter && !bBettaTestMode)
 	    {
-           PlaySound("interface\knock.wav");
+           PlaySound("knock");
 	       break;
 	    }
 	    if (!CheckEnemyCompanionDistance2GoAway(false) && !bBettaTestMode)  // компаньон в беде
 	    {
-           PlaySound("interface\knock.wav");
+           PlaySound("knock");
 	       break;
 	    }
 	    // boal 09.02.2004 <--
@@ -701,7 +701,7 @@ void BI_LaunchCommand()
 			}
 			else
 			{
-                PlaySound("interface\knock.wav");
+                PlaySound("knock");
 			}
 		}
 		else
@@ -713,7 +713,7 @@ void BI_LaunchCommand()
 			}
 			else
 			{
-                PlaySound("interface\knock.wav");
+                PlaySound("knock");
 			}
 			// boal плывем только к друзьям или спец персам (потопить пирата) <--
 		}
@@ -944,7 +944,15 @@ void BI_DeadShip()
 	}
 	if( IsCompanion(GetCharacter(charIndex)) )
 	{
-		RemoveCharacterCompanion(pchar,GetCharacter(charIndex));
+		// Hokkins: скроем весь интерфейс, если у ГГ нет компаньонов.
+		if(GetCompanionQuantity(pchar) > 1)
+		{
+			RemoveCharacterCompanion(pchar,GetCharacter(charIndex));
+		}
+		else
+		{
+			ChangeShowIntarface();
+		}
 	}
 	Characters[charIndex].ship.shipsink = true;
 	RefreshBattleInterface();
@@ -2705,27 +2713,27 @@ void BI_ProcessControlPress()
 	switch(ControlName)
 	{
 		case "hk_charge1":
-			PlaySound("interface\_balls.wav");
+			PlaySound("ChargeBalls");
 			Ship_ChangeCharge(pchar, GOOD_BALLS);
 		break;
 	
 		case "hk_charge2":
-			PlaySound("interface\_grapes.wav");
+			PlaySound("ChargeGrapes");
 			Ship_ChangeCharge(pchar, GOOD_GRAPES);
 		break;
 	
 		case "hk_charge3":
-			PlaySound("interface\_chain.wav");
+			PlaySound("ChargeKnippels");
 			Ship_ChangeCharge(pchar, GOOD_KNIPPELS);
 		break;
 	
 		case "hk_charge4":
-			PlaySound("interface\_bombs.wav");
+			PlaySound("ChargeBombs");
 			Ship_ChangeCharge(pchar, GOOD_BOMBS);
 		break;
 		
 		case "BICommandsActivate": 
-			PlaySound("interface\ok.wav"); // boal даешь звуки!
+			PlaySound("OK"); // boal даешь звуки!
 		break;
 	}
 }

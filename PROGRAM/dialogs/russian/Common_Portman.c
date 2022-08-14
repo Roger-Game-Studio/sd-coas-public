@@ -1069,7 +1069,7 @@ void ProcessDialogEvent()
 			//AddMoneyToCharacter(PChar, sti(NPChar.Quest.BurntShip.Money));
 			TakeNItems(pchar, "chest", makeint(sti(NPChar.Quest.BurntShip.Money)/12000));
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			sTitle = "BurntShipQuest" + NPChar.location;
 			AddQuestRecordEx(sTitle, "BurntShipQuest", "4");
 			AddQuestUserData(sTitle, "sSex", GetSexPhrase("","а"));

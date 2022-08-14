@@ -384,7 +384,7 @@ void Sea_DeckBoatStartNow(ref _iShipsCharacter)
 	 	//ResetSoundScheme();
 		ResetSound(); // new
 
-	    //PlaySound("interface\_Abandon0.wav");// шлюпки на воду!
+	    //PlaySound("Abandon_0");// шлюпки на воду!
 
 		bAbordageStarted = true;
 		bDeckBoatStarted = true;
@@ -420,7 +420,7 @@ void DeckBoat_Start()
 	StartBattleLandInterface();
     if(!CheckAttribute(GetMainCharacter(), "TownEscape")) 
 	{
-		PlaySound("interface\_Abandon0.wav");// шлюпки на воду!
+		PlaySound("Abandon_0");// шлюпки на воду!
 	}	
 	ref mchr = GetMainCharacter();
 

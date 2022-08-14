@@ -509,7 +509,7 @@ void Ship_SetExplosion(ref rCharacter, ref	rShipObject)
 	//}
 	//PostEvent(SHIP_ACTIVATE_FIRE_PLACE, 100, "ialsfl", rShipObject, rCharacter, i, "ship_onfire", 3, -1);  // дает вылет
 	PostEvent(SHIP_BRANDER_DETONATE, 800, "l", sti(rCharacter.index));
-    PlaySound("Sea Battles\Vzriv_fort_001.wav");
+    PlaySound("BlastFort");
 	Ship_SetTaskNone(SECONDARY_TASK, sti(rCharacter.index));
 }
 // boal <--
@@ -914,12 +914,7 @@ void Ship_OnBortReloaded()
 	string sBort = GetEventData();
 
 	if (!bSeaLoaded || bAbordageStarted) { return; }  // fix
-	// далее по коду была глупость, тк прерывание шло по всем НПС, звуков таких не было вовсе в ресурсах, те мина была в игре. "Сапер boal"
 	if (sti(aCharacter.index) != nMainCharacterIndex) { return; } // fix
-	/*{
-		if (sBort == "cannonl" || sBort == "cannonr") { Ship_PlaySound3D(aCharacter, "bortreloaded_" + sBort, 1.0);	}
-		//"bortreloaded_all"
-	}*/
 
 	if (!sti(aCharacter.Tmp.BortsReloaded.Event))
 	{
@@ -939,16 +934,8 @@ void Ship_BortReloadEvent()
 		bool bLeft = sti(aCharacter.Tmp.BortsReloaded.cannonl) == true;
 		bool bRight = sti(aCharacter.Tmp.BortsReloaded.cannonr) == true;
 
-		if (bLeft && bRight)
-		{
-			//Ship_PlaySound3D(aCharacter, "bortreloaded_all", 1.0);
-			// типа перезарядка двух бортов PlaySound("interface\_GunReady.wav");
-		}
-		else
-		{
-			if (bLeft)  { PlaySound("interface\_GunReadyL.wav"); }
-			if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
-		}
+		if (bLeft)  { PlaySound("BortReload_cannonl"); }
+		if (bRight) { PlaySound("BortReload_cannonr"); }
 	}
 
 	Ship_ClearBortsReloadedEvent(aCharacter);
@@ -987,8 +974,6 @@ void Ship_ChangeCharge(ref rCharacter, int iNewChargeType)
 
 	Cannon_RecalculateParameters(sti(rCharacter.index));
 	rCharacter.BOAL_ReadyCharge = "1"; // чтоб пока не стрельнул не выпендривал (нужно для приказа компаньону)
-	
-	//fix Ship_PlaySound3D(rCharacter, "reloadstart_" + rGood.name, 1.0);
 
 	Ship_ClearBortsReloadedEvent(rCharacter);
 }
@@ -1437,7 +1422,7 @@ void Ship_CheckSituation()
 					{
 						if (Ship_GetDistance2D(GetMainCharacter(), rCharacter) < 16)
 						{
-							PlaySound("interface\important_item.wav");
+							PlaySound("Important_item");
 							int SmallPearlQty = rand(250) + 100;
 							int BigPearlQty = rand(150) + 50;
 							TakeNItems(pchar, "jewelry12", SmallPearlQty);
@@ -1999,7 +1984,7 @@ void Ship_ApplyCrewHitpoints(ref rOurCharacter, float fCrewHP)
 	
 	if (sti(rOurCharacter.index) == GetMainCharacterIndex() && stf(rBaseShip.MinCrew) > fNewCrewQuantity && stf(rBaseShip.MinCrew) <= stf(rOurCharacter.Ship.Crew.Quantity))
     {  // переход на мин команду
-        PlaySound("OBJECTS\SHIPCHARGE\_Damage1.wav");
+        PlaySound("CrewDamage");
     }
 	// boal fix утопленников   -->
 	if (stf(rOurCharacter.Ship.Crew.Quantity) > fNewCrewQuantity)
@@ -3450,11 +3435,11 @@ void Ship_UpdateParameters()
         	{
 				if (rand(1) == 0)
 				{
-					PlaySound("Interface\_Abandon1.wav");
+					PlaySound("Abandon_1");
 				}
 				else
 				{
-					PlaySound("Interface\_Abandon2.wav");
+					PlaySound("Abandon_2");
 				}
 			}
 			// boal <--

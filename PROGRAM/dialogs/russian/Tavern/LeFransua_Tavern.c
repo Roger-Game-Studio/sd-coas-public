@@ -238,7 +238,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddMoneyToCharacter(pchar, 5000);
 			TakeNItems(pchar, "chest", 1);
 			Log_Info("Вы получили кредитный сундук");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			AddQuestRecord("Headhunt", "3");
 		break;
 		
@@ -277,7 +277,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddMoneyToCharacter(pchar, 10000);
 			TakeNItems(pchar, "chest", 2);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			AddQuestRecord("Headhunt", "9");
 		break;
 		
@@ -320,7 +320,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddQuestRecord("Headhunt", "11");
 			TakeNItems(pchar, "suit_1", 1);
 			Log_Info("Вы получили обноски");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 		break;
 		
 		case "Endtaskhunt_3":
@@ -333,7 +333,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			TakeNItems(pchar, "chest", 2);
 			TakeNItems(pchar, "Totem_"+(rand(9)+1), 1);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			AddQuestRecord("Headhunt", "25");
 		break;
 		
@@ -369,7 +369,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			TakeNItems(pchar, "chest", 2);
 			TakeNItems(pchar, "Totem_"+(rand(9)+1), 1);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 		break;
 		
 		case "Endtaskhunt_4_1":

@@ -779,8 +779,8 @@ void IDoSoundEvent()
 	int comCode = GetEventData();
 	switch( comCode )
 	{
-	case 1: PlaySound("interface\ok.wav"); break; // любая клавиша
-	case 2: PlaySound("interface\menu_select_01.wav"); break; // выбор элемента
+	case 1: PlaySound("OK"); break; // любая клавиша
+	case 2: PlaySound("MenuSelect"); break; // выбор элемента
 	}
 }
 

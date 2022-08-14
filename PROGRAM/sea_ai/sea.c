@@ -413,7 +413,7 @@ void Sea_MapLoad()
     if (!ok)
     {
         Log_Info("Выход на карту невозможен.");
-        PlaySound("interface\knock.wav");
+        PlaySound("knock");
         return;
     }
     // boal 201004 проверка на перегруз и мин команду <--

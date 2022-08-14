@@ -17,15 +17,15 @@ void procBattleCommandSound()
 	string comName = GetEventData();
 	if(comName=="deactivate")
 	{
-		PlaySound("interface\ok.wav");
+		PlaySound("OK");
 	}
 	if(comName=="activate")
 	{
-		PlaySound("interface\ok.wav");
+		PlaySound("OK");
 	}
 	if(comName=="right" || comName=="left")
 	{
-		PlaySound("interface\ok.wav");
+		PlaySound("OK");
 	}
 }
 
@@ -1139,7 +1139,7 @@ void LI_ProcessControlPress()
 		break;
 		
 		case "LICommandsActivate": 
-			PlaySound("interface\ok.wav"); // boal даешь звуки!
+			PlaySound("OK"); // boal даешь звуки!
 		break;
 	}
 }

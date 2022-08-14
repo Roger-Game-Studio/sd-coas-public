@@ -920,7 +920,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 411, normal
-event = "SndAlliace_W_death1", 285, normal
+event = "SndAlliace_w_death1", 285, normal
 
 [death_citizen_2]
 start_time = 455
@@ -933,7 +933,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 472, normal
-event = "SndAlliace_W_death2", 285, normal
+event = "SndAlliace_w_death2", 285, normal
 
 ;Смерть труса
 [death_afraid_1]
@@ -960,7 +960,7 @@ data = "Probability", "1.0"
 data = "Angle", "340.0"
 
 event = "LStep", 354, normal
-event = "SndAlliace_W_death4", 200, normal
+event = "SndAlliace_w_death4", 200, normal
 
 ;===================================================================================
 ;Диалоги

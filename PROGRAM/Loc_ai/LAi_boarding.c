@@ -188,7 +188,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		mDamage = makeint((rand(mCrewShot - OffQty) + OffQty) * (1 + mShipClassCoeff ) );
 		
 //		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек команды противника.");
-//       	PlaySound("INTERFACE\_musketshot.wav");
+//       	PlaySound("MushketShot");
 	}
 	if (CheckOfficersPerk(echr, "MusketsShoot") && IsFort == false) // для противника
 	{
@@ -202,7 +202,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 //		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек нашей команды.");
 //        	Statistic_AddValue(mchr, "DeadCrewBoard", ecrewBak);
 //		Statistic_AddValue(mchr, "Sailors_dead", ecrewBak);
-//        	PlaySound("INTERFACE\_musketshot.wav");
+//        	PlaySound("MushketShot");
 	}
 	// <-- ugeen Мушкетный залп
 */	
@@ -216,7 +216,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0);
         ecrew = ecrew - ecrewBak;
         Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек команды противника.");
-        PlaySound("INTERFACE\_musketshot.wav");
+        PlaySound("MushketShot");
     }
 	if (CheckCharacterPerk(echr, "MusketsShoot") && IsFort == false)
     {
@@ -228,7 +228,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
         Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек нашей команды.");
         Statistic_AddValue(mchr, "DeadCrewBoard", ecrewBak);
 		Statistic_AddValue(mchr, "Sailors_dead", ecrewBak);
-        PlaySound("INTERFACE\_musketshot.wav");
+        PlaySound("MushketShot");
     }
     // MusketsShoot <--
     

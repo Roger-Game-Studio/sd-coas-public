@@ -818,7 +818,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 							// boal 24.04.04 озвучка зарядки пистоля -->
 								if (Characters[idx].index == GetMainCharacterIndex() && LAi_IsFightMode(pchar))
 								{
-									PlaySound("People Fight\reload1.wav");
+									PlaySound("Reload");
 								}
 						}
 						chr_ai.charge = charge;

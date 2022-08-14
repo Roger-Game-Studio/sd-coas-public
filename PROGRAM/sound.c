@@ -163,7 +163,7 @@ void SetSchemeForLocation (ref loc)
     if(CheckAttribute(loc,"type"))
 	{
 		ResetSoundScheme();
-		SetMusicAlarm(""); // иузыка не играла, если переходили меж локациями одной схемы - багфиx boal 28.06.06
+		SetMusicAlarm(""); // музыка не играла, если переходили меж локациями одной схемы - багфиx boal 28.06.06
 		switch (loc.type)
 		{
 			case "town":
@@ -397,7 +397,8 @@ void SetSchemeForLocation (ref loc)
 			
 			case "teno_inside":
 				SetSoundScheme("teno_inside");
-				SetMusicAlarm("music_teno_inside");
+				// SetMusicAlarm("music_teno_inside"); // Hokkins: нет в папке такого трека...
+				SetMusicAlarm("music_teno");
 			break;
 		}
 	}
@@ -546,7 +547,8 @@ void SetMusic(string name)
 	//Trace("SetMusic : "+name);
 	if (oldMusicID >= 0)
 	{
-		SendMessage(Sound, "ll", MSG_SOUND_RELEASE, oldMusicID);
+		//SendMessage(Sound, "ll", MSG_SOUND_RELEASE, oldMusicID);
+		SendMessage(Sound, "lll", MSG_SOUND_STOP, oldMusicID, 0);
 		oldMusicID = -1;
 	}
 
@@ -569,6 +571,7 @@ void SetMusic(string name)
 
 void FadeOutMusic(int _time)
 {
+	if(_time < 100) _time *= 1000;
 	if (musicID >= 0)
 	{
 		StopSound(musicID, _time);
@@ -587,7 +590,8 @@ void PauseAllSounds()
 void ResumeAllSounds()
 {
 	//Trace("ResumeAllSounds");
-	SendMessage(Sound,"lll",MSG_SOUND_RESUME, musicID, SOUNDS_FADE_TIME);
+	//SendMessage(Sound,"lll",MSG_SOUND_RESUME, musicID, SOUNDS_FADE_TIME);
+	SendMessage(Sound,"lll",MSG_SOUND_RESUME, 0, SOUNDS_FADE_TIME);
 }
 
 // OLD VERSIONS
@@ -650,12 +654,6 @@ void SetMusicAlarm(string name)
         //Log_TestInfo("SetMusicAlarm: music_bitva");
 		if (LAi_boarding_process != 0)
 		{
-			/*if (!CheckAttribute(loadedLocation, "CabinType") && !bBettaTestMode)//pchar.location != "CaptainCabine" && pchar.location != "CaptainCabineBig")
-			{   // TO_DO добавил отключку в бетатест - разрушает мозг (выбивается звуком из фона)
-				//Trace("Включить шума абордажа");
-				abordageSoundID = PlayStereoSoundLooped("Abordage");
-				boardM = 1;
-			}*/
 			if (!CheckAttribute(loadedLocation, "CabinType"))
 			{
 				boardM = 1; // потом сбросим звук и схему
@@ -685,14 +683,6 @@ void Sound_OnAlarm(bool _alarmed)
 	else
 	{ //alarm off
 		SetMusic(oldMusicName);
-		/*
-		// данный звук отключаем когда открывается релоад в кабину капитана
-		if (boardM == 1) 
-			{
-				Trace("Выключить шума абордажа");
-				StopSound(abordageSoundID, 0);
-				boardM = -1;
-			}*/
 	}
 	oldAlarmed = alarmed;
 }
@@ -747,7 +737,7 @@ void ResetSound()
 	ResetSoundScheme();
 	// fix <--
 	StopSound(0,0);
-	ReleaseSound(0);
+	//ReleaseSound(0);
 	musicName = "";
 	oldMusicName = "";
 	musicID = -1;    //fix boal не было нуления ИД

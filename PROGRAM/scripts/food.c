@@ -101,7 +101,7 @@ void DailyRatsEatGoodsUpdate(ref chref)
         
         iQuantity = 1+ rand(makeint(iQuantity / (10+fSkill)));
         RemoveCharacterGoodsSelf(chref, iGoods, iQuantity);
-        //PlaySound("interface\notebook.wav");
+        //PlaySound("Notebook");
         Log_SetStringToLog(RandSwear() + " Крысы на корабле " +
                            chref.Ship.Name + LinkRandPhrase(" испортили ", " повредили ", " уничтожили ") +
                            iQuantity + " шт. " + LanguageConvertString(iSeaGoods, "seg_" + Goods[iGoods].Name));
@@ -323,7 +323,7 @@ void DailyEatCrewUpdateForShip(ref rChar, bool IsCompanionTraveler) // IsCompani
 			{
 				Log_Info("На корабле " + rChar.Ship.Name + " продовольствия осталось на " + FindRussianDaysString(cn));
 				Log_Info("Нужно срочно пополнить запасы!");
-				PlaySound("interface\notebook.wav");
+				PlaySound("Notebook");
 			}
 		}
 		// возможный бунт рабов
@@ -346,7 +346,7 @@ void DailyEatCrewUpdateForShip(ref rChar, bool IsCompanionTraveler) // IsCompani
 	{
 		iCrewQty = GetCargoGoods(rChar, GOOD_FOOD);
 		RemoveCharacterGoodsSelf(rChar, GOOD_FOOD, iCrewQty);
-		PlaySound("interface\notebook.wav");
+		PlaySound("Notebook");
 		
 		if(!IsCompanionTraveler) Log_Info("На корабле " + rChar.Ship.Name + " матросы голодают. Мораль команды падает!");
 		

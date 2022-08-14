@@ -824,7 +824,7 @@ void ProcessDialogEvent()
 			//AddMoneyToCharacter(PChar, 15000);
 			TakeNItems(pchar, "chest", 1);
 			Log_Info("Вы получили кредитный сундук");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 		break;
 		case "PL_Q2_away_5":
 			dialog.text = "Я уже вынес это предложение нескольким своим ребятам, приглашаю в дело и тебя. Того, кто доставит мне голову Лоу, ждёт награда в пятьдесят тысяч золотых.";
@@ -892,7 +892,7 @@ void ProcessDialogEvent()
 			//AddMoneyToCharacter(PChar, 50000);
 			TakeNItems(pchar, "icollection", 1);
 			Log_Info("Вы получили сокровища");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 		break;
 		//квест №4, жемчужные тартаны
 		case "PL_Q4_1":

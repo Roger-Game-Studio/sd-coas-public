@@ -11,7 +11,7 @@ int LocationInitPuertoPrincipe(int n)
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";
 	//Sound
-	locations[n].type = "port";
+	locations[n].type = "seashore";
 	locations[n].fastreload = "PuertoPrincipe";
 	locations[n].islandId = "Cuba";
 	//Models

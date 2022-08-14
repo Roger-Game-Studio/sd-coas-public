@@ -308,10 +308,10 @@ void SoundInResidenceBattle()
 	switch (rand(1))
     {
         case 0:
-            PlaySound("VOICE\" + LanguageGetLanguage() + "\soldier_arest_4.WAV");
+            PlaySound("soldier_arest");
         break;
         case 1:
-            PlaySound("VOICE\" + LanguageGetLanguage() + "\soldier_common_4.WAV");
+            PlaySound("soldier_common");
         break;
     }
 }
@@ -470,7 +470,7 @@ void TWN_Capture_Forts()
 
 		if (!CheckAttribute(Pchar, "GenQuestFort.SoundOff"))  // будет для выхода в море и повтора захвата
 		{
-        	PlaySound("INTERFACE\_GTBoard2.wav");
+        	PlaySound("Boarding_1");
         	if (isCityHasFort(sld.City))// довесок после форта
             {
             	AddCharacterExpToSkillSquadron(Pchar, "Leadership", 230);
@@ -797,7 +797,7 @@ void TWN_FightInTown_OpenNext()
     chrDisableReloadToLocation = false;
     LAi_SetFightMode(Pchar, false);
     Log_Info("Силы противника подавлены! Путь свободен.");
-    PlaySound("interface\door_locked.wav");
+    PlaySound("DoorLocked");
     // подсчет живых матросов
     Log_TestInfo("Old boarding_player_crew: " + Pchar.GenQuestFort.PlayerCrew);
     for(i = 0; i < LAi_numloginedcharacters; i++)

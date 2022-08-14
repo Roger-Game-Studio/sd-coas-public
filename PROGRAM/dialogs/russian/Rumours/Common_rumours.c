@@ -844,7 +844,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			link.l1.go = "RBlueBirdWon_2";
 			TakeNItems(pchar, "chest", 4);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 		break;
 		case "RBlueBirdWon_2":
 			dialog.text = "Хм, очень будет интересно узнать...";
@@ -957,7 +957,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			pchar.questTemp.BlueBird = "over"; //закрываем квест
 			TakeNItems(pchar, "chest", 14);
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			AddQuestRecord("Xebeca_BlueBird", "14");
 			AddQuestUserData("Xebeca_BlueBird", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("Xebeca_BlueBird", "sSex1", GetSexPhrase("ен","ьна"));

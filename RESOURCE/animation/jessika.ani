@@ -514,7 +514,7 @@ type = normal
 	
 	event = "RStep", 834, normal
 	event = "LStep", 839, normal
-	event = "SndAlliace_W_death1", 823, normal
+	event = "SndAlliace_w_death1", 823, normal
 
 
 
@@ -549,7 +549,7 @@ type = normal
 	data = "Angle", "330.0"
 	
 	
-	event = "SndAlliace_W_death1", 1014, normal
+	event = "SndAlliace_w_death1", 1014, normal
 
 
 	[death_3]
@@ -567,7 +567,7 @@ type = normal
 	
 
 	event = "RStep", 1090, normal
-	event = "SndAlliace_W_death2", 1071, normal
+	event = "SndAlliace_w_death2", 1071, normal
 
 
 
@@ -584,7 +584,7 @@ type = normal
 	data = "Angle", "330.0"
 	
 	
-	event = "SndAlliace_W_death1", 1014, normal
+	event = "SndAlliace_w_death1", 1014, normal
 	
 
 ; ƒ≈…—“¬»я ¬ Ѕќ≈¬ќ… —“ќ… ≈ (IDLES)
@@ -1064,7 +1064,7 @@ type = normal
 	data = "Probability", "1.0"
 	data = "Angle", "340.0"
 	
-	event = "SndAlliace_W_death1", 894, normal
+	event = "SndAlliace_w_death1", 894, normal
 	
 	
 	
@@ -1081,7 +1081,7 @@ type = normal
 	data = "Angle", "340.0"
 	
 
-	event = "SndAlliace_W_death2", 894, normal
+	event = "SndAlliace_w_death2", 894, normal
 	
 		
 	[death_citizen_3]
@@ -1096,7 +1096,7 @@ type = normal
 	data = "Probability", "1.0"
 	data = "Angle", "340.0"
 	
-	event = "SndAlliace_W_death1", 894, normal
+	event = "SndAlliace_w_death1", 894, normal
 	
 	
 	[death_citizen_4]
@@ -1112,7 +1112,7 @@ type = normal
 	data = "Angle", "340.0"
 	
 
-	event = "SndAlliace_W_death2", 894, normal
+	event = "SndAlliace_w_death2", 894, normal
 	
 
 

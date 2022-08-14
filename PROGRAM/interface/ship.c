@@ -980,7 +980,7 @@ void DropGoodsToSeaFromInterface(int iGoodIndex, int iQuantity)
 	
 				AISeaGoods_AddGood(xi_refCharacter, sGood, sModel, fTime * 60.0, iSwimQuantity);
 			}
-			PlaySound("Ships\jakor_002.wav");
+			PlaySound("bortreloaded_all");
 		}
 	}
 }

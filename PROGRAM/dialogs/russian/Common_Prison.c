@@ -284,7 +284,7 @@ void ProcessDialogEvent()
             Link.l1.go = "TakeGun_2";
 			TakeNItems(pchar, "chest", makeint(sti(pchar.questTemp.PrisonGun.Sum)/12000));
 			Log_Info("Вы получили кредитные сундуки");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			//AddMoneyToCharacter(pchar, makeint(pchar.questTemp.different.PrisonGun.Sum));
 			RemoveCharacterGoods(Pchar, iGunGoods, amount);
 		break;
@@ -1004,7 +1004,7 @@ void ProcessDialogEvent()
 			link.l1 = "Ух ты, сколько тут всего ценного!";
 			link.l1.go = "PrisonerInPlace_3";
 			Log_Info("Вы получили свою долю клада");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			TakeNItems(pchar, "icollection", 1+drand(1));
 			TakeNItems(pchar, "chest", 4+drand(4));
 			TakeNItems(pchar, "jewelry1", 70+rand(15));
@@ -1027,7 +1027,7 @@ void ProcessDialogEvent()
 			link.l1 = "Ну, хоть что-то толковое получу за твое освобождение! Давай его сюда.";
 			link.l1.go = "PrisonerInPlace_3";
 			Log_Info("Вы получили свою долю клада");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			sTemp = pchar.questTemp.jailCanMove.Item1;
 			TakeNItems(pchar, sTemp, 1);
 			TakeNItems(pchar, "jewelry5", 40+rand(10));
@@ -1048,7 +1048,7 @@ void ProcessDialogEvent()
 			link.l1 = "Ладно, все равно взять с тебя нечего. Благодари Бога, что я отходчив"+ GetSexPhrase("ый","ая") +".";
 			link.l1.go = "PrisonerInPlace_3";
 			Log_Info("Вы получили экипировку");
-			PlaySound("interface\important_item.wav");
+			PlaySound("Important_item");
 			sTemp = pchar.questTemp.jailCanMove.Item2;
 			TakeNItems(pchar, sTemp, 1);
 			AddQuestRecord("GivePrisonFree", "3_3");
