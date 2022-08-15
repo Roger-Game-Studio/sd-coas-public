@@ -52,23 +52,7 @@ void InitInterface_gm(string iniName)
 		SetSelectable("MB_SAVE", false);
 	}
 
-	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum());
-
-	string sText = "";
-	//if(LanguageGetLanguage() == "Russian")
-	//{
-		sText = "BlackMark Studio, Seaward.Ru, Akella ";
-		//sText = sText + "";//"\n";
-		sText = sText + "- 2010";
-		SetFormatedText("COPYRIGHTS_TEXT", sText);
-	/*}
-	else
-	{
-		sText = "Playlogic 2007";
-		sText = sText + "\n";
-		sText = sText + "Akella 2007";
-		SetFormatedText("COPYRIGHTS_TEXT", sText);
-	}  */
+	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum() + "\n\n" + VERSION_NUMBER3 + "\n" + "BlackMark Studio, Seaward.Ru, Akella - 2010");
 
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga");
 
