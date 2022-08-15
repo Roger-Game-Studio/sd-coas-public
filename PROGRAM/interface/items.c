@@ -237,10 +237,10 @@ void FillItemsTable(int _mode)
 				  (arItem.id == "Map_Best");        // отличная карта
 			
 			// Разное -->
-			ok3 = (arItem.price <= 500);         // хламовые предметы
-			                                      // Hokkins: потом нужно придумать что то получше, чем проверка на цену =)
+			ok3 = (arItem.price <= 500);            // хламовые предметы
+			                                        // Hokkins: потом нужно придумать что то получше, чем проверка на цену =)
 			
-			if(_mode == 1 && groupID == MAPS_ITEM_TYPE && arItem.id != "MapsAtlas" && arItem.id != "Map_Best")	continue;
+			if(_mode == 1 && groupID == MAPS_ITEM_TYPE && arItem.id != "MapsAtlas" && arItem.id != "Map_Best" && arItem.id != "map_full" && arItem.id != "map_part1" && arItem.id != "map_part2") continue;
 			if(_mode == 2 && !ok) continue;
 			if(_mode == 3 && !ok1) continue;
 			if(_mode == 4 && !ok2) continue;
