@@ -7,7 +7,7 @@ ref		SeaShipCharacterForCamera;
 bool	bCanSwitchCameras = true;
 
 #define DEFAULT_CAM_PERSP 0.8
-#define DEFAULT_CAM_PERSP_DEN 1.25
+#define DEFAULT_CAM_PERSP_DEN 1.85
 
 void DeleteSeaCamerasEnvironment()
 {
