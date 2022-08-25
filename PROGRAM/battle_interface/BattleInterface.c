@@ -1259,22 +1259,28 @@ ref GetCurrentCharge()
 	{
 		switch(sti(pchar.Ship.Cannons.Charge.Type))
 		{
+		//korsar328: 1.12.2018 допишем в каждый кейс порох чтобы его значение менялось при выстреле, иначе будет лажа ---->
 		case GOOD_BALLS:
 			BI_intNRetValue[0] = 32;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Balls")+": "+sti(pchar.ship.cargo.goods.balls);
+			BattleInterface.textinfo.Ammo.text = XI_convertString("Balls") + ": " + sti(pchar.ship.cargo.goods.balls);
+			BattleInterface.textinfo.Powder.text = XI_convertString("Powder") + ": " + sti(pchar.ship.cargo.goods.powder);
 			break;
 		case GOOD_GRAPES:
 			BI_intNRetValue[0] = 35;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Grapes")+": "+sti(pchar.ship.cargo.goods.grapes);
+			BattleInterface.textinfo.Ammo.text = XI_convertString("Grapes") + ": " + sti(pchar.ship.cargo.goods.grapes);
+			BattleInterface.textinfo.Powder.text = XI_convertString("Powder") + ": " + sti(pchar.ship.cargo.goods.powder);
 			break;
 		case GOOD_KNIPPELS:
 			BI_intNRetValue[0] = 34;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Knippels")+": "+sti(pchar.ship.cargo.goods.knippels);
+			BattleInterface.textinfo.Ammo.text = XI_convertString("Knippels") + ": " + sti(pchar.ship.cargo.goods.knippels);
+			BattleInterface.textinfo.Powder.text = XI_convertString("Powder") + ": " + sti(pchar.ship.cargo.goods.powder);
 			break;
 		case GOOD_BOMBS:
 			BI_intNRetValue[0] = 33;
-			BattleInterface.textinfo.Ammo.text = XI_convertString("Bombs")+": "+sti(pchar.ship.cargo.goods.bombs);
-			break;
+			BattleInterface.textinfo.Ammo.text = XI_convertString("Bombs") + ": " + sti(pchar.ship.cargo.goods.bombs);
+			BattleInterface.textinfo.Powder.text = XI_convertString("Powder") + ": " + sti(pchar.ship.cargo.goods.powder);
+		break;
+		// korsar328: <----
 		}
 	}
 
@@ -1789,6 +1795,16 @@ void SetParameterData()
 	BattleInterface.textinfo.Ammo.pos.y = RecalculateVIcon(399);
 	BattleInterface.textinfo.Ammo.text = XI_convertString("Ammunition");
 	BattleInterface.textinfo.Ammo.refreshable = true;
+	
+	//korsar328: собственно добавляем саму строку -->
+    BattleInterface.textinfo.Powder.font = "interface_normal";
+	BattleInterface.textinfo.Powder.scale = 0.9;
+	BattleInterface.textinfo.Powder.color = argb(255,255,255,255);
+	BattleInterface.textinfo.Powder.pos.x = sti(showWindow.right) - RecalculateHIcon(104);
+	BattleInterface.textinfo.Powder.pos.y = RecalculateVIcon(415);
+	BattleInterface.textinfo.Powder.text = XI_convertString("Ammunition");
+	BattleInterface.textinfo.Powder.refreshable = true;
+	//korsar328: собственно добавляем саму строку <--
 
 	BattleInterface.LineInfo.speed.color = argb(255,0,0,0);
 	BattleInterface.LineInfo.speed.begin.x = sti(showWindow.right) - RecalculateHIcon(168);
@@ -1798,7 +1814,7 @@ void SetParameterData()
 	//
 	BattleInterface.LineInfo.Ammo.color = argb(255,0,0,0);
 	BattleInterface.LineInfo.Ammo.begin.x = sti(showWindow.right) - RecalculateHIcon(168);
-	BattleInterface.LineInfo.Ammo.begin.y = RecalculateVIcon(418);
+	BattleInterface.LineInfo.Ammo.begin.y = RecalculateVIcon(440);
 	BattleInterface.LineInfo.Ammo.end.x = RecalculateHIcon(128);
 	BattleInterface.LineInfo.Ammo.end.y = 0;
 

@@ -6,7 +6,7 @@ object objActivePerkShower;
 void InitActivePerkShower()
 {
 	objActivePerkShower.ShowParam.PosRect.left		= sti(showWindow.right) - RecalculateHIcon(48+132);
-	objActivePerkShower.ShowParam.PosRect.top		= RecalculateVIcon(426);
+	objActivePerkShower.ShowParam.PosRect.top		= RecalculateVIcon(450);
 	objActivePerkShower.ShowParam.PosRect.right		= sti(showWindow.right) - RecalculateHIcon(48);
 	objActivePerkShower.ShowParam.PosRect.bottom	= sti(showWindow.bottom) - RecalculateVIcon(28);
 	objActivePerkShower.ShowParam.IconSize.horz		= RecalculateHIcon(48);
