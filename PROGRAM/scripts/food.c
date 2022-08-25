@@ -88,6 +88,37 @@ int CalculateShipRum(ref _character)
 	return makeint(rumCount / eatRate + 0.2);
 }
 
+// Ugeen  29.10.10 вернет число дней на сколько есть рому на всех кораблях
+int CalculateRum()
+{
+	int chrIndex;
+	int iCrewQuantity = 0;
+	int iRumCount = 0;
+	float RumNeeded = 0;
+
+	for (int i=0; i<COMPANION_MAX; i++)
+	{
+		chrIndex = GetCompanionIndex(pchar, i);
+		if (chrIndex != -1)
+		{
+            if (!GetRemovable(&characters[chrIndex])) continue;
+			if (characters[chrIndex].ship.type != SHIP_NOTUSED)
+			{
+				iCrewQuantity += GetCrewQuantity(&characters[chrIndex]);
+				iRumCount     += makeint(GetCargoGoods(&characters[chrIndex], GOOD_RUM));							
+			}
+		}
+	}
+	RumNeeded = makefloat(iCrewQuantity/RUM_BY_CREW);
+
+	if (RumNeeded < 1.0)
+	{
+		RumNeeded = 1.0;
+	}
+
+	return makeint(iRumCount/RumNeeded + 0.2);
+}
+
 // boal 21.04.04 крысы на корабле -->
 void DailyRatsEatGoodsUpdate(ref chref)
 {
@@ -101,7 +132,7 @@ void DailyRatsEatGoodsUpdate(ref chref)
         
         iQuantity = 1+ rand(makeint(iQuantity / (10+fSkill)));
         RemoveCharacterGoodsSelf(chref, iGoods, iQuantity);
-        //PlaySound("Notebook");
+        //PlaySound("Notebook_1");
         Log_SetStringToLog(RandSwear() + " Крысы на корабле " +
                            chref.Ship.Name + LinkRandPhrase(" испортили ", " повредили ", " уничтожили ") +
                            iQuantity + " шт. " + LanguageConvertString(iSeaGoods, "seg_" + Goods[iGoods].Name));
@@ -274,7 +305,11 @@ void DailyEatCrewUpdateForShip(ref rChar, bool IsCompanionTraveler) // IsCompani
 			cn = makeint(GetCargoGoods(rChar, GOOD_RUM) / iCrewQty);
 			if (cn < 1)
 			{
-				if(!IsCompanionTraveler) Log_Info("На корабле " + rChar.Ship.Name + " весь ром выпит");
+				if(!IsCompanionTraveler) 
+				{
+					Log_Info("На корабле " + rChar.Ship.Name + " весь ром выпит");
+					PlaySound("Notebook_1"); // Hokkins: произведем звук, когда ром закончится.
+				}
 			}
 			// поднимем мораль
 			if(CheckShipSituationDaily_GenQuest(rChar) == 1) AddCrewMorale(rChar, 2);
@@ -323,7 +358,7 @@ void DailyEatCrewUpdateForShip(ref rChar, bool IsCompanionTraveler) // IsCompani
 			{
 				Log_Info("На корабле " + rChar.Ship.Name + " продовольствия осталось на " + FindRussianDaysString(cn));
 				Log_Info("Нужно срочно пополнить запасы!");
-				PlaySound("Notebook");
+				PlaySound("Notebook_1");
 			}
 		}
 		// возможный бунт рабов
@@ -346,7 +381,7 @@ void DailyEatCrewUpdateForShip(ref rChar, bool IsCompanionTraveler) // IsCompani
 	{
 		iCrewQty = GetCargoGoods(rChar, GOOD_FOOD);
 		RemoveCharacterGoodsSelf(rChar, GOOD_FOOD, iCrewQty);
-		PlaySound("Notebook");
+		PlaySound("Notebook_1");
 		
 		if(!IsCompanionTraveler) Log_Info("На корабле " + rChar.Ship.Name + " матросы голодают. Мораль команды падает!");
 		
