@@ -22,6 +22,9 @@ RESOURCE/Textures/INTERFACES/Stars/*
 !RESOURCE/Textures/INTERFACES/
 !RESOURCE/Textures/BATTLE_INTERFACE/
 
+# files
+*Changelog.txt
+
 # file format
 *.exe
 *.dll
