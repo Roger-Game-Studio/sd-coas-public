@@ -177,9 +177,16 @@ bool AISeaGoods_ShipEatGood()
 		break;
 		
 		case "barrel_treasure":
-			Log_TestInfo("Подобрали бочку с неизвестным содержимым");
-			DoQuestCheckDelay("Get_TreasureBarrel", 1.0);
-			return true;
+			if (iCharacterIndex == sti(pchar.index))
+			{
+				Log_TestInfo("Подобрали бочку с неизвестным содержимым");
+				DoQuestCheckDelay("Get_TreasureBarrel", 1.0);
+				return true;
+			}
+			else
+			{
+				return true;
+			}	
 		break;
     }
 

@@ -159,7 +159,7 @@ void ProcCommand()
 	string nodName = GetEventData();
 
 	switch(nodName)
-	{
+	{	
 		case "TELEPORT_BTN":
 		  if(comName=="activate" || comName=="click")
 		  {

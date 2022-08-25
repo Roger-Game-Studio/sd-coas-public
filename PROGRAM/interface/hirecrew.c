@@ -198,6 +198,7 @@ void SetVariable()
 
 	// на одном корабле
 	SetFoodShipInfo(refCharacter, "FOOD_SHIP");
+	SetRumShipInfo(refCharacter, "RUM_SHIP");
 	
 	SetFormatedText("INFO_SHIP", XI_ConvertString(refBaseShip.BaseName) + ", класс " + refBaseShip.Class +", команда: мин. "+GetMinCrewQuantity(refCharacter) + ", макс. " + GetOptCrewQuantity(refCharacter));
 	SetFormatedText("MONEY_SHIP", "Содержание корабля: " + NewStr() + FindRussianMoneyString(GetSalaryForShip(refCharacter)));

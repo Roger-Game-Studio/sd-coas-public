@@ -41,13 +41,17 @@ void InitInterface(string iniName)
 
 	aref ar; makearef(ar,objControlsState.key_codes);
 	SendMessage(&GameInterface,"lsla",MSG_INTERFACE_MSG_TO_NODE,"KEY_CHOOSER", 0,ar);
-
-	if( sti(Render.full_screen)==0 )
+	
+	// Hokkins: в движке добавили  эти настройки для оконного режима, нет смысла больше их блокировать -->
+	
+	/* if( sti(Render.full_screen)==0 )
 	{
 		SetSelectable("GAMMA_SLIDE",false);
 		SetSelectable("BRIGHT_SLIDE",false);
 		SetSelectable("CONTRAST_SLIDE",false);
-	}
+	} */
+	
+	// Hokkins: <--
 
 	float ftmp1 = -1.0;
 	float ftmp2 = -1.0;
@@ -872,7 +876,6 @@ void ShowInfo()
 		case "SEA_CAM_PERSP_SLIDE":
 			sHeader = XI_ConvertString("SeaCameraPerspective");
 			sText1 = XI_ConvertString("SeaCameraPerspective_descr1");
-			sText2 = XI_ConvertString("SeaCameraPerspective_descr2");
 		break;
 		
 		case "LAND_CAM_RAD_SLIDE":

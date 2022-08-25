@@ -187,23 +187,23 @@ void InterfaceInitButtons(ref _refCharacter)
 	{
 		case INTERFACETYPE_EXCHANGE_ITEMS:
 			SetNodeUsing("GETALL_BUTTON", true);
-			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 110, 555, 250, 580);
+			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 330, 555, 470, 580);
 		break;
 		
 		case INTERFACETYPE_DEADMAN:
 			SetNodeUsing("GETALL_BUTTON", true);
 			SetNodeUsing("DELBODY_BUTTON", true);
 			
-			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 110, 555, 250, 580);
-			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "DELBODY_BUTTON", 1, 550, 555, 690, 580);
+			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 255, 555, 395, 580);
+			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "DELBODY_BUTTON", 1, 405, 555, 545, 580);
 			
 			// Проверка на возможность использования черепа
 			if(CheckCharacterItem(_refCharacter, "SkullAztec") && IsAztecSkullOfficer(arDeadChar) && LAi_IsDead(characters[sti(arDeadChar.index)]) && CheckNPCQuestDate(_refCharacter, "AztecSkull"))
 			{
 				SetNodeUsing("SKULL_BUTTON", true);
-				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 110, 555, 250, 580);
+				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 180, 555, 320, 580);
 				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "SKULL_BUTTON", 1, 330, 555, 470, 580);
-				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "DELBODY_BUTTON", 1, 550, 555, 690, 580);
+				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "DELBODY_BUTTON", 1, 480, 555, 620, 580);
 			}
 		break;
 		
@@ -212,7 +212,8 @@ void InterfaceInitButtons(ref _refCharacter)
 		break;
 		
 		case INTERFACETYPE_BARREL:
-		
+		    SetNodeUsing("GETALL_BUTTON", true);
+			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 330, 555, 470, 580);
 		break;
 	}
 }
@@ -1325,8 +1326,9 @@ void onTableAddAllBtnClick()
 		SetVariable();
 		
 		iCharQty = GetCharacterFreeItem(refCharacter, item);
-		iStoreQty = GetCharacterFreeItem(refToChar, item);	
+		iStoreQty = GetCharacterFreeItem(refToChar, item);
 	}
+	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
 }
 
 // Нажали на табличной стрелочке "отдать все предметы одного типа"
@@ -1357,6 +1359,7 @@ void onTableRemoveAllBtnClick()
 		iCharQty = GetCharacterFreeItem(refCharacter, item);
 		iStoreQty = GetCharacterFreeItem(refToChar, item);	
 	}
+	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
 }
 
 // инфа о предмете

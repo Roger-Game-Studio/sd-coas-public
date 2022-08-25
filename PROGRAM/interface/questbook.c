@@ -50,8 +50,6 @@ void XI_SetQuestData(bool qtitle)
 	SetNodeUsing("QUEST_TEXT",!qtitle);
 	SetNodeUsing("QUESTSCROLL",true);
 	
-	ShowButtons();
-	
 	if(qtitle == true)
 	{
 		SetCurrentNode("QUEST_TITLE");
@@ -60,11 +58,6 @@ void XI_SetQuestData(bool qtitle)
 	{
 		SetCurrentNode("QUEST_TEXT");
 	}
-}
-
-void ShowButtons()
-{
-
 }
 
 void HideQuests()
@@ -377,7 +370,6 @@ void selectStatistic()
 	HideQuests();
 	HideShipPlace();
 	HideStoreBook();
-	ShowButtons();
 	CreateString(true, "LevelComplexity", XI_ConvertString("m_Complexity") + " : " + GetLevelComplexity(MOD_SKILL_ENEMY_RATE), "INTERFACE_SMALL", COLOR_NORMAL, 440, 334, SCRIPT_ALIGN_CENTER, 1);
 }
 
@@ -391,7 +383,6 @@ void selectCashBook()
 	HideQuests();
 	HideShipPlace();
 	HideStoreBook();
-	ShowButtons();
 }
 
 void selectShipPlace()
@@ -402,7 +393,6 @@ void selectShipPlace()
 	HideQuests();
 	HideCashBook();
 	HideStoreBook();
-	ShowButtons();
 }
 
 void selectStoreBook()
@@ -415,7 +405,6 @@ void selectStoreBook()
 	HideQuests();
 	HideCashBook();
 	HideShipPlace();
-	ShowButtons();
 }
 
 void HideInfoWindow() 
@@ -911,6 +900,11 @@ void FillShipPlaceTable(string _tabName)
                     GameInterface.(_tabName).(row).td1.str = cn;
                     GameInterface.(_tabName).(row).td1.scale = 0.9;
                     
+					GameInterface.(_tabName).(row).td2.icon.texture = "INTERFACES\SHIPS\" + RealShips[sti(chref.Ship.Type)].BaseName + ".tga";
+					GameInterface.(_tabName).(row).td2.icon.uv = "0,0,1,1";
+	                GameInterface.(_tabName).(row).td2.icon.offset = "0, 3";
+	                GameInterface.(_tabName).(row).td2.icon.width  = 26;
+				    GameInterface.(_tabName).(row).td2.icon.height = 26;
 				    GameInterface.(_tabName).(row).td2.str = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'";
 				    GameInterface.(_tabName).(row).td2.scale = 0.83;
 				    

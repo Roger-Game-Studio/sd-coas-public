@@ -33,6 +33,8 @@ void InitInterface(string iniName)
 	SetEventHandler("ChoosePerk","ChoosePerk",0);
 	SetEventHandler("ExitPerkMenu","ExitPerkMenu",0);
 	SetEventHandler("AcceptPerk","AcceptPerk",0);
+	SetEventHandler("ExitSpecialWindow","ExitSpecialWindow",0);
+	SetEventHandler("ShowSpecialWindow","ShowSpecialWindow",0);
 
     XI_RegistryExitKey("IExit_F2");
     
@@ -70,6 +72,8 @@ void IDoExit(int exitCode)
 	DelEventHandler("ChoosePerk","ChoosePerk");
 	DelEventHandler("ExitPerkMenu","ExitPerkMenu");
 	DelEventHandler("AcceptPerk","AcceptPerk");
+	DelEventHandler("ExitSpecialWindow","ExitSpecialWindow");
+	DelEventHandler("ShowSpecialWindow","ShowSpecialWindow");
 
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -485,7 +489,6 @@ void FillSkillTables()
 
 	GameInterface.TABLE_SPECIAL.select = 0;
 	GameInterface.TABLE_SPECIAL.hr.td1.str = "";
-	SetFormatedText("STR_1", XI_ConvertString("Characteristics"));
 
 	for (i=1; i<=7; i++)
 	{
@@ -496,11 +499,12 @@ void FillSkillTables()
 		GameInterface.TABLE_SPECIAL.(row).td1.fontidx = 0;
 		GameInterface.TABLE_SPECIAL.(row).td1.textoffset = "0,-6";
 		//GameInterface.TABLE_SPECIAL.(row).td1.align = "center";
-		GameInterface.TABLE_SPECIAL.(row).td1.scale = 0.88;
+		GameInterface.TABLE_SPECIAL.(row).td1.scale = 0.85;
 		GameInterface.TABLE_SPECIAL.(row).td2.textoffset = "5,0";
 		GameInterface.TABLE_SPECIAL.(row).td2.scale = 0.88;
 		GameInterface.TABLE_SPECIAL.(row).td3.align = "center";
-		GameInterface.TABLE_SPECIAL.(row).td4.scale = 0.88;
+		GameInterface.TABLE_SPECIAL.(row).td4.scale = 0.85;
+		GameInterface.TABLE_SPECIAL.(row).td4.textoffset = "8,0";
 		GameInterface.TABLE_SPECIAL.(row).td4.fontidx = 1;
         
 		GameInterface.TABLE_SPECIAL.(row).td1.str = XI_ConvertString(skillName + "T");
@@ -1490,4 +1494,22 @@ void AcceptPerk()
     FillPerksTable(GameInterface.(CurTable).(CurRow).UserData.Type, false);
     // перерисуем все <--
 	ExitPerkMenu();
+}
+
+void ExitSpecialWindow()
+{
+	XI_WindowShow("SPECIAL_WINDOW", false);
+	XI_WindowDisable("SPECIAL_WINDOW", true);
+	XI_WindowDisable("MAIN_WINDOW", false);
+
+	SetCurrentNode("CHARACTERS_SCROLL");
+}
+
+void ShowSpecialWindow()
+{
+	XI_WindowShow("SPECIAL_WINDOW", true);
+	XI_WindowDisable("SPECIAL_WINDOW", false);
+	XI_WindowDisable("MAIN_WINDOW", true);
+
+	SetCurrentNode("TABLE_SPECIAL");
 }

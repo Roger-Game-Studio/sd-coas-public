@@ -305,7 +305,7 @@ void MoveImg()
         // сброс
         if (move_i == 12)
         {
-            PlaySound("interface\DiceEnd");
+            PlaySound("DiceEnd");
 			if (bSetRandDice)
 			{
             	SetDiceForTableRand(); // случайно, 2й ход компа будем жухлить!!!

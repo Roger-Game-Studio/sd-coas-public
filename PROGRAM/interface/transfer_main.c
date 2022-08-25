@@ -168,6 +168,15 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 		ShowOkMessage();	
 	}
 	bSwap = false;
+	
+	if(GetCannonsNum(xi_refCharacter) == 0)
+	{
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"REMOVE_CANNONS",0, "#"+XI_ConvertString("Cannons_set"));
+	}
+	else
+	{
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"REMOVE_CANNONS",0, "#"+XI_ConvertString("Cannons_remove"));
+	}
 }
 
 void ProcessExitCancel()
@@ -532,6 +541,15 @@ void ProcessCommandExecute()
 			}
 		break;
 		
+		// Hokkins: снятие пушек -->
+		case "REMOVE_CANNONS":
+			if(comName=="click" || comName=="activate")
+			{
+				ShipChangeCannons();
+			}
+		break;
+		// Hokkins: <--
+		
 		case "CREW_BUTTON":
 			if(comName=="click" || comName=="activate")
 			{
@@ -683,6 +701,7 @@ void ShowShipFoodInfo(ref chr)
 	// еда -->
 	// на одном корабле
 	SetFoodShipInfo(chr, "FOOD_SHIP");
+	SetRumShipInfo(chr, "RUM_SHIP");
 	// еда <--
 	SetFormatedText("MONEY_SHIP", "");
 	
@@ -2298,3 +2317,186 @@ string GetOfficerPosition(string sCharacter)
 
 	return XI_ConvertString("passengership");
 }
+
+/// установить орудия по борту (сперва расчитать дельту было стало - лишнее в запасы)
+void SetCannonsToBort(ref chr, string sBort, int iQty)
+{
+	int     curQty = GetBortCannonsQty(chr, sBort);
+	int     maxQty = GetBortCannonsMaxQty(chr, sBort);
+	int     i, delta;
+	string  attr;
+	int     center, left, right; // счетчики орудий для распределения
+	bool    bLeft; // направление хода
+	string  sBort_real;
+		
+	if(sBort == "rcannon") sBort_real = "cannonr";
+	if(sBort == "lcannon") sBort_real = "cannonl";
+	if(sBort == "fcannon") sBort_real = "cannonf";
+	if(sBort == "bcannon") sBort_real = "cannonb";
+	
+	if (iQty > maxQty) iQty = maxQty; 
+	if (iQty < 0) iQty = 0;
+	
+	int idx = GetCannonGoodsIdxByType(sti(chr.Ship.Cannons.Type));
+    delta = iQty - curQty;
+    if (delta > 0)
+    {
+    	if (GetCargoGoods(chr, idx) < delta) iQty = curQty + GetCargoGoods(chr, idx);
+    }
+	if (iQty > curQty)
+	{ // списать со склада
+		RemoveCharacterGoodsSelf(chr, idx, (iQty - curQty));
+	}
+	else
+	{
+		if (iQty < curQty)
+		{// лишние на склад
+			SetCharacterGoods(chr, idx, GetCargoGoods(chr, idx) + (curQty - iQty)); // этот метод, тк перегруз может быть, а  AddCharacterGoodsSimple режет перегруз
+		}
+	}
+	// нулим колво пушек на борту и распределяем заново от центра (как они на модели по номерам не знаю, допуск, что подряд)
+	for (i = 0; i < maxQty; i++)
+	{
+		attr = "c" + i;
+		chr.Ship.Cannons.borts.(sBort).damages.(attr) = 1.0; // поломана на 100%, не палит, те нет ее
+		chr.Ship.Cannons.borts.(sBort_real).damages.(attr) = 1.0; // поломана на 100%, не палит, те нет ее
+	}
+	// распределяем
+	if (iQty > 0)		 
+	{
+		center = makeint(maxQty / 2); // целочисленное деление
+		left   = center - 1;
+		right  = center;
+		i = 0; // сколько распределили уже
+		bLeft = true;
+		while (i < iQty)
+		{
+			if (bLeft)
+			{
+				if (left >= 0)
+				{
+					attr = "c" + left;
+					left--;
+				}
+				else
+				{
+					attr = "c" + right;	
+					right++;
+				}
+				if (right < maxQty) bLeft = false;
+			}
+			else
+			{
+				if (right < maxQty)
+				{
+					attr = "c" + right;	
+					right++;
+				}
+				else
+				{
+					attr = "c" + left;
+					left--;
+				}
+				if (left >= 0) bLeft = true;
+			}				
+			chr.Ship.Cannons.borts.(sBort).damages.(attr) = 0.0; // новая, не битая
+			chr.Ship.Cannons.borts.(sBort_real).damages.(attr) = 0.0; // новая, не битая
+			i++;
+		}	
+	}
+	RecalculateCargoLoad(chr);  // пересчет, тк пушки снялись
+}
+
+// Hokkins: взаимодействие с пушками -->
+void ShipChangeCannons()
+{
+	if(CannonShipCheck(xi_refCharacter))
+	{
+		CanonsRemoveAll();
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"REMOVE_CANNONS",0, "#"+XI_ConvertString("Cannons_set"));
+	}
+	else
+	{
+		CanonsSetAll(xi_refCharacter);
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"REMOVE_CANNONS",0, "#"+XI_ConvertString("Cannons_remove"));
+	}
+}
+// Hokkins: взаимодействие с пушками <--
+
+void CanonsRemoveAll()
+{
+    SetCannonsToBort(xi_refCharacter, "cannonf", 0);
+    SetCannonsToBort(xi_refCharacter, "cannonb", 0);
+    SetCannonsToBort(xi_refCharacter, "cannonr", 0);
+    SetCannonsToBort(xi_refCharacter, "cannonl", 0);
+	
+	ShowShipInfo(xi_refCharacter, "2");
+	FillGoodsTable();
+}
+
+void CanonsSetAll(ref chr)
+{
+    if (GetCannonQuantity(chr) <= 0) return;
+	// сначала все убрать
+    if (GetCannonsNum(chr) > 0) 
+    {
+		SetCannonsToBort(chr, "cannonf", 0);
+	    SetCannonsToBort(chr, "cannonb", 0);
+	    SetCannonsToBort(chr, "cannonr", 0);
+	    SetCannonsToBort(chr, "cannonl", 0);
+    }
+    //новый калибр назначить
+    /* if (CurTable == "TABLE_LIST" && CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index"))
+    {
+		chr.Ship.Cannons.Type = sti(Goods[sti(GameInterface.(CurTable).(CurRow).index)].CannonIdx);
+	} */
+    // потом все выставить раскидав по бортам
+    int idx = GetCannonGoodsIdxByType(sti(chr.Ship.Cannons.Type));
+    int fb, lb, rb, bb;
+    int qty;
+    
+    if (idx != -1)
+    {
+    	qty = GetCargoGoods(chr, idx);
+    	
+		rb = GetBortCannonsMaxQty(chr, "cannonr");
+    	if (rb  > (qty / 2)) rb = qty / 2;
+    	qty = qty - rb;
+    	if (qty < 0) qty = 0;
+    	   	
+		lb = GetBortCannonsMaxQty(chr, "cannonl");
+    	if (lb > qty) lb = qty;
+    	qty = qty - lb;
+    	if (qty < 0) qty = 0;
+    	   	
+		bb = GetBortCannonsMaxQty(chr, "cannonb");
+    	if (bb > qty) bb = qty;
+    	qty = qty - bb;
+    	if (qty < 0) qty = 0;
+    	
+		fb = GetBortCannonsMaxQty(chr, "cannonf");	
+    	if (fb > qty) fb = qty;
+		SetCannonsToBort(chr, "cannonf", fb);
+	    SetCannonsToBort(chr, "cannonb", bb);
+	    SetCannonsToBort(chr, "cannonr", rb);
+	    SetCannonsToBort(chr, "cannonl", lb);
+    }
+    // рефреш
+	ShowShipInfo(xi_refCharacter, "2");
+	FillGoodsTable();
+}
+
+// Myth Корректное отображение пушек у компаньонов -->
+bool CannonShipCheck(ref sld2)
+{
+	if(!CheckAttribute(sld2,"Ship.Cannons.Charge.Type"))
+	{
+		return false;
+	}
+	if(GetCannonsNum(sld2) == 0)
+	{
+		return false;
+	}
+	return true;
+}
+// Myth Корректное отображение пушек у компаньонов <--

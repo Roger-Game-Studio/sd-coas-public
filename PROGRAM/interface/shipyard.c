@@ -54,6 +54,7 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	SetEventHandler("ExitMsgMenu", "ExitMsgMenu", 0);
 	SetEventHandler("ExitRepairMenu", "ExitRepairMenu", 0);
 	SetEventHandler("ShowOtherClick", "ShowOtherClick", 0);
+	SetEventHandler("CanonsRemoveAll","CanonsRemoveAll",0);
 	SetEventHandler("ExitCannonsMenu", "ExitCannonsMenu", 0);
     SetEventHandler("ExitOfficerMenu","ExitOfficerMenu",0);
 	SetEventHandler("acceptaddofficer","AcceptAddOfficer",0);
@@ -112,6 +113,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("TableSelectChange", "TableSelectChange");
 	DelEventHandler("ExitMsgMenu", "ExitMsgMenu");
 	DelEventHandler("ShowOtherClick", "ShowOtherClick");
+	DelEventHandler("CanonsRemoveAll","CanonsRemoveAll");
 	DelEventHandler("ExitCannonsMenu", "ExitCannonsMenu");
     DelEventHandler("ExitOfficerMenu","ExitOfficerMenu");
 	DelEventHandler("acceptaddofficer","AcceptAddOfficer");
@@ -619,6 +621,107 @@ void ShowCannonsMenu()
     DeleteAttribute(&GameInterface, "CANNONS_TABLE.BackUp")
     CannonsMenuRefresh();
 }
+
+void CanonsRemoveAll()
+{
+    SetCannonsToBort(xi_refCharacter, "fcannon", 0);
+    SetCannonsToBort(xi_refCharacter, "bcannon", 0);
+    SetCannonsToBort(xi_refCharacter, "rcannon", 0);
+    SetCannonsToBort(xi_refCharacter, "lcannon", 0);
+
+	OnShipScrollChange();
+    CannonsMenuRefresh();
+}
+
+/// установить орудия по борту (сперва расчитать дельту было стало - лишнее в запасы)
+void SetCannonsToBort(ref chr, string sBort, int iQty)
+{
+	int     curQty = GetBortCannonsQty(chr, sBort);
+	int     maxQty = GetBortCannonsMaxQty(chr, sBort);
+	int     i, delta;
+	string  attr;
+	int     center, left, right; // счетчики орудий для распределения
+	bool    bLeft; // направление хода
+	string  sBort_real;
+		
+	if(sBort == "rcannon") sBort_real = "cannonr";
+	if(sBort == "lcannon") sBort_real = "cannonl";
+	if(sBort == "fcannon") sBort_real = "cannonf";
+	if(sBort == "bcannon") sBort_real = "cannonb";
+	
+	if (iQty > maxQty) iQty = maxQty; 
+	if (iQty < 0) iQty = 0;
+	
+	int idx = GetCannonGoodsIdxByType(sti(chr.Ship.Cannons.Type));
+    delta = iQty - curQty;
+    if (delta > 0)
+    {
+    	if (GetCargoGoods(chr, idx) < delta) iQty = curQty + GetCargoGoods(chr, idx);
+    }
+	if (iQty > curQty)
+	{ // списать со склада
+		RemoveCharacterGoodsSelf(chr, idx, (iQty - curQty));
+	}
+	else
+	{
+		if (iQty < curQty)
+		{// лишние на склад
+			SetCharacterGoods(chr, idx, GetCargoGoods(chr, idx) + (curQty - iQty)); // этот метод, тк перегруз может быть, а  AddCharacterGoodsSimple режет перегруз
+		}
+	}
+	// нулим колво пушек на борту и распределяем заново от центра (как они на модели по номерам не знаю, допуск, что подряд)
+	for (i = 0; i < maxQty; i++)
+	{
+		attr = "c" + i;
+		chr.Ship.Cannons.borts.(sBort).damages.(attr) = 1.0; // поломана на 100%, не палит, те нет ее
+		chr.Ship.Cannons.borts.(sBort_real).damages.(attr) = 1.0; // поломана на 100%, не палит, те нет ее
+	}
+	// распределяем
+	if (iQty > 0)		 
+	{
+		center = makeint(maxQty / 2); // целочисленное деление
+		left   = center - 1;
+		right  = center;
+		i = 0; // сколько распределили уже
+		bLeft = true;
+		while (i < iQty)
+		{
+			if (bLeft)
+			{
+				if (left >= 0)
+				{
+					attr = "c" + left;
+					left--;
+				}
+				else
+				{
+					attr = "c" + right;	
+					right++;
+				}
+				if (right < maxQty) bLeft = false;
+			}
+			else
+			{
+				if (right < maxQty)
+				{
+					attr = "c" + right;	
+					right++;
+				}
+				else
+				{
+					attr = "c" + left;
+					left--;
+				}
+				if (left >= 0) bLeft = true;
+			}				
+			chr.Ship.Cannons.borts.(sBort).damages.(attr) = 0.0; // новая, не битая
+			chr.Ship.Cannons.borts.(sBort_real).damages.(attr) = 0.0; // новая, не битая
+			i++;
+		}	
+	}
+	RecalculateCargoLoad(chr);  // пересчет, тк пушки снялись
+}
+
 void CannonsMenuRefresh()
 {
 	ref rChr;

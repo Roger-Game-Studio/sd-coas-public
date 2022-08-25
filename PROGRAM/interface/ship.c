@@ -434,6 +434,7 @@ void OnShipScrollChange()
 	SetFormatedText("CREW_QTY","");
 	SetFormatedText("FOOD", "");
 	SetFormatedText("FOOD_SHIP", "");
+	SetFormatedText("RUM_SHIP", "");
 	SetFormatedText("MONEY_SHIP", "");
 	SetFormatedText("CREW_MORALE_TEXT", "");
 	SetNewGroupPicture("CREW_MORALE_PIC", "MORALE_SMALL", GetMoraleGroupPicture(1));
@@ -496,6 +497,7 @@ void OnShipScrollChange()
 		// еда -->
 		// на одном корабле
 		SetFoodShipInfo(xi_refCharacter, "FOOD_SHIP");
+		SetRumShipInfo(xi_refCharacter, "RUM_SHIP");
 		// еда <--
 		if (GetRemovable(xi_refCharacter)) // считаем только своих, а то вских сопровождаемых кормить!!!
 		{
@@ -1117,20 +1119,24 @@ void ShowCannonsMenu()
 		SetSelectable("CANNONS_OK", false);
 	}
     DeleteAttribute(&GameInterface, "CANNONS_TABLE.BackUp")
-    CannonsMenuRefresh();
+	CannonsMenuRefresh();
 }
+
 void CannonsMenuRefresh()
 {
 	int idx = GetCannonGoodsIdxByType(sti(xi_refCharacter.Ship.Cannons.Type));
+	string goodName = goods[idx].name;
+	int lngFileID = LanguageOpenFile("GoodsDescribe.txt");
+	string goodsDescr = "Установленные орудия: " + XI_ConvertString(goodName) + "\n\n" + GetAssembledString( LanguageConvertString(lngFileID,goodName + "_descr"), &Goods[idx]);
+	
 	if (idx != -1)
 	{
 	    SetNewGroupPicture("CANNONS_PIC", "GOODS", Goods[idx].Name);
-		SetFormatedText("CANNONS_TEXT", XI_ConvertString(Goods[idx].Name));
+		SetFormatedText("CANNONS_TEXT", goodsDescr);
 		SetFormatedText("CANNONS_QTY_F", its(GetBortCannonsQty(xi_refCharacter, "fcannon")));
 		SetFormatedText("CANNONS_QTY_B", its(GetBortCannonsQty(xi_refCharacter, "bcannon")));
 		SetFormatedText("CANNONS_QTY_R", its(GetBortCannonsQty(xi_refCharacter, "rcannon")));
 		SetFormatedText("CANNONS_QTY_L", its(GetBortCannonsQty(xi_refCharacter, "lcannon")));
-		/// всего GetCannonsNum(xi_refCharacter)
 	}
 	else
 	{
@@ -1141,8 +1147,13 @@ void CannonsMenuRefresh()
 		SetFormatedText("CANNONS_QTY_R", "0");
 		SetFormatedText("CANNONS_QTY_L", "0");
 	}
+	SetVAligmentFormatedText("CANNONS_TEXT");
+	
+	LanguageCloseFile(lngFileID);
+	
 	FillCannonsTable();
 }
+
 void ExitCannonsMenu()
 {
 	HideCannonsMenu();
@@ -1258,7 +1269,8 @@ void CanonsRemoveAll()
     SetCannonsToBort(xi_refCharacter, "lcannon", 0);
 
 	OnShipScrollChange();
-    CannonsMenuRefresh();
+	
+	CannonsMenuRefresh();
 }
 
 // бакап значений, до применения
@@ -1341,7 +1353,7 @@ void CanonsSetAll(ref chr)
     }
     // рефреш
     OnShipScrollChange();
-    CannonsMenuRefresh();
+	CannonsMenuRefresh();
 }
 
 void ChangeCannonNum(string sBort, int add)

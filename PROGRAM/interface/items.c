@@ -160,15 +160,9 @@ void SetVariable()
 	HideItemInfo();
 	SetFormatedText("Weight_TEXT", XI_ConvertString("weight") + ": " + FloatToString(GetItemsWeight(xi_refCharacter), 1) + " / "+GetMaxItemsWeight(xi_refCharacter));
 	SetFormatedText("Money_TEXT", MakeMoneyShow(sti(xi_refCharacter.Money), MONEY_SIGN,MONEY_DELIVER));
-	if (sti(xi_refCharacter.index) == sti(pchar.index))
-	{
-		SetNodeUsing("EQUIP_BUTTON" , true);
-		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
-	}
-	else
-	{
-		SetNodeUsing("EQUIP_BUTTON" , false);
-	}
+	
+	SetNodeUsing("EQUIP_BUTTON" , true);
+	SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 }
 
 void FillItemsTable(int _mode)
