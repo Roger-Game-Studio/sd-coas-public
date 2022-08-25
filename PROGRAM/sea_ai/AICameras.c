@@ -1,13 +1,13 @@
 bool bSeePeoplesOnDeck = false; // Warship 08.06.09 видеть матросов на палубе при виде от первого лица или нет
 
+#define DEFAULT_CAM_PERSP      1.0
+#define DEFAULT_CAM_PERSP_DEN  1.85
+
 object	SeaCameras;
 aref	Crosshair;
 object	SeaShipCamera,SeaFreeCamera,SeaDeckCamera;
 ref		SeaShipCharacterForCamera;
 bool	bCanSwitchCameras = true;
-
-#define DEFAULT_CAM_PERSP 0.8
-#define DEFAULT_CAM_PERSP_DEN 1.85
 
 void DeleteSeaCamerasEnvironment()
 {
@@ -55,25 +55,22 @@ void CreateSeaCamerasEnvironment()
 	LayerAddObject(SEA_EXECUTE, &SeaDeckCamera, iShipPriorityExecute + 5);
 	
 	SetPerspectiveSettings();
-	
-	// SeaFreeCamera.Perspective = 1.285;
 
 	// Ship camera paramerets
-	// SeaShipCamera.Perspective = 1.285;
 	SeaShipCamera.SensivityDistance = 30.0;
 	SeaShipCamera.SensivityHeightAngle = 0.02;
 	SeaShipCamera.SensivityHeightAngleOnShip = 0.005;
 	SeaShipCamera.SensivityAzimuthAngle = 0.04;
 	SeaShipCamera.MaxAngleX = 0.07;
 	SeaShipCamera.MinAngleX = -1.4;
-	SeaShipCamera.Distance = 69.0;
+	SeaShipCamera.Distance = 70.0; //69.0
 	SeaShipCamera.MinDistance = 25.0;
-	SeaShipCamera.MaxDistance = 90.0;
+	SeaShipCamera.MaxDistance = 1500.0; //90.0
 	SeaShipCamera.MinHeightOnSea = 1.0;
-	SeaShipCamera.MaxHeightOnShip = 16.0;
+	SeaShipCamera.MaxHeightOnShip = 5.0; //16.0
 	SeaShipCamera.InvertMouseX = 1.0;
 	SeaShipCamera.InvertMouseY = -1.0;
-
+	
 	// Deck camera paramerets
 	SeaDeckCamera.Perspective = 1.285;
 	SeaDeckCamera.SensivityDistance = 0.01;
