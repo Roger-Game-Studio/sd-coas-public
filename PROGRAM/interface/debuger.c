@@ -23,8 +23,6 @@ void InitInterface(string iniName)
 	SetEventHandler("evntDoPostExit","DoPostExit",0); 
 	SetEventHandler("ievnt_command","ProcCommand",0);
 	SetEventHandler("SetScrollerPos","SetScrollerPos",0);
-	SetEventHandler("ScrollPosChange","ProcScrollPosChange",0);
-	SetEventHandler("ScrollTopChange","ProcScrollChange",0);
 
     GameInterface.teleport_edit.str = "Pirates_Shipyard, reload, reload1";
 }
@@ -43,8 +41,6 @@ void IDoExit(int exitCode)
 	DelEventHandler("evntDoPostExit","DoPostExit");
 	DelEventHandler("ievnt_command","ProcCommand");
  	DelEventHandler("SetScrollerPos","SetScrollerPos");
-	DelEventHandler("ScrollPosChange","ProcScrollPosChange");
-	DelEventHandler("ScrollTopChange","ProcScrollChange");
 
 	if(bSeaActive)
     {
@@ -1730,43 +1726,6 @@ void ReloadByStr()
     {
         Log_Info("Нет локации");
     }
-}
-
-void XI_SetScroller(float pos)
-{
-	SendMessage(&GameInterface,"lsf",MSG_INTERFACE_SET_SCROLLER,"DEBUGER_SCROLL",pos);
-}
-
-void SetScrollerPos()
-{
-	string nodName = GetEventData();
-	float pos = GetEventData();
-	XI_SetScroller(pos);
-}
-
-void ProcScrollPosChange()
-{
-	float newPos = GetEventData();
-    SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEBUGER_INFO",2, newPos);
-	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEBUGER_INFO_2",2, newPos);
-}
-
-void ProcScrollChange()
-{
-	int changeNum = GetEventData();
-	if(changeNum==0) return;
-	string controlNode = "";
-	if( GetSelectable("DEBUGER_INFO") ) controlNode = "DEBUGER_INFO";
-	if( GetSelectable("DEBUGER_INFO_2") ) controlNode = "DEBUGER_INFO_2";
-	
-	if(controlNode!="")
-	{
-		if(changeNum>0) {
-			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,controlNode,-1, 0,ACTION_DOWNSTEP);
-		} else {
-			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,controlNode,-1, 0,ACTION_UPSTEP);
-		}
-	}
 }
 
 void GetRealCoordsObjects()
