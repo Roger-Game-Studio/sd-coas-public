@@ -228,13 +228,14 @@ void FillItemsTable(int _mode)
 			// Важное -->
 			ok2 = (groupID == PATENT_ITEM_TYPE)	||	// патенты
 				  (itemType == "QUESTITEMS") || 	// квестовые предметы
-				  (arItem.id == "Map_Best");        // отличная карта
+				  (arItem.id == "Map_Best") ||        // отличная карта
+				  (arItem.id == "map_LSC");        // карта ГПК
 			
 			// Разное -->
 			ok3 = (arItem.price <= 500);            // хламовые предметы
 			                                        // Hokkins: потом нужно придумать что то получше, чем проверка на цену =)
 			
-			if(_mode == 1 && groupID == MAPS_ITEM_TYPE && arItem.id != "MapsAtlas" && arItem.id != "Map_Best" && arItem.id != "map_full" && arItem.id != "map_part1" && arItem.id != "map_part2") continue;
+			if(_mode == 1 && groupID == MAPS_ITEM_TYPE && arItem.id != "MapsAtlas" && arItem.id != "Map_Best" && arItem.id != "map_full" && arItem.id != "map_part1" && arItem.id != "map_part2" && arItem.id != "map_LSC") continue;
 			if(_mode == 2 && !ok) continue;
 			if(_mode == 3 && !ok1) continue;
 			if(_mode == 4 && !ok2) continue;
@@ -544,6 +545,12 @@ bool ThisItemCanBeEquip( aref arItem )
 		
 		// Нельзя экипировать мушкет в непредназначенных для этого локациях (Таверна)
 		if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(PChar.Location))
+		{
+			return false;
+		}
+		
+		// Hokkins: если это не наш главный герой, то мушкет экипировать нельзя
+		if(HasSubStr(arItem.id, "mushket") && !IsMainCharacter(xi_refCharacter))
 		{
 			return false;
 		}
