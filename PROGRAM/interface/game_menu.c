@@ -28,8 +28,6 @@ void InitInterface_gm(string iniName)
 
 	InterfaceStates.showGameMenuOnExit = true;
 
-	//EI_CreateFrame("MENU_BORDERS",257,117,542,438);
-
 	if(CheckAttribute(&InterfaceStates,"Buttons.Resume.enable") && sti(InterfaceStates.Buttons.Resume.enable) == true)
 	{
 		SetSelectable("MB_RESUME", true);
@@ -55,8 +53,6 @@ void InitInterface_gm(string iniName)
 	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum() + "\n\n" + VERSION_NUMBER3 + "\n" + "BlackMark Studio, Seaward.Ru, Akella - 2010");
 
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga");
-
-	if(LAi_IsBoardingProcess())	SetSelectable("MB_RESUME",false);
 
 	//XI_RegistryExitKey("IExit_Escape");
 	//XI_RegistryExitKey("IExit_F1");
