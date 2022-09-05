@@ -207,6 +207,7 @@ void ProcessDialogEvent()
 			link.l1.go = "ArrestInPR_2";
 		break;
 		case "ArrestInPR_2":
+		    bDisableCharacterMenu = true; //Hokkins: закрываем Ф2
 			AddQuestRecord("Pir_Line_1_JohnBolton", "3");
 			chrDisableReloadToLocation = false; 
 			bDisableFastReload = false; 

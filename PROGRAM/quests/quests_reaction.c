@@ -7884,6 +7884,24 @@ void QuestComplete(string sQuestName, string qname)
 			chrDisableReloadToLocation = false;
 			AddQuestRecord("Headhunt", "35");
 		break;
+		
+		// Myth fix -->
+		case "TestPgg":
+		    DoQuestReloadToLocation(PChar.location.from_sea, "reload", "sea", "PGG_end");
+		break;
+		
+		case "TestPgg1":
+		    DoQuestReloadToLocation("Ship_deck", "reload", "reload1", "PGG_end");
+		break;
+		
+		case "Pgg_end":
+		    DoQuestCheckDelay("Pgg_end2", 1);
+		break;
+		
+		case "Pgg_end2":
+		    PGG_Q1LocationLoaded("");
+		break;
+		// Myth fix <--
 	}	
 }
 
@@ -8043,6 +8061,11 @@ void Flag_PIRATE()
 	if(bSeaActive)
 	{
 	    RefreshBattleInterface();
+		SetSchemeForSea();
+	}
+	if(isEntity(worldMap))
+	{
+		SetSchemeForMap();
 	}
 }            
 
@@ -8065,9 +8088,14 @@ void Flag_FRANCE()
     DoQuestCheckDelay("NationUpdate", 3.0);
     UpdateRelations();
     if(bSeaActive)
-    {
-        RefreshBattleInterface();
-    }
+	{
+	    RefreshBattleInterface();
+		SetSchemeForSea();
+	}
+	if(isEntity(worldMap))
+	{
+		SetSchemeForMap();
+	}
 }
 
 void Flag_ENGLAND()
@@ -8088,9 +8116,14 @@ void Flag_ENGLAND()
     DoQuestCheckDelay("NationUpdate", 3.0);
     UpdateRelations();
     if(bSeaActive)
-    {
-        RefreshBattleInterface();
-    }
+	{
+	    RefreshBattleInterface();
+		SetSchemeForSea();
+	}
+	if(isEntity(worldMap))
+	{
+		SetSchemeForMap();
+	}
 }
 
 void Flag_SPAIN()
@@ -8111,9 +8144,14 @@ void Flag_SPAIN()
     DoQuestCheckDelay("NationUpdate", 3.0);
     UpdateRelations();
     if(bSeaActive)
-    {
-        RefreshBattleInterface();
-    }
+	{
+	    RefreshBattleInterface();
+		SetSchemeForSea();
+	}
+	if(isEntity(worldMap))
+	{
+		SetSchemeForMap();
+	}
 }
 
 void Flag_HOLLAND()
@@ -8134,9 +8172,14 @@ void Flag_HOLLAND()
     DoQuestCheckDelay("NationUpdate", 3.0);
     UpdateRelations();
     if(bSeaActive)
-    {
-        RefreshBattleInterface();
-    }
+	{
+	    RefreshBattleInterface();
+		SetSchemeForSea();
+	}
+	if(isEntity(worldMap))
+	{
+		SetSchemeForMap();
+	}
 }
 
 void Flag_Rerise()

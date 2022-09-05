@@ -150,15 +150,19 @@ void ProcessDialogEvent()
 			LAi_SetPlayerType(pchar);
             DoReloadCharacterToLocation("Villemstad_prison",  "goto", "goto9");
 			//StoreEquippedMaps(pchar); // ugeen
-			pchar.MapsAtlasCount = 0;
-			SetTempRemoveParam(pchar, "items");
+			// pchar.MapsAtlasCount = 0;
+			// SetTempRemoveParam(pchar, "items");
 			pchar.questTemp.money = sti(pchar.money)/2;
+			if(IsEquipCharacterByItem(pchar, FindCharacterItemByGroup(pchar, CIRASS_ITEM_TYPE))) // Hokkins: если на главном герое надета кираса, то снимем ее тоже.
+			{
+				RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
+			}
 			RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
 			RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
 			RemoveCharacterEquip(pchar, SPYGLASS_ITEM_TYPE);
-			RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
+			// RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
 			pchar.money = 0;
-			DeleteAttribute(pchar, "items");
+			// DeleteAttribute(pchar, "items");
 			DoQuestCheckDelay("Fr2Letter_intoPrison_1", 20);
 			AddQuestRecord("Fra_Line_2_DelivLetter", "2");
 			AddQuestUserData("Fra_Line_2_DelivLetter", "sSex", GetSexPhrase("официального посланника","официальную посланницу"));

@@ -1612,85 +1612,89 @@ void PGG_Q1AfterBattle(string qName)
 	string sLoc;
 	bool bLater = false;
 	bool bOk = !Group_isDead("PGGQuest") && !bMapEnter;
-
-	if (bOk || !bSeaActive)
+	
+	if(CheckAttribute(PChar, "GenQuest.PGG_Quest.PGGid"))
 	{
-		if (IsEntity(worldMap))
+		if (bOk || !bSeaActive)
 		{
-//			PChar.Quest.PGGQuest1_Time2Fight.win_condition.l1 = "EnterToSea";
-			bLater = true;
-		}
-		else
-		{
-			SetTimerConditionParam("PGGQuest1_Time2Fight", "PGGQuest1_Time2Fight", 0, 0, 0, MakeInt(GetHour() + 2), false);
-			DeleteAttribute(PChar, "Quest.PGGQuest1_Time2Fight.Over");
-			return;
-		}
-	}
-
-	//теперь весь товар после боя минус то, что было изначально!
-	PChar.GenQuest.PGG_Quest.Goods.Taken = 0;
-	n = GetCompanionQuantity(PChar);
-	for (i = 0; i < n; i++)
-	{
-		iNum = GetCompanionIndex(PChar, i);
-		if (iNum != -1)
-		{
-			chr = GetCharacter(iNum);
-			if (GetRemovable(chr))
+			if (IsEntity(worldMap))
 			{
-				PChar.GenQuest.PGG_Quest.Goods.Taken = sti(PChar.GenQuest.PGG_Quest.Goods.Taken) + GetCargoGoods(chr, sti(PChar.GenQuest.PGG_Quest.Goods));
+				// PChar.Quest.PGGQuest1_Time2Fight.win_condition.l1 = "EnterToSea";
+				bLater = true;
+			}
+			else
+			{
+				SetTimerConditionParam("PGGQuest1_Time2Fight", "PGGQuest1_Time2Fight", 0, 0, 0, MakeInt(GetHour() + 2), false);
+				DeleteAttribute(PChar, "Quest.PGGQuest1_Time2Fight.Over");
+				return;
 			}
 		}
-	}
-
-	chr = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
-	sLoc = PChar.GenQuest.PGG_Quest.Island.Shore;
-
-	PChar.GenQuest.PGG_Quest.Goods.Taken = sti(PChar.GenQuest.PGG_Quest.Goods.Taken) - sti(PChar.GenQuest.PGG_Quest.StartGoods); 
-	PChar.GenQuest.PGG_Quest.GrpLoc = Island_FindNearestLocator2PChar("Quest_Ships");
-	PChar.GenQuest.PGG_Quest.GrpLocation = PChar.location;
-
-	if (!bLater)
-	{
-		if (isLocationFreeForQuests(sLoc))
+		
+		//теперь весь товар после боя минус то, что было изначально!
+		PChar.GenQuest.PGG_Quest.Goods.Taken = 0;
+		n = GetCompanionQuantity(PChar);
+		
+		for (i = 0; i < n; i++)
 		{
-			PChar.location.from_sea = sLoc;
-			Locations[FindLocation(sLoc)].DisableEncounters = true;
-			DoReloadFromSeaToLocation(sLoc, "reload", "sea");
+			iNum = GetCompanionIndex(PChar, i);
+			if (iNum != -1)
+			{
+				chr = GetCharacter(iNum);
+				if (GetRemovable(chr))
+				{
+					PChar.GenQuest.PGG_Quest.Goods.Taken = sti(PChar.GenQuest.PGG_Quest.Goods.Taken) + GetCargoGoods(chr, sti(PChar.GenQuest.PGG_Quest.Goods));
+				}
+			}
+		}
+		
+		chr = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
+		sLoc = PChar.GenQuest.PGG_Quest.Island.Shore;
+		
+		PChar.GenQuest.PGG_Quest.Goods.Taken = sti(PChar.GenQuest.PGG_Quest.Goods.Taken) - sti(PChar.GenQuest.PGG_Quest.StartGoods); 
+		PChar.GenQuest.PGG_Quest.GrpLoc = Island_FindNearestLocator2PChar("Quest_Ships");
+		PChar.GenQuest.PGG_Quest.GrpLocation = PChar.location;
+		
+		if (!bLater)
+		{
+			if (isLocationFreeForQuests(sLoc))
+			{
+				PChar.location.from_sea = sLoc;
+				Locations[FindLocation(sLoc)].DisableEncounters = true;
+				DoQuestCheckDelay("TestPgg", 1); // Myth
+			}
+			else
+			{
+				MakeCloneShipDeck(pchar, true); // подмена палубы
+				DoQuestCheckDelay("TestPgg1", 1); // Myth
+				pchar.quest.Munity = "";
+				sLoc = "Ship_deck";
+			}
 		}
 		else
 		{
+			makearef(arOldMapPos, worldMap.old);
+			WdmPrepareMapForAbordage(arOldMapPos);
 			MakeCloneShipDeck(pchar, true); // подмена палубы
-			DoReloadFromSeaToLocation("Ship_deck", "goto", "goto5");
-   			pchar.quest.Munity = "";
+			LAi_LocationFightDisable(&Locations[FindLocation("Ship_deck")], true);
+			DoQuestCheckDelay("TestPgg1", 1); // Myth
+			ReloadFromWMtoL_complete();
+			LAi_LockFightMode(pchar, true);
+			PChar.Quest.Munity = "";
 			sLoc = "Ship_deck";
 		}
+		
+		PChar.Quest.PGGQuest1_PGGDead.Over = "yes";
+		PChar.Quest.PGGQuest1_GroupDead.Over = "yes";
+		PChar.Quest.PGGQuest1_Time2Fight.Over = "yes";
+		PChar.Quest.PGGQuest1_Time2Late_01.Over = "Yes";
+		PChar.Quest.PGGQuest1_Time2Late_02.Over = "Yes";
+		
+		chrDisableReloadToLocation = true;
 	}
 	else
 	{
-		makearef(arOldMapPos, worldMap.old);
-		WdmPrepareMapForAbordage(arOldMapPos);
-		MakeCloneShipDeck(pchar, true); // подмена палубы
-		LAi_LocationFightDisable(&Locations[FindLocation("Ship_deck")], true);
-		DoReloadFromWorldMapToLocation("Ship_deck", "goto", "goto5");
-		ReloadFromWMtoL_complete();
-		LAi_LockFightMode(pchar, true);
-		PChar.Quest.Munity = "";
-		sLoc = "Ship_deck";
+		return;
 	}
-
-	PChar.Quest.PGGQuest1_LocationLoaded.win_condition.l1 = "Location";
-	PChar.Quest.PGGQuest1_LocationLoaded.win_condition.l1.Location = sLoc;
-	PChar.Quest.PGGQuest1_LocationLoaded.function = "PGG_Q1LocationLoaded";
-
-	PChar.Quest.PGGQuest1_PGGDead.Over = "yes";
-	PChar.Quest.PGGQuest1_GroupDead.Over = "yes";
-	PChar.Quest.PGGQuest1_Time2Fight.Over = "yes";
-	PChar.Quest.PGGQuest1_Time2Late_01.Over = "Yes";
-	PChar.Quest.PGGQuest1_Time2Late_02.Over = "Yes";
-
-	chrDisableReloadToLocation = true;
 }
 void PGG_Q1LocationLoaded(string qName)
 {

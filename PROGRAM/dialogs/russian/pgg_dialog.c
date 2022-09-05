@@ -1161,10 +1161,11 @@ void ProcessDialogEvent()
 
 		Log_TestInfo("go to loc " + sTmp + " " + NPChar.location);
 		NPChar.location = PChar.location;
-		if (PChar.location != "Ship_Deck") sTmp = "reload1_back";
+		if (PChar.location != "Ship_Deck") sTmp = "reload1";
+		if(PChar.location != "Ship_Deck")sTmp = "reload1";
 
 		PChar.questTemp.Chr2Remove = NPChar.id;
-		LAi_ActorRunToLocator(NPChar, "reload", sTmp, "RemoveCharacterFromLocation", 5.0);
+		LAi_ActorRunToLocator(NPChar, "reload", sTmp, "RemoveCharacterFromLocation", -1.0);
 
 		LAi_SetImmortal(NPChar, true);
 		LAi_SetFightMode(pchar, true);

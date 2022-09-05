@@ -150,11 +150,11 @@ void FrLine_HoverGoOnPrison()
 	LAi_SetPlayerType(pchar);
 	pchar.questTemp.State = "Fr2Letter_SeekProblems";	
 	AddQuestRecord("Fra_Line_2_DelivLetter", "3");
-	RestoreTempRemoveParam(pchar, "items");
+	// RestoreTempRemoveParam(pchar, "items");
 	pchar.money = pchar.questTemp.money;
 	//RestoreEquippedMaps(pchar);
 	DeleteAttribute(pchar, "questTemp.money");
-	RefreshEquippedMaps(pchar);
+	// RefreshEquippedMaps(pchar);
 	//==> странных типов помещаем в таверну
     LAi_group_Delete("PeaceGroup");
 	for (i=1; i<=2; i++)
@@ -718,8 +718,13 @@ void PiratesLine_q1_toPrison()
 	ChangeCharacterAddress(sld, "none", "");
 	RemovePassenger(pchar, sld);
 	DoReloadCharacterToLocation("PortRoyal_prison",  "goto", "goto9");
+	if(IsEquipCharacterByItem(pchar, FindCharacterItemByGroup(pchar, CIRASS_ITEM_TYPE))) // Hokkins: если на главном герое надета кираса, то снимем ее тоже.
+	{
+		RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
+	}
 	RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
 	RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
+	RemoveCharacterEquip(pchar, SPYGLASS_ITEM_TYPE);
 	LAi_LocationFightDisable(&Locations[FindLocation("PortRoyal_prison")], true);
     DoQuestFunctionDelay("PiratesLine_q1_MorganInPrison", 10.0);
     sld = characterFromId("Henry Morgan");
@@ -737,6 +742,7 @@ void PiratesLine_q1_MorganInPrison(string qName)
 
 void PiratesLine_q1_MorganEnd()
 {
+	bDisableCharacterMenu = false; //Hokkins: откроем Ф2
 	chrDisableReloadToLocation = false; 
 	bDisableFastReload = false; 
 	LocatorReloadEnterDisable("Portroyal_town", "houseS1", false); //откроем дом Моргана
