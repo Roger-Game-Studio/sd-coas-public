@@ -758,7 +758,7 @@ void SetRumShipInfo(ref _character, String _node)
 	
 	if(sti(_character.ship.type) != SHIP_NOTUSED)
 	{
-		text = "Рому на корабле на ";
+		text = "Рома на корабле на ";
 		rum = CalculateShipRum(_character);
 		text = text + FindRussianDaysString(rum);
 		SetFormatedText(_node, text);
