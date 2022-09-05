@@ -953,6 +953,10 @@ void BI_DeadShip()
 		{
 			ChangeShowIntarface();
 		}
+		if(CharacterIsDead(pchar) && GetCompanionQuantity(pchar) > 1) // Hokkins: так же скрываем интерфейс, если наш корабль потопили, но в эскадре есть корабли.
+		{
+			ChangeShowIntarface();
+		}
 	}
 	Characters[charIndex].ship.shipsink = true;
 	RefreshBattleInterface();
