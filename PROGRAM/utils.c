@@ -482,7 +482,7 @@ int GetCurrentModelrNumber()
 {
 	int n = 0;
 	aref arModel;
-	if (GetEntity(&arModel, "modelr")) 
+	if (FindEntity(&arModel, "modelr")) 
 	{
 		n++;
 		while (FindEntityNext(&arModel)) 

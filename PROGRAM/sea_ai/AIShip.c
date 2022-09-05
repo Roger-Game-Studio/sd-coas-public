@@ -1710,7 +1710,7 @@ void Ship_BranderDetonate()
 		int iDiffClass = sti(RealShips[sti(mc.Ship.Type)].Class) - sti(RealShips[sti(rCharacter.Ship.Type)].Class);
 		if(iDiffClass > 0) fMaxDamage += iDiffClass * 500.0;
 	}	
-	if (!GetEntity(&arShipObjects[0], "ship")) { return; }// can't be
+	if (!FindEntity(&arShipObjects[0], "ship")) { return; }// can't be
 	while (FindEntityNext(&arShipObjects[iBranderNumShips])) { iBranderNumShips++; }
 	
 	// enumerate ship and do damage
