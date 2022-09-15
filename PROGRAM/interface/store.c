@@ -563,6 +563,7 @@ void FillControlsList(int nMode)
 		case 5: FilterMode = 5; break;  // карты
 	}
 	AddToTable(FilterMode);
+	ShowGoodsInfo(sti(GameInterface.TABLE_LIST.tr1.index)); // Hokkins: при смене вкладки возвращаем информацию о таваре на первую строку.
 }
 
 void CS_TableSelectChange()
