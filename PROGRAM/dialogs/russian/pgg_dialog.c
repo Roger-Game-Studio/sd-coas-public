@@ -1000,7 +1000,7 @@ void ProcessDialogEvent()
 //			Dialog.Text = "Н-да, связался я с тобой. Все погубил. Ты теперь мне должен неустойку в размере " + FindRussianMoneyString(sti(PChar.GenQuest.PGG_Quest.FailedPaySum)) + ".";
 			Dialog.Text = PCharRepPhrase(RandPhraseSimple("Кровожадн"+ GetSexPhrase("ый ублюдок","ая дрянь") +"! Все ушло на дно к морскому дьяволу! " + FindRussianMoneyString(sti(PChar.GenQuest.PGG_Quest.FailedPaySum)) + " пиастров на бочку, и я видеть тебя больше не желаю!", 
 						"Ты себя адмиралом Нельсоном вообразил"+ GetSexPhrase("","а") +"? Потопил"+ GetSexPhrase("","а") +" всю добычу, "+ GetSexPhrase("идиот","дура") +"! Отсыпь мне " + FindRussianMoneyString(sti(PChar.GenQuest.PGG_Quest.FailedPaySum)) + " пиастров и проваливай!"), 
-					RandPhraseSimple("Вы здесь войну решили устроить! Это совершенно никуда не годится! Полагаю, мы все забудем, если вы уплатите нам " + FindRussianMoneyString(sti(PChar.GenQuest.PGG_Quest.FailedPaySum)) + " пиастров ", 
+					RandPhraseSimple("Вы здесь войну решили устроить! Это совершенно никуда не годится! Полагаю, мы все забудем, если вы уплатите нам " + FindRussianMoneyString(sti(PChar.GenQuest.PGG_Quest.FailedPaySum)), 
 						"Ваши методы недопустимы в такого рода делах! Вы провалили все дело! Немедленно уплатите нашу долю в размере " + FindRussianMoneyString(sti(PChar.GenQuest.PGG_Quest.FailedPaySum)) + " пиастров и отправляйтесь на все четыре стороны! "));
 			link.l1 = PCharRepPhrase(RandPhraseSimple("Если бы не я, ты бы сейчас крабов кормил, жадная образина!", 
 						"Лучше было позволить флагману взять на абордаж твое корыто, тогда бы ты уже болтался на рее и не отравлял воздух! "), 
