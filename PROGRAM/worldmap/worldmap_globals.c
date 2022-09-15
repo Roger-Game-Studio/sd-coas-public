@@ -534,6 +534,7 @@ void  wdmUpdateAllEncounterLivetime()
     aref encs;
     int ihours;
     string sdel;
+	string sChar;
     float b,k;
     if(!actLoadFlag)
     {
@@ -565,12 +566,13 @@ void  wdmUpdateAllEncounterLivetime()
                     if (sti(enc.livetime)<=0)
                     {
                         //Map_ReleaseQuestEncounter(enc.quest.chrID);
-						Map_TraderSucces_quest(enc.quest.chrID); //на обрабоку нпс-кэпов eddy
+						sChar = enc.quest.chrID; // belamour запомним айди, иначе трется и квестовые кэпы дают вылет на глобусе
                	        sdel  = "encounters."+GetAttributeName(enc);
                         DeleteAttribute(&worldMap, sdel);
 						pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) - 1;
 						num--;
 						i--;
+						Map_TraderSucces_quest(sChar); // belamour теперь запустим обработку нпс-кэпов
                     }
                 }
             }
