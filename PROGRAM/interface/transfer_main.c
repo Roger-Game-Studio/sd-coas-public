@@ -2485,18 +2485,3 @@ void CanonsSetAll(ref chr)
 	ShowShipInfo(xi_refCharacter, "2");
 	FillGoodsTable();
 }
-
-// Myth Корректное отображение пушек у компаньонов -->
-bool CannonShipCheck(ref sld2)
-{
-	if(!CheckAttribute(sld2,"Ship.Cannons.Charge.Type"))
-	{
-		return false;
-	}
-	if(GetCannonsNum(sld2) == 0)
-	{
-		return false;
-	}
-	return true;
-}
-// Myth Корректное отображение пушек у компаньонов <--

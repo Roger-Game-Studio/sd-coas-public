@@ -54,7 +54,7 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	SetEventHandler("ExitMsgMenu", "ExitMsgMenu", 0);
 	SetEventHandler("ExitRepairMenu", "ExitRepairMenu", 0);
 	SetEventHandler("ShowOtherClick", "ShowOtherClick", 0);
-	SetEventHandler("CanonsRemoveAll","CanonsRemoveAll",0);
+	SetEventHandler("ShipChangeCannons","ShipChangeCannons",0);
 	SetEventHandler("ExitCannonsMenu", "ExitCannonsMenu", 0);
     SetEventHandler("ExitOfficerMenu","ExitOfficerMenu",0);
 	SetEventHandler("acceptaddofficer","AcceptAddOfficer",0);
@@ -82,6 +82,15 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	SetButtionsAccess();
 	timeHull = 0;
 	timeRig = 0;
+	
+	if(GetCannonsNum(xi_refCharacter) == 0)
+	{
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"CANNONS_REMOVE_ALL",0, "#"+XI_ConvertString("Cannons_set"));
+	}
+	else
+	{
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"CANNONS_REMOVE_ALL",0, "#"+XI_ConvertString("Cannons_remove"));
+	}
 }
 
 void ProcessExitCancel()
@@ -113,7 +122,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("TableSelectChange", "TableSelectChange");
 	DelEventHandler("ExitMsgMenu", "ExitMsgMenu");
 	DelEventHandler("ShowOtherClick", "ShowOtherClick");
-	DelEventHandler("CanonsRemoveAll","CanonsRemoveAll");
+	DelEventHandler("ShipChangeCannons","ShipChangeCannons");
 	DelEventHandler("ExitCannonsMenu", "ExitCannonsMenu");
     DelEventHandler("ExitOfficerMenu","ExitOfficerMenu");
 	DelEventHandler("acceptaddofficer","AcceptAddOfficer");
@@ -622,6 +631,22 @@ void ShowCannonsMenu()
     CannonsMenuRefresh();
 }
 
+// Hokkins: взаимодействие с пушками -->
+void ShipChangeCannons()
+{
+	if(CannonShipCheck(xi_refCharacter))
+	{
+		CanonsRemoveAll();
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"CANNONS_REMOVE_ALL",0, "#"+XI_ConvertString("Cannons_set"));
+	}
+	else
+	{
+		CanonsSetAll(xi_refCharacter);
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"CANNONS_REMOVE_ALL",0, "#"+XI_ConvertString("Cannons_remove"));
+	}
+}
+// Hokkins: взаимодействие с пушками <--
+
 void CanonsRemoveAll()
 {
     SetCannonsToBort(xi_refCharacter, "fcannon", 0);
@@ -629,6 +654,52 @@ void CanonsRemoveAll()
     SetCannonsToBort(xi_refCharacter, "rcannon", 0);
     SetCannonsToBort(xi_refCharacter, "lcannon", 0);
 
+	OnShipScrollChange();
+    CannonsMenuRefresh();
+}
+
+void CanonsSetAll(ref chr)
+{
+    if (GetCannonQuantity(chr) <= 0) return;
+	// сначала все убрать
+    if (GetCannonsNum(chr) > 0) 
+    {
+		SetCannonsToBort(chr, "cannonf", 0);
+	    SetCannonsToBort(chr, "cannonb", 0);
+	    SetCannonsToBort(chr, "cannonr", 0);
+	    SetCannonsToBort(chr, "cannonl", 0);
+    }
+    int idx = GetCannonGoodsIdxByType(sti(chr.Ship.Cannons.Type));
+    int fb, lb, rb, bb;
+    int qty;
+    
+    if (idx != -1)
+    {
+    	qty = GetCargoGoods(chr, idx);
+    	
+		rb = GetBortCannonsMaxQty(chr, "cannonr");
+    	if (rb  > (qty / 2)) rb = qty / 2;
+    	qty = qty - rb;
+    	if (qty < 0) qty = 0;
+    	   	
+		lb = GetBortCannonsMaxQty(chr, "cannonl");
+    	if (lb > qty) lb = qty;
+    	qty = qty - lb;
+    	if (qty < 0) qty = 0;
+    	   	
+		bb = GetBortCannonsMaxQty(chr, "cannonb");
+    	if (bb > qty) bb = qty;
+    	qty = qty - bb;
+    	if (qty < 0) qty = 0;
+    	
+		fb = GetBortCannonsMaxQty(chr, "cannonf");	
+    	if (fb > qty) fb = qty;
+		SetCannonsToBort(chr, "cannonf", fb);
+	    SetCannonsToBort(chr, "cannonb", bb);
+	    SetCannonsToBort(chr, "cannonr", rb);
+	    SetCannonsToBort(chr, "cannonl", lb);
+    }
+	
 	OnShipScrollChange();
     CannonsMenuRefresh();
 }

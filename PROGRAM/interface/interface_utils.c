@@ -781,3 +781,18 @@ void SetRumShipInfo(ref _character, String _node)
 		SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, _node, 8, -1, color);	
 	}
 }
+
+// Myth Корректное отображение пушек у компаньонов -->
+bool CannonShipCheck(ref sld)
+{
+	if(!CheckAttribute(sld,"Ship.Cannons.Charge.Type"))
+	{
+		return false;
+	}
+	if(GetCannonsNum(sld) == 0)
+	{
+		return false;
+	}
+	return true;
+}
+// Myth Корректное отображение пушек у компаньонов <--

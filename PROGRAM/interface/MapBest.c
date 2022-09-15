@@ -1,5 +1,6 @@
 // Warship. Доведенный до ума интерфейс бумажной карты из К3. Теперь это интерфейс отличной карты.
-// espkk # ActiveMap 1.3 # 25/Sep/2017 - map with trade assistant for Sea Dogs: TEHO / Теперь действительно доведенный до ума =) 
+// espkk # ActiveMap 1.3 # 25/Sep/2017 - map with trade assistant for Sea Dogs: TEHO / Теперь действительно доведенный до ума =)
+// Hokkins: Ну вот теперь то точно доведенный до ума, ведь да? =)
 
 //settings file
 #include "activemap_settings.h"
