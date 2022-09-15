@@ -33,8 +33,6 @@ void InitInterface(string iniName)
 	SetEventHandler("ChoosePerk","ChoosePerk",0);
 	SetEventHandler("ExitPerkMenu","ExitPerkMenu",0);
 	SetEventHandler("AcceptPerk","AcceptPerk",0);
-	SetEventHandler("ExitSpecialWindow","ExitSpecialWindow",0);
-	SetEventHandler("ShowSpecialWindow","ShowSpecialWindow",0);
 
     XI_RegistryExitKey("IExit_F2");
     
@@ -72,8 +70,6 @@ void IDoExit(int exitCode)
 	DelEventHandler("ChoosePerk","ChoosePerk");
 	DelEventHandler("ExitPerkMenu","ExitPerkMenu");
 	DelEventHandler("AcceptPerk","AcceptPerk");
-	DelEventHandler("ExitSpecialWindow","ExitSpecialWindow");
-	DelEventHandler("ShowSpecialWindow","ShowSpecialWindow");
 
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -534,7 +530,6 @@ void FillSkillTables()
 	}
     GameInterface.TABLE_SKILL_1.select = 0;
     GameInterface.TABLE_SKILL_1.hr.td1.str = "";
-	SetFormatedText("STR_2", XI_ConvertString("Personal skill"));
 	for (i=1; i<=7; i++)
 	{
 	    row = "tr" + i;
@@ -590,7 +585,6 @@ void FillSkillTables()
 	}
 	GameInterface.TABLE_SKILL_2.select = 0;
 	GameInterface.TABLE_SKILL_2.hr.td1.str = "";
-	SetFormatedText("STR_3", XI_ConvertString("Ship skill"));
 	for (i=1; i<=7; i++)
 	{
 	    row = "tr" + i;
@@ -1319,7 +1313,6 @@ void FillPerksTable(string _type, bool _refresh)
 	    GameInterface.TABLE_PERKS.select = 0;
 	    GameInterface.TABLE_PERKS.top = 0;
 	}
-	SetFormatedText("STR_4", XI_ConvertString("Abilities"));
 
 	makearef(arPerksRoot,ChrPerksList.list); // общий список
 	perksQ = GetAttributesNum(arPerksRoot);
@@ -1494,22 +1487,4 @@ void AcceptPerk()
     FillPerksTable(GameInterface.(CurTable).(CurRow).UserData.Type, false);
     // перерисуем все <--
 	ExitPerkMenu();
-}
-
-void ExitSpecialWindow()
-{
-	XI_WindowShow("SPECIAL_WINDOW", false);
-	XI_WindowDisable("SPECIAL_WINDOW", true);
-	XI_WindowDisable("MAIN_WINDOW", false);
-
-	SetCurrentNode("CHARACTERS_SCROLL");
-}
-
-void ShowSpecialWindow()
-{
-	XI_WindowShow("SPECIAL_WINDOW", true);
-	XI_WindowDisable("SPECIAL_WINDOW", false);
-	XI_WindowDisable("MAIN_WINDOW", true);
-
-	SetCurrentNode("TABLE_SPECIAL");
 }
