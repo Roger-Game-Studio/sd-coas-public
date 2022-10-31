@@ -1628,7 +1628,11 @@ bool CheckSaveGameEnabled()
 	{
 		TmpBool = false;
 	}
-
+	
+	if(loadedLocation.type == "underwater") TmpBool = false; // belamour запрет в подводной локации
+	
+	if(dialogRun == true) TmpBool = false; // Hokkins: запрет если запущен диалог
+	
 	if (bAbordageStarted) {TmpBool = false;}
 
 	if(LAi_IsBoardingProcess()) {TmpBool = false;}
