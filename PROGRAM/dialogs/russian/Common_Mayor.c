@@ -2224,14 +2224,23 @@ void ProcessDialogEvent()
 				npchar.greeting = NationShortName(sti(npchar.nation)) + "_gov_complete";
 				pchar.GenQuest.questName = "Intelligence"; //тип квеста
 				sTemp = pchar.GenQuest.Intelligence.City;
-				switch (rand(4))
+				// Hokkins: для Форт Оранжа сделаем шпиона только в магазине, т.к других зданий там нет -->
+				if(sTemp != "FortOrange")
 				{
-					case 0:	sTemp += "_Priest";		break;
-					case 1:	sTemp += "_trader";		break;
-					case 2:	sTemp += "_shipyarder"; break;
-					case 3:	sTemp += "_usurer";	    break;
-					case 4:	sTemp += "_PortMan";	break;
+					switch (rand(4))
+					{
+						case 0:    sTemp += "_Priest";     break;
+						case 1:    sTemp += "_trader";     break;
+						case 2:    sTemp += "_shipyarder"; break;
+						case 3:    sTemp += "_usurer";     break;
+						case 4:    sTemp += "_PortMan";    break;
+					}
 				}
+				else
+				{
+					sTemp += "_trader";
+				}
+				// Hokkins: <--
 				pchar.GenQuest.Intelligence.SpyId = sTemp; //Id нашего шпиона в городе
 				dialog.text = "Прекрасно! Теперь по делу. В " + XI_ConvertString("Colony"+pchar.GenQuest.Intelligence.City+"Dat") + " вам необходимо разыскать местного " + GetWorkTypeOfMan(&characters[GetCharacterIndex(sTemp)], "Gen") + 
 					", его зовут " + GetFullName(&characters[GetCharacterIndex(sTemp)]) + ". Ему вы назовете мое имя, и получите пакет документов. На доставку этого пакета лично мне в руки я даю вам " + FindRussianDaysString(sti(pchar.GenQuest.Intelligence.Terms)) + ". И имейте в виду, что все нужно сделать тихо. В случае вашего обнаружения в городе, агент не будет подвергать себя риску и не пойдет на контакт. Вам все ясно?";
