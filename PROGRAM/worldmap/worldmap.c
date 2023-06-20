@@ -117,25 +117,9 @@ void wdmCreateWorldMap()
 	ClearAllLogStrings();
 	//
 	ReloadProgressStart();
-	//Настраиваем имена месяцев
-	worldMap.date.monthnames.m01 = XI_ConvertString("target_month_1");
-	worldMap.date.monthnames.m02 = XI_ConvertString("target_month_2");
-	worldMap.date.monthnames.m03 = XI_ConvertString("target_month_3");
-	worldMap.date.monthnames.m04 = XI_ConvertString("target_month_4");
-	worldMap.date.monthnames.m05 = XI_ConvertString("target_month_5");
-	worldMap.date.monthnames.m06 = XI_ConvertString("target_month_6");
-	worldMap.date.monthnames.m07 = XI_ConvertString("target_month_7");
-	worldMap.date.monthnames.m08 = XI_ConvertString("target_month_8");
-	worldMap.date.monthnames.m09 = XI_ConvertString("target_month_9");
-	worldMap.date.monthnames.m10 = XI_ConvertString("target_month_10");
-	worldMap.date.monthnames.m11 = XI_ConvertString("target_month_11");
-	worldMap.date.monthnames.m12 = XI_ConvertString("target_month_12");
-	worldMap.date.font = "normal";
+	wdmInitWindInterface();
 	//Удалим все устаревшие энкаунтеры
 	wdmRemoveOldEncounters();
-//	Trace("Save check ---------------================--------------")
-//	DumpAttributes(&worldMap);
-//	Trace("Save check ###########----================--------------")
 	worldMap.playerInStorm = "0";
 	//Сбросим счётчики генерации энкоунтеров
 	wdmReset();
@@ -155,11 +139,90 @@ void wdmCreateWorldMap()
 	//Сообщим, что загрузились
 	PostEvent("EventWorldMapInit", 830); //fix boal
 	ReloadProgressEnd();
-	PostEvent("EventTimeUpdate", 1000);	
+	PostEvent("EventTimeUpdate", 1000);
 	//Создаём накопившиеся квестовые энкоунтеры
 	worldMap.addQuestEncounters = "updateQuest";
 	InitWmInterface();
 }
+
+// Hokkins: инициализируем основной интерфейс глобальной карты -->
+void wdmInitWindInterface()
+{
+	float fHtRatio = stf(Render.screen_y) / iScaleHUD;
+	
+	worldMap.date.monthnames.m01 = XI_ConvertString("target_month_1");
+	worldMap.date.monthnames.m02 = XI_ConvertString("target_month_2");
+	worldMap.date.monthnames.m03 = XI_ConvertString("target_month_3");
+	worldMap.date.monthnames.m04 = XI_ConvertString("target_month_4");
+	worldMap.date.monthnames.m05 = XI_ConvertString("target_month_5");
+	worldMap.date.monthnames.m06 = XI_ConvertString("target_month_6");
+	worldMap.date.monthnames.m07 = XI_ConvertString("target_month_7");
+	worldMap.date.monthnames.m08 = XI_ConvertString("target_month_8");
+	worldMap.date.monthnames.m09 = XI_ConvertString("target_month_9");
+	worldMap.date.monthnames.m10 = XI_ConvertString("target_month_10");
+	worldMap.date.monthnames.m11 = XI_ConvertString("target_month_11");
+	worldMap.date.monthnames.m12 = XI_ConvertString("target_month_12");
+	
+	worldMap.sky.texture = "WorldMap/Interfaces/sky.tga";
+	worldMap.sky.maskTexture = "WorldMap/Interfaces/sky_mask.tga";
+	worldMap.sky.leftPos = sti(showWindow.right) - RecalculateHIcon(makeint(144 * fHtRatio));
+	worldMap.sky.topPos = sti(showWindow.top) + RecalculateVIcon(makeint(7 * fHtRatio));
+	worldMap.sky.width = 128 * fHtRatio;
+	worldMap.sky.height = 128 * fHtRatio;
+	worldMap.sky.color = argb(255, 255, 255, 255);
+	
+	worldMap.windPointer.texture = "WorldMap/Interfaces/wind_pointer.tga";
+	worldMap.windPointer.leftPos = sti(showWindow.right) - RecalculateHIcon(makeint(96 * fHtRatio));
+	worldMap.windPointer.topPos = sti(showWindow.top) + RecalculateVIcon(makeint(7 * fHtRatio));
+	worldMap.windPointer.width = 32 * fHtRatio;
+	worldMap.windPointer.height = 128 * fHtRatio;
+	worldMap.windPointer.color = argb(255, 255, 255, 255);
+	
+	worldMap.windBar.texture = "WorldMap/Interfaces/bar.tga";
+	worldMap.windBar.maskTexture = "WorldMap/Interfaces/bar_mask.tga";
+	worldMap.windBar.leftPos = sti(showWindow.right) - RecalculateHIcon(makeint(144 * fHtRatio));
+	worldMap.windBar.topPos = sti(showWindow.top) + RecalculateVIcon(makeint(72 * fHtRatio));
+	worldMap.windBar.width = 128 * fHtRatio;
+	worldMap.windBar.height = 128 * fHtRatio;
+	worldMap.windBar.color = argb(255, 255, 255, 255);
+	
+	worldMap.frame.texture = "WorldMap/Interfaces/back.tga";
+	worldMap.frame.leftPos = sti(showWindow.right) - RecalculateHIcon(makeint(144 * fHtRatio));
+	worldMap.frame.topPos = sti(showWindow.top) + RecalculateVIcon(makeint(7 * fHtRatio));
+	worldMap.frame.width = 128 * fHtRatio;
+	worldMap.frame.height = 256 * fHtRatio;
+	worldMap.frame.color = argb(255, 255, 255, 255);
+	
+	worldMap.dateText.font = "interface_normal";
+	worldMap.dateText.scale = 1.0 * fHtRatio;
+	worldMap.dateText.color = argb(255, 255, 255, 255);
+	worldMap.dateText.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(80 * fHtRatio));
+	worldMap.dateText.pos.y = RecalculateVIcon(makeint(162 * fHtRatio));
+	
+	worldMap.morale.texture = "WorldMap/Interfaces/morale.tga";
+	worldMap.morale.barTexture = "WorldMap/Interfaces/morale_bar.tga";
+	worldMap.morale.maskTexture = "WorldMap/Interfaces/morale_mask.tga";
+	worldMap.morale.leftPos = sti(showWindow.right) - RecalculateHIcon(makeint(144 * fHtRatio));
+	worldMap.morale.topPos = sti(showWindow.top) + RecalculateVIcon(makeint(198 * fHtRatio));
+	worldMap.morale.width = 128 * fHtRatio;
+	worldMap.morale.height = 64 * fHtRatio;
+	worldMap.morale.color = argb(255, 255, 255, 255);
+	
+	worldMap.foodText.font = "interface_normal";
+	worldMap.foodText.scale = 1.0 * fHtRatio;
+	worldMap.foodText.color = argb(255, 255, 255, 255);
+	worldMap.foodText.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(104 * fHtRatio));
+	worldMap.foodText.pos.y = RecalculateVIcon(makeint(258 * fHtRatio));
+	
+	worldMap.rumText.font = "interface_normal";
+	worldMap.rumText.scale = 1.0 * fHtRatio;
+	worldMap.rumText.color = argb(255, 255, 255, 255);
+	worldMap.rumText.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(54 * fHtRatio));
+	worldMap.rumText.pos.y = RecalculateVIcon(makeint(258 * fHtRatio));
+	
+	worldMap.resizeRatio = fHtRatio;
+}
+// Hokkins: <--
 
 void wdmLoadSavedMap()
 {
