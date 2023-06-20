@@ -163,6 +163,7 @@ void Tut_StartGame(string sQuest)
 void Tut_locCamera_1(string _tmp)
 {
     locCameraToPos(-5, 2.5, 5.6, false);
+	ChangeShowIntarface();
     DoQuestFunctionDelay("Tut_locCamera_2", 10.0);
 }
 
