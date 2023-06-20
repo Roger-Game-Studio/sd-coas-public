@@ -2957,7 +2957,7 @@ void SetRandGeraldSail(ref chr, int nation)
 	            ret = "pir_" + (1 + rand(5));
 	        break;
 		}
-		shref.ShipSails.Gerald_Name = ret;
+		shref.ShipSails.Gerald_Name = ret + ".tga.tx";
 	}		
 }
 
