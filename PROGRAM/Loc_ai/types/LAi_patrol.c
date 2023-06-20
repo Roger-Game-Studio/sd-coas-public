@@ -417,7 +417,7 @@ void LAi_type_patrol_TestControl(aref chr)
 	}
 	else 
 	{		
-		if (iRand == RELATION_FRIEND || iRand == RELATION_NEUTRAL) 
+		if (iRand == RELATION_FRIEND) 
 		{
 			//проверяем, нет ли обнаженки оружия
 			if (bFightMode)	
