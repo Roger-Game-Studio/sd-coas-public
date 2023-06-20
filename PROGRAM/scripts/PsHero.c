@@ -866,35 +866,26 @@ void AddRemoveGoodsInStore(string _town, int _tradeGoods, int _quantityGoods, bo
 //==================================================
 // Locations
 //==================================================
-//Найти город назначения для персонажа
+//Mett: найти город назначения для персонажа, дописал под новый расчет дистанции между колониями
 string PGG_FindTargetTown(ref chr)
 {
-	int iRnd, iNum, iMin, iMax;
-	aref arDest;
-	string sAttr;
-	string sCurTown = chr.PGGAi.location.town;
+    string sCurTown = chr.PGGAi.location.town;
 
-	makearef(arDest, NullCharacter.TravelMap.(sCurTown));
-	iNum = GetAttributesNum(arDest);
-	iRnd = rand(iNum-1);
-	sAttr = "t" + iRnd;
+    int i = 1;
+    string sTargetIsland = GetRandomIslandId();    //получаем рандомный остров
+    while (GetCityNameByIsland(sTargetIsland) == "None" || GetCityNameByIsland(sTargetIsland) == "Caiman" || GetCityNameByIsland(sTargetIsland) == "LostShipsCity") //ищем есть ли на острове колония
+    {
+        i++;
+        sTargetIsland = GetRandomIslandId();    //ищем повторно
+    }
+    string sTargetTown = FindTownOnIsland(sTargetIsland); //присваеваем колонию, в которую направляемся
 
-	if (iRnd == -1)
-	{
-		trace("ERROR: <PsHero.c>: Can't find travel path from " + sCurTown);
-	}
-	//необитаемые острова, там нет городов, туда не плаваем.
-	while (arDest.(sAttr).town == "")
-	{
-		sAttr = "t" + rand(iNum-1);
-	}
+    chr.PGGAi.Task.Target = sTargetTown;
+    chr.PGGAi.Task.Target.days = CalculateColonyDistance(sCurTown, sTargetTown) + rand(2);    //новый расчет дней на дорогу
 
-	chr.PGGAi.Task.Target = arDest.(sAttr).town;
-	iMin = sti(arDest.(sAttr).town.days.min);
-	iMax = sti(arDest.(sAttr).town.days.max);
-	chr.PGGAi.Task.Target.days = iMin + rand(iMax-iMin);
-	
-	return arDest.(sAttr).town;
+    Log_TestInfo("PGG_FindTargetTown: для " + chr.id + " выбрана колония " + sTargetTown + ", количество попыток " + i);
+
+    return sTargetTown;
 }
 
 //получить ID случайного города по нации. Будет для раскидывания ПГГ в начале игры по миру.
