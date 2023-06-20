@@ -5,7 +5,7 @@
 #define VERSION_NUMBER2       "ver. 1.3.2 (15.09.2022) AT"
 #define VERSION_NUMBER3       "Roger Game Studio"
 
-#define MOD_BETTATESTMODE     "Off"
+#define MOD_BETTATESTMODE     "On"
 
 String sGlobalTemp; // гловальная строковая переменная
 
@@ -47,6 +47,9 @@ bool bMainCharacterInFire = false;
 bool bMainMenu = false;
 //загрузка начала игры
 bool startGameWeather = false;
+
+#define BI_COMPARE_HEIGHT 1080
+int iScaleHUD = BI_COMPARE_HEIGHT; //Hokkins: масштабирование HUD интерфейсов
 
 //int iScriptVersion = 15650;
 //int iScriptVersion = 57853; 

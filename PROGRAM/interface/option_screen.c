@@ -3,9 +3,39 @@ int g_ControlsLngFile = -1;
 
 bool g_bToolTipStarted = false;
 
+float 	fHUDRatio 	= 1.0;
+int 	iHUDBase 	= iScaleHUD;
+int 	newBase 	= iScaleHUD;
+
+#define BI_LOW_RATIO 	0.25
+#define BI_HI_RATIO 	4.0
+#define BI_DIF_RATIO 	3.75
+
+int CalcHUDBase(float fSlider, float MyScreen)
+{
+    float fRes = BI_DIF_RATIO * fSlider;
+    float curBase = MyScreen / (BI_LOW_RATIO + fRes);
+
+    return makeint(curBase + 0.5);
+}
+
+float CalcHUDSlider(float fRatio)
+{
+    float fRes = fRatio - BI_LOW_RATIO;
+    fRes /= BI_DIF_RATIO;
+
+    return fRes;
+}
+
 void InitInterface(string iniName)
 {
 	float glowEffect;
+	
+	fHUDRatio = stf(Render.screen_y) / iScaleHUD;
+    iHUDBase = makeint(iScaleHUD);
+    newBase = iHUDBase;
+	
+	trace("2 : " + iScaleHUD);
 
 	g_nCurControlsMode = -1;
 	GameInterface.title = "titleOptions";
@@ -41,22 +71,13 @@ void InitInterface(string iniName)
 
 	aref ar; makearef(ar,objControlsState.key_codes);
 	SendMessage(&GameInterface,"lsla",MSG_INTERFACE_MSG_TO_NODE,"KEY_CHOOSER", 0,ar);
-	
-	// Hokkins: в движке добавили  эти настройки для оконного режима, нет смысла больше их блокировать -->
-	
-	/* if( sti(Render.full_screen)==0 )
-	{
-		SetSelectable("GAMMA_SLIDE",false);
-		SetSelectable("BRIGHT_SLIDE",false);
-		SetSelectable("CONTRAST_SLIDE",false);
-	} */
-	
-	// Hokkins: <--
 
 	float ftmp1 = -1.0;
 	float ftmp2 = -1.0;
 	float ftmp3 = -1.0;
+	
 	SendMessage(&sound,"leee",MSG_SOUND_GET_MASTER_VOLUME,&ftmp1,&ftmp2,&ftmp3);
+	
 	if( ftmp1==-1.0 && ftmp2==-1.0 && ftmp3==-1.0 )
 	{
 		SetSelectable("MUSIC_SLIDE",false);
@@ -74,6 +95,17 @@ void InitInterface(string iniName)
 	
 	GameInterface.nodes.GLOW_SLIDE.value = glowEffect;
 	SendMessage(&GameInterface, "lslf", MSG_INTERFACE_MSG_TO_NODE, "GLOW_SLIDE", 0, glowEffect);
+	
+	// Hokkins: масштабирование интерфейса -->
+	
+	fHUDRatio = stf(Render.screen_y) / iScaleHUD;
+	float sl = CalcHUDSlider(fHUDRatio);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "SCALE_HUD_SLIDE", 2, makeint(sl * 100.0));
+	GameInterface.nodes.scale_hud_slide.value = sl;
+	iHUDBase = CalcHUDBase(sl, stf(Render.screen_y));
+	SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 1, 16, "#" + Render.screen_y + "  / " + newBase + " : " + fHUDRatio);
+	
+	// Hokkins: масштабирование интерфейса <--
 }
 
 void ProcessCancelExit()
@@ -86,6 +118,10 @@ void ProcessOkExit()
 {
 	// Warship 07.07.09 Эффект свечения
 	SetGlowParams(1.0, sti(InterfaceStates.GlowEffect), 2));
+	
+	//Hokkins: масштабирование интерфейса
+	iScaleHUD = newBase;
+	trace("3 : " + iScaleHUD);
 
 	SaveGameOptions();
 	ProcessExit();
@@ -377,6 +413,14 @@ void procSlideChange()
 		return;
 	}
 	
+	// Hokkins: масштабирование интерфейса -->
+	if( sNodeName == "SCALE_HUD_SLIDE" ) 
+	{
+		ChangeHUDDetail();
+		return;
+	}
+	//Hokkins: масштабирование интерфейса <--
+	
 	if( sNodeName=="MOUSE_SENSITIVITY_SLIDE") 
 	{
 		ChangeMouseSensitivity();
@@ -455,6 +499,19 @@ void ChangeSoundSetting()
 	float fDialog = stf(GameInterface.nodes.dialog_slide.value);
 	SendMessage(&sound,"lfff", MSG_SOUND_SET_MASTER_VOLUME, fSound,	fMusic,	fDialog);
 }
+
+//Hokkins: масштабирование интерфейса -->
+void ChangeHUDDetail()
+{
+    float sl = stf(GameInterface.nodes.scale_hud_slide.value);
+	newBase = CalcHUDBase(sl, stf(Render.screen_y));
+	if( newBase != iHUDBase) 
+	{
+        fHUDRatio = stf(Render.screen_y) / newBase;
+		SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 1, 16, "#" + Render.screen_y + "  / " + newBase + " : " + fHUDRatio);
+	}
+}
+//Hokkins: масштабирование интерфейса <--
 
 void FillControlsList(int nMode)
 {
@@ -903,6 +960,12 @@ void ShowInfo()
 		case "DIALOG_SLIDE":
 			sHeader = XI_ConvertString("Dialog Volume");
 			sText1 = XI_ConvertString("Dialog Volume_descr");
+		break;
+		
+		case "SCALE_HUD_SLIDE":
+			sHeader = XI_ConvertString("Scale HUD Settings");
+			sText1 = XI_ConvertString("Scale HUD_descr");
+			sText2 = XI_ConvertString("NeedToExitFromLocation");
 		break;
 
 		case "ALWAYS_RUN_CHECKBOX":

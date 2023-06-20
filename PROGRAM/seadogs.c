@@ -230,6 +230,8 @@ void proc_break_video()
 
 void Main()
 {
+	iScaleHUD = BI_COMPARE_HEIGHT;
+	
 	ControlsInit(GetTargetPlatform(),true);
 	nTeleportLocation = 1;
 
@@ -695,6 +697,8 @@ int actLoadFlag = 0;
 void OnLoad()
 {
 	actLoadFlag = 1;
+	
+	if(iScaleHUD < 50) iScaleHUD = BI_COMPARE_HEIGHT;
     
 	DeleteAttribute( pchar, "abordage_active_count" );
 	FreezeGroupControls(curKeyGroupName,false);

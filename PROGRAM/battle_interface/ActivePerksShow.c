@@ -1,16 +1,17 @@
-
 object objActivePerkShower;
 
 #event_handler(EVENT_LOCATION_LOAD,"procLoadIntoNew");
 
 void InitActivePerkShower()
-{
-	objActivePerkShower.ShowParam.PosRect.left		= sti(showWindow.right) - RecalculateHIcon(48+132);
-	objActivePerkShower.ShowParam.PosRect.top		= RecalculateVIcon(450);
-	objActivePerkShower.ShowParam.PosRect.right		= sti(showWindow.right) - RecalculateHIcon(48);
-	objActivePerkShower.ShowParam.PosRect.bottom	= sti(showWindow.bottom) - RecalculateVIcon(28);
-	objActivePerkShower.ShowParam.IconSize.horz		= RecalculateHIcon(48);
-	objActivePerkShower.ShowParam.IconSize.vert		= RecalculateVIcon(48);
+{	
+	float fHtRatio = stf(Render.screen_y) / iScaleHUD;
+	
+	objActivePerkShower.ShowParam.PosRect.left		= sti(showWindow.right) - RecalculateHIcon(makeint((48 + 132) * fHtRatio));
+	objActivePerkShower.ShowParam.PosRect.top		= RecalculateVIcon(makeint(450 * fHtRatio));
+	objActivePerkShower.ShowParam.PosRect.right		= sti(showWindow.right) - RecalculateHIcon(makeint(48 * fHtRatio));
+	objActivePerkShower.ShowParam.PosRect.bottom	= sti(showWindow.bottom) - RecalculateVIcon(makeint(28 * fHtRatio));
+	objActivePerkShower.ShowParam.IconSize.horz		= RecalculateHIcon(makeint(48 * fHtRatio));
+	objActivePerkShower.ShowParam.IconSize.vert		= RecalculateVIcon(makeint(48 * fHtRatio));
 	objActivePerkShower.ShowParam.IconSpace.horz	= RecalculateHIcon(2);
 	objActivePerkShower.ShowParam.IconSpace.vert	= RecalculateVIcon(2);
 }
@@ -19,6 +20,7 @@ void procLoadIntoNew()
 {
 	UnloadActivePerkShower();
 	SetEventHandler("frame","LoadActivePerkShower",1);
+	SetEventHandler("frame","InitActivePerkShower",1);
 }
 
 void LoadActivePerkShower()
