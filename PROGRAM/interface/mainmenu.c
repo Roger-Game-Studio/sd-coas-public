@@ -1,56 +1,41 @@
-string isUsersName="";
-
-//ref rCharacter; // boal
-int iChar;
-#event_handler("Control Activation","TempIControlProcess");
-
-void TempIControlProcess()
-{
-	string ControlName;
-	ControlName = GetEventData();
-	if (ControlName == "WhrPrevWeather")
-	{
-		Sea.MaxSeaHeight = 1.0;
-		Sea.isDone = "";
-	}
-	if (ControlName == "WhrNextWeather")
-	{
-		Sea.MaxSeaHeight = 1.0;
-		Sea.isDone = "";
-	}
-	if (ControlName == "WhrUpdateWeather")
-	{
-		Sea.MaxSeaHeight = 1.0;
-		Sea.isDone = "";
-	}
-}
 
 void InitInterface(string iniName)
 {
 	Event("DoInfoShower","sl","MainMenuLaunch",false);
 
 	aref arScrShoter;
-	if( !GetEntity(&arScrShoter,"scrshoter") ) {
+	if(!GetEntity(&arScrShoter,"scrshoter"))
+	{
 		CreateScreenShoter();
 	}
 
-	CreateBackEnvironment();
+	MainMenu_CreateBackEnvironment();
 
     SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
-
-	// boal ver num -->
-    CreateString(true,"VerNum", VERSION_NUMBER1 + GetVerNum(), FONT_NORMAL, COLOR_NORMAL, 780, 580, SCRIPT_ALIGN_RIGHT, 0.9);
-    // boal ver num <--
 	
-	SetEventHandler("backgroundcommand","ProcCommand",0);
+	SetFormatedText("VERSION", VERSION_NUMBER1 + GetVerNum());
+	
+	SetFormatedText("SUBSCRIBE", XI_ConvertString("Subscribe"));
+	
+	SetEventHandler("NewGamePress","NewGamePress",0);
+	SetEventHandler("LoadPress","LoadPress",0);
+	SetEventHandler("OptionsPress","OptionsPress",0);
+	SetEventHandler("CreditsPress","CreditsPress",0);
+	SetEventHandler("QuitPress","QuitPress",0);
+	
+	SetEventHandler("ShowChangesWindow","ShowChangesWindow",0);
+	SetEventHandler("HideChangesWindow","HideChangesWindow",0);
+	SetEventHandler("ShowDiscordQRCodeWindow","ShowDiscordQRCodeWindow",0);
+	SetEventHandler("ShowVKQRCodeWindow","ShowVKQRCodeWindow",0);
+	SetEventHandler("HideQRCodeWindow","HideQRCodeWindow",0);
 
 	GameInterface.SavePath = "SAVE";
 
-    //ResetSoundScheme();
-	ResetSound(); // new
-	// ВВОД СВОИХ СХЕМ В ЗАВИСИМОСТИ ОТ ПОГОДЫ (BY LOKK)
-	if (Whr_IsRain())
-	{ if (Whr_IsNight())
+	ResetSound();
+	
+	if(Whr_IsRain())
+	{
+		if(Whr_IsNight())
 		{
 			SetSoundScheme("mainmenu_night_rain");
 		}
@@ -60,7 +45,8 @@ void InitInterface(string iniName)
 		}
     }
 	else
-	{ if (Whr_IsNight())
+	{
+		if(Whr_IsNight())
 		{
 			SetSoundScheme("mainmenu_night");
 		}
@@ -77,31 +63,22 @@ void InitInterface(string iniName)
 
 void NewGamePress()
 {
-	IDoExit( RC_INTERFACE_DO_NEW_GAME, true );
+	IDoExit(RC_INTERFACE_DO_NEW_GAME, true);
 }
 
 void LoadPress()
 {
-	IDoExit( RC_INTERFACE_DO_LOAD_GAME, false );
-}
-
-void SavePress()
-{
-	IDoExit( RC_INTERFACE_DO_SAVE_GAME, false );
+	IDoExit(RC_INTERFACE_DO_LOAD_GAME, false);
 }
 
 void OptionsPress()
 {
-	IDoExit( RC_INTERFACE_DO_OPTIONS, false );
+	IDoExit(RC_INTERFACE_DO_OPTIONS, false);
 }
 
 void CreditsPress()
 {
-	IDoExit( RC_INTERFACE_DO_CREDITS, false );
-
-	/*SetEventHandler(EVENT_END_VIDEO,"LaunchMainMenu_afterVideo",0);
-	bMainMenuLaunchAfterVideo = true;
-	StartPostVideo("credits",1);*/
+	IDoExit(RC_INTERFACE_DO_CREDITS, false);
 }
 
 void QuitPress()
@@ -112,61 +89,92 @@ void QuitPress()
 	ExitProgram();
 }
 
-void procGameQuit()
-{
-	ExitProgram();
-}
-
 void IDoExit(int exitCode, bool bClear)
 {
 	InterfaceStates.BackEnvironmentIsCreated = true;
-
-	DelEventHandler("backgroundcommand","ProcCommand");
+	
+	DelEventHandler("NewGamePress","NewGamePress");
+	DelEventHandler("LoadPress","LoadPress");
+	DelEventHandler("OptionsPress","OptionsPress");
+	DelEventHandler("CreditsPress","CreditsPress");
+	DelEventHandler("QuitPress","QuitPress");
+	
+	DelEventHandler("ShowChangesWindow","ShowChangesWindow");
+	DelEventHandler("HideChangesWindow","HideChangesWindow");
+	DelEventHandler("ShowDiscordQRCodeWindow","ShowDiscordQRCodeWindow");
+	DelEventHandler("ShowVKQRCodeWindow","ShowVKQRCodeWindow");
+	DelEventHandler("HideQRCodeWindow","HideQRCodeWindow");
 	
 	interfaceResultCommand = exitCode;
 	EndCancelInterface(bClear);
 }
 
-void ExitCancel()
-{
-	IDoExit(-1,true);
+void ShowChangesWindow()
+{	
+	int tmpLangFileID = LanguageOpenFile("Changelog.txt");
+	
+	HideQRCodeWindow();
+	
+	XI_WindowShow("CHANGES_WINDOW", true);
+	XI_WindowDisable("CHANGES_WINDOW", false);
+	
+	SetFormatedText("CHANGES_CAPTION", XI_ConvertString("Changelog"));
+	SetFormatedText("CHANGES_TEXT", LanguageConvertString(tmpLangFileID, "ChangeLog"));
+	
+	SetAlignmentFormatedText("CHANGES_TEXT", SCRIPT_ALIGN_LEFT);
+	
+	LanguageCloseFile(tmpLangFileID);
 }
 
-void ProcCommand()
-{
-	string comName = GetEventData();
-
-	switch(comName)
-	{
-	case "New":			NewGamePress(); break;
-	case "Load":		LoadPress(); break;
-	case "Save":		SavePress(); break;
-	case "Options":		OptionsPress(); break;
-	case "Credits":		CreditsPress(); break;
-	case "Exit":		SetEventHandler("frame","QuitPress",0);  break;
-	}
+void HideChangesWindow()
+{	
+	XI_WindowShow("CHANGES_WINDOW", false);
+	XI_WindowDisable("CHANGES_WINDOW", true);
 }
 
+void ShowDiscordQRCodeWindow()
+{
+	HideChangesWindow();
+	
+	XI_WindowShow("QR_WINDOW", true);
+	XI_WindowDisable("QR_WINDOW", false);
+	
+	SetNodeUsing("QR_DISCORD", true);
+	SetNodeUsing("QR_VK", false);
+}
+
+void ShowVKQRCodeWindow()
+{
+	HideChangesWindow();
+	
+	XI_WindowShow("QR_WINDOW", true);
+	XI_WindowDisable("QR_WINDOW", false);
+	
+	SetNodeUsing("QR_VK", true);
+	SetNodeUsing("QR_DISCORD", false);
+}
+
+void HideQRCodeWindow()
+{
+	XI_WindowShow("QR_WINDOW", false);
+	XI_WindowDisable("QR_WINDOW", true);
+}
+
+int iChar;
 object InterfaceBackScene;
-void CreateBackEnvironment()
+void MainMenu_CreateBackEnvironment()
 {
 	LayerFreeze(EXECUTE,false);
 	LayerFreeze(REALIZE,false);
 
-	if( CheckAttribute(&InterfaceStates,"BackEnvironmentIsCreated") && InterfaceStates.BackEnvironmentIsCreated=="1" ) {
-		return;
-	}
+	if(CheckAttribute(&InterfaceStates, "BackEnvironmentIsCreated") && InterfaceStates.BackEnvironmentIsCreated == "1") return;
 
-	// сбрасываем цвет фона на 0
 	Render.BackColor = 0;
-	// выключаем эффект моря
 	Render.SeaEffect = false;
-	// 14.07.2007 - отключаем подводную часть
 	Sea.UnderWater = false;
 	bMainCharacterInFire = false;
 	bMainMenu = true;
-
-	// create weather
+	
 	ICreateWeather();
 
 	CreateEntity(&InterfaceBackScene,"InterfaceBackScene");
@@ -175,25 +183,11 @@ void CreateBackEnvironment()
 
 	SendMessage(&InterfaceBackScene, "ls", 0, "MainMenu\MainMenu"); // set model
 	SendMessage(&InterfaceBackScene, "ls", 1, "camera"); // set camera
-
-	aref arMenu;
-	makearef(arMenu,InterfaceBackScene.menu);
-	arMenu.l1.locname = "menu02";	arMenu.l1.sel = "mainmenu\menu02_active";	arMenu.l1.norm = "mainmenu\menu02_passive"; arMenu.l1.event = "New";			arMenu.l1.path = LanguageGetLanguage();
-	arMenu.l2.locname = "menu03";	arMenu.l2.sel = "mainmenu\menu03_active";	arMenu.l2.norm = "mainmenu\menu03_passive"; arMenu.l2.event = "Load";			arMenu.l2.path = LanguageGetLanguage();
-	arMenu.l3.locname = "menu04";	arMenu.l3.sel = "mainmenu\menu04_active";	arMenu.l3.norm = "mainmenu\menu04_passive"; arMenu.l3.event = "Options";		arMenu.l3.path = LanguageGetLanguage();
-	arMenu.l4.locname = "menu05";	arMenu.l4.sel = "mainmenu\menu05_active";	arMenu.l4.norm = "mainmenu\menu05_passive"; arMenu.l4.event = "Credits";		arMenu.l4.path = LanguageGetLanguage();
-	arMenu.l5.locname = "menu06";	arMenu.l5.sel = "mainmenu\menu06_active";	arMenu.l5.norm = "mainmenu\menu06_passive"; arMenu.l5.event = "Exit";			arMenu.l5.path = LanguageGetLanguage();
-	SendMessage(&InterfaceBackScene, "lla", 3, 1, arMenu ); // set menu
-
-	// create ship
+	
 	// MainMenu_CreateShip(); // Hokkins: в оригинальной сцене главного меню ГПК нет смысла генерировать корабль, он там не нужен!
 
-	if( LanguageGetLanguage() != "Russian" )
+	if(Whr_IsNight())
 	{
-		MenuCreateLogo();
-	}
-
-	if( Whr_IsNight() ) {
 		InterfaceBackScene.light.turnon = true;
 		InterfaceBackScene.light.model = "mainmenu\Fonar_night";
 		InterfaceBackScene.light.lightcolormin = argb(0,200,200,120);//argb(255,114,114,80);
@@ -209,7 +203,9 @@ void CreateBackEnvironment()
 		InterfaceBackScene.light.flaresize = 0.5;
 		InterfaceBackScene.light.minflarecolor = 120.0;
 		InterfaceBackScene.light.maxflarecolor = 200.0;
-	} else {
+	}
+	else
+	{
 		MainMenu_CreateAnimals();
 
 		InterfaceBackScene.light.turnon = false;
@@ -219,7 +215,7 @@ void CreateBackEnvironment()
 	}
 	SendMessage(&InterfaceBackScene, "ls", 8, "light" );
 
-	if( Whr_IsNight() )
+	if(Whr_IsNight())
 	{
 		// create particles
 		InitParticles();
@@ -229,8 +225,7 @@ void CreateBackEnvironment()
 }
 
 void MainMenu_CreateShip()
-{	
-	//int
+{
 	iChar = GenerateCharacter(rand(4), WITHOUT_SHIP, "citizen", MAN, 0, WARRIOR);   //PIRATE
 	characters[iChar].id = "menuCharacter";
 	ref	rCharacter = &characters[iChar];
@@ -268,13 +263,13 @@ void MainMenu_CreateShip()
 	SendMessage( rCharacter, "laa", MSG_SHIP_CREATE, &rCharacter, &rBaseShip );
 }
 
-void DeleteBackEnvironment()
+void MainMenu_DeleteBackEnvironment()
 {
 	LayerDelObject(EXECUTE, &InterfaceBackScene);
 	LayerDelObject(REALIZE, &InterfaceBackScene);
 
 	MainMenu_DeleteAnimals();
-	DeleteClass( GetCharacter(iChar));//  boal fix FANTOM_CHARACTERS) );
+	DeleteClass( GetCharacter(iChar));
 	DeleteShipEnvironment();
 	DeleteWeather();
 	DeleteSea();
@@ -294,46 +289,42 @@ void MainMenu_CreateAnimals()
 	SendMessage(&InterfaceBackScene, "ls", 9, "seagull" );
 }
 
-void MenuCreateLogo()
-{
-	InterfaceBackScene.Logo.locator = "";
-	InterfaceBackScene.Logo.model = "mainmenu\AOPBoard";
-	if( !Whr_IsNight() ) {
-		InterfaceBackScene.Logo.technique = "InterfaceBackScene_Logo";
-	}
-	SendMessage(&InterfaceBackScene, "ls", 10, "Logo" );
-}
-
 void MainMenu_DeleteAnimals()
 {
 	if (IsEntity(Animals))
+	{
 		DeleteClass(Animals);
+	}
 }
+// Hokkins: <--
 
 void ICreateWeather()
 {
-	// choose random weather
 	int n = 0;
-	if( CheckAttribute(&InterfaceStates,"mainmenuweather") )
+	
+	if(CheckAttribute(&InterfaceStates, "mainmenuweather"))
 	{
 		n = sti(InterfaceStates.mainmenuweather);
 	}
 	else
 	{
-		n = rand(iTotalNumWeathers-1);
-		int oldN=n;
-		while (true)
+		n = rand(iTotalNumWeathers - 1);
+		
+		int oldN = n;
+		
+		while(true)
 		{
-			if( !CheckAttribute( &Weathers[n], "skip" ) || Weathers[n].skip!="1" )
+			if(!CheckAttribute(&Weathers[n], "skip") || Weathers[n].skip != "1")
 			{
 				break;
 			}
 			//candle
 			n++;
-			if( n==iTotalNumWeathers ) {n = 0;}
-			if( n==oldN ) {break;}
+			if(n == iTotalNumWeathers) n = 0;
+			if(n == oldN) break;
 		}
 	}
+	
 	if (n < 0 || n >= iTotalNumWeathers) n = 0;
 	SetNextWeather(Weathers[n].id);
 	iBlendWeatherNum = -1; // залоченная погода
