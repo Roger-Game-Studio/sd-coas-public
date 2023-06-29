@@ -1,66 +1,53 @@
 
 void InitInterface_gm(string iniName)
 {
-	GameInterface.title = "titleGameMenu";
-
 	SetTimeScale(0.0);
 	locCameraSleep(true);
 
 	EngineLayersOffOn(true);
 
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
-
-	SetEventHandler("InterfaceBreak","ProcessCancelExit",0);
+	
+	SetEventHandler("ResumePress","ResumePress",0);
+	SetEventHandler("LoadPress","LoadPress",0);
+	SetEventHandler("SavePress","SavePress",0);
+	SetEventHandler("OptionsPress","OptionsPress",0);
+	SetEventHandler("QuitMainMenuPress","QuitMainMenuPress",0);
+	SetEventHandler("QuitGamePress","QuitGamePress",0);
 	SetEventHandler("exitCancel","ProcessCancelExit",0);
-	SetEventHandler("ievnt_command","ProcessCommandExecute",0);
-	SetEventHandler("frame","IProcessFrame",0);
-
-	SetEventHandler("NewClick","NewClick",0);
-	SetEventHandler("LoadClick","LoadClick",0);
-	SetEventHandler("SaveClick","SaveClick",0);
-	SetEventHandler("ResumeClick","ResumeClick",0);
-	SetEventHandler("OptionsClick","OptionsClick",0);
-	SetEventHandler("QuitClick","QuitClick",0);
-	SetEventHandler("QuitProcess","QuitProcess",0);
-
-	SetEventHandler("ConfirmExitClick","ConfirmExitClick",0);
-	SetEventHandler("ConfirmExitCancel","ConfirmExitCancel",0);
+	
+	SetEventHandler("HideExitWindow","HideExitWindow",0);
+	
+	SetEventHandler("QuitMainMenuProcess","QuitMainMenuProcess",0);
+	SetEventHandler("QuitGameProcess","QuitGameProcess",0);
 
 	InterfaceStates.showGameMenuOnExit = true;
 
 	if(CheckAttribute(&InterfaceStates,"Buttons.Resume.enable") && sti(InterfaceStates.Buttons.Resume.enable) == true)
 	{
-		SetSelectable("MB_RESUME", true);
-	} else {
-
-		SetSelectable("MB_RESUME", false);
-	}
-
-	if (QuickSaveGameEnabledHardcore()) // boal 09.07.06
-	{
-		SetSelectable("MB_SAVE", true);
+		SetSelectable("BTN_RESUME", true);
 	} 
 	else 
 	{
-		SetSelectable("MB_SAVE", false);
+
+		SetSelectable("BTN_RESUME", false);
 	}
 
-	if (!CheckSaveGameEnabled())
+	if(QuickSaveGameEnabledHardcore() && CheckSaveGameEnabled())
 	{
-		SetSelectable("MB_SAVE", false);
+		SetSelectable("BTN_SAVE", true);
+	} 
+	else 
+	{
+		SetSelectable("BTN_SAVE", false);
 	}
-
-	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum() + "\n\n" + VERSION_NUMBER3 + "\n" + "BlackMark Studio, Seaward.Ru, Akella - 2010");
-
-	SetNewPicture("LOGO", "Interfaces\SL_logo.tga");
-
-	//XI_RegistryExitKey("IExit_Escape");
-	//XI_RegistryExitKey("IExit_F1");
-}
-
-
-void IProcessFrame()
-{
+	
+	if(bAbordageStarted)
+	{
+		SetSelectable("BTN_MAINMENU", false);
+	}
+	
+	SetFormatedText("VERSION", VERSION_NUMBER1 + "\n" + GetVerNum() + "\n\n" + VERSION_NUMBER3 + "\n" + "BlackMark Studio, Seaward.Ru, Akella");
 }
 
 void ProcessCancelExit()
@@ -71,173 +58,107 @@ void ProcessCancelExit()
 
 void IDoExit(int exitCode, bool bClear)
 {
-	DelEventHandler("InterfaceBreak","ProcessCancelExit");
-	DelEventHandler("exitCancel","ProcessCancelExit");
-	DelEventHandler("ievnt_command","ProcessCommandExecute");
-	DelEventHandler("frame","IProcessFrame");
-
-	DelEventHandler("NewClick","NewClick");
-	DelEventHandler("LoadClick","LoadClick");
-	DelEventHandler("SaveClick","SaveClick");
-	DelEventHandler("ResumeClick","ResumeClick");
-	DelEventHandler("OptionsClick","OptionsClick");
-	DelEventHandler("QuitClick","QuitClick");
-    DelEventHandler("QuitProcess","QuitProcess");
-    
-	DelEventHandler("ConfirmExitClick","ConfirmExitClick");
-	DelEventHandler("ConfirmExitCancel","ConfirmExitCancel");
-
 	SetTimeScale(1.0);
 	TimeScaleCounter = 0;
 	DelPerkFromActiveList("TimeSpeed");
 	locCameraSleep(false);
 	DeleteAttribute(pchar, "pause");
+	
+	DelEventHandler("ResumePress","ResumePress");
+	DelEventHandler("LoadPress","LoadPress");
+	DelEventHandler("SavePress","SavePress");
+	DelEventHandler("OptionsPress","OptionsPress");
+	DelEventHandler("QuitMainMenuPress","QuitMainMenuPress");
+	DelEventHandler("QuitGamePress","QuitGamePress");
+	DelEventHandler("exitCancel","ProcessCancelExit");
+	
+	DelEventHandler("HideExitWindow","HideExitWindow");
+	
+	DelEventHandler("QuitMainMenuProcess","QuitMainMenuProcess");
+	DelEventHandler("QuitGameProcess","QuitGameProcess");
 
 	interfaceResultCommand = exitCode;
 
-	if( interfaceResultCommand == RC_INTERFACE_DO_RESUME_GAME ) {
+	if( interfaceResultCommand == RC_INTERFACE_DO_RESUME_GAME )
+	{
 		DeleteEntitiesByType("scrshoter");
 	}
 	EndCancelInterface(bClear);
 }
 
-void ProcessCommandExecute()
-{
-	string comName = GetEventData();
-	string nodName = GetEventData();
-
-	switch(nodName)
-	{
-		case "MB_NEW":
-
-			if (comName == "click" || comName == "activate"){
-
-				if(CheckAttribute(&InterfaceStates,"Buttons.Resume.enable") && sti(InterfaceStates.Buttons.Resume.enable) == true)
-				{
-					ShowConfirmWindow(true);
-				} else {
-
-					NewClick();
-				}
-			}
-
-			break;
-
-		case "CONFIRM_WINDOW_MB_YES":
-
-			if (comName == "click" || comName == "activate"){
-
-				//ShowConfirmWindow(false);
-				NewClick();
-			}
-
-			if (comName == "deactivate"){
-
-				ShowConfirmWindow(false);
-			}
-
-			break;
-
-		case "CONFIRM_WINDOW_MB_NO":
-
-			if (comName == "click" || comName == "activate"){
-				ShowConfirmWindow(false);
-			}
-
-			if (comName == "deactivate"){
-
-				ShowConfirmWindow(false);
-			}
-
-			break;
-	}
-
-}
-
-void NewClick()
-{
-	InterfaceStates.showGameMenuOnExit = false;
-	IDoExit( RC_INTERFACE_DO_NEW_GAME, true);
-}
-
-void LoadClick()
-{
-	IDoExit( RC_INTERFACE_DO_LOAD_GAME, true);
-}
-
-void SaveClick()
-{
-	IDoExit( RC_INTERFACE_DO_SAVE_GAME, true);
-}
-
-void ResumeClick()
+void ResumePress()
 {
 	IDoExit(RC_INTERFACE_DO_RESUME_GAME, true);
 }
 
+void LoadPress()
+{
+	IDoExit( RC_INTERFACE_DO_LOAD_GAME, true);
+}
 
-void OptionsClick()
+void SavePress()
+{
+	IDoExit( RC_INTERFACE_DO_SAVE_GAME, true);
+}
+
+void OptionsPress()
 {
 	IDoExit(RC_INTERFACE_DO_OPTIONS, true);
 }
 
-void QuitClick()
+void QuitMainMenuPress()
 {
-	XI_WindowDisable("MAIN_WINDOW",true);
-	XI_WindowDisable("CONFIRM_EXIT_WINDOW",false);
-	XI_WindowShow("CONFIRM_EXIT_WINDOW", true);
-	SetCurrentNode("CONFIRM_EXIT_NO");
+	ShowExitWindow("QuitMainMenu");
 }
 
-void ConfirmExitClick()
+void QuitGamePress()
 {
-    PauseParticles(true); //fix вылета у форта
-	EngineLayersOffOn(false);
-	QuitProcess();
-	//IDoExit(-1, false); // fix
-	//ExitProgram();
+	ShowExitWindow("QuitGame");
 }
 
-void ConfirmExitCancel()
+void ShowExitWindow(string sExitTo)
 {
-    XI_WindowDisable("CONFIRM_EXIT_WINDOW",true);
-	XI_WindowShow("CONFIRM_EXIT_WINDOW",false);
-	XI_WindowDisable("MAIN_WINDOW",false);
-	SetCurrentNode("MB_EXITGAME");
-}
-
-void ShowConfirmWindow(bool show)
-{
-	if (show){
-
-		SetCurrentNode("CONFIRM_WINDOW_MB_NO");
-
-		XI_WindowDisable("MAIN_WINDOW", true);
-		XI_WindowDisable("CONFIRM_WINDOW", false);
-		XI_WindowShow("CONFIRM_WINDOW", true);
-		EI_CreateFrame("CONFIRM_WINDOW_BORDER",190,190,610,360);
-
-	} else {
-
-		XI_WindowDisable("CONFIRM_WINDOW", true);
-		XI_WindowShow("CONFIRM_WINDOW", false);
-		XI_WindowDisable("MAIN_WINDOW", false);
-
-		if(GetSelectable("MB_RESUME")) 
-			SetCurrentNode("MB_RESUME"); 
-		else
-			SetCurrentNode("MB_NEW");
+	XI_WindowShow("EXIT_WINDOW", true);
+	XI_WindowDisable("EXIT_WINDOW", false);
+	XI_WindowDisable("MAIN_WINDOW", true);
+	
+	switch(sExitTo)
+	{
+		case "QuitMainMenu":
+		    SetFormatedText("EXIT_TEXT", XI_ConvertString("ConfirmExitMainMenu"));
+			SetNodeUsing("EXIT_MAINMENU_OK", true);
+			SetNodeUsing("EXIT_GAME_OK", false);
+		break;
+		case "QuitGame":
+		    SetFormatedText("EXIT_TEXT", XI_ConvertString("ConfirmExitGame"));
+			SetNodeUsing("EXIT_GAME_OK", true);
+			SetNodeUsing("EXIT_MAINMENU_OK", false);
+		break;
 	}
 }
 
-void QuitProcess()
+void HideExitWindow()
 {
-    // вылетам у форта НЕТ -->
+	XI_WindowShow("EXIT_WINDOW", false);
+	XI_WindowDisable("EXIT_WINDOW", true);
+	XI_WindowDisable("MAIN_WINDOW", false);
+}
+
+void QuitMainMenuProcess()
+{
+    IDoExit(RC_INTERFACE_MAIN_MENU_EXIT, true);
+}
+
+void QuitGameProcess()
+{
+	PauseParticles(true);
+	EngineLayersOffOn(false);
+	
     if (bSeaActive && !bAbordageStarted)
     {
 		SendMessage(&AIBalls, "l", MSG_MODEL_RELEASE);
 	}
-	// вылетам у форта НЕТ <--
+	
 	IDoExit(-1, false);
 	ExitProgram();
 }

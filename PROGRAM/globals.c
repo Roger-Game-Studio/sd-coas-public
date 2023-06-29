@@ -50,6 +50,7 @@ int		NationsRelations[MAX_NATIONS_SQR];
 int		NationsRelations2MainCharacter[MAX_NATIONS];
 
 object	Render;
+object  InterfaceBackScene;
 
 //--------------------------------------------------------------------
 // Characters section

@@ -511,6 +511,7 @@ void InterfaceDoExit()
 		break;
 			
 		case RC_INTERFACE_MAIN_MENU_EXIT:
+			GameOverMainMenu();
 		break;
 		
 		case RC_INTERFACE_DO_NEW_GAME:
@@ -1480,17 +1481,24 @@ void ProcessInterfaceKey()
 	LaunchSelectMenu();
 }
 
+void GameOverMainMenu()
+{
+	if (bSeaActive && !bAbordageStarted)
+	{
+		PauseParticles(true); //fix вылета у форта
+		SendMessage(&AIBalls, "l", MSG_MODEL_RELEASE);
+	}
+	PostEvent("LAi_event_GameOver", 100, "s", "MainMenu");
+}
+
 void GameOverE()
 {
-	// вылетам у форта НЕТ -->
-    if (bSeaActive && !bAbordageStarted)
+	if (bSeaActive && !bAbordageStarted)
     {
 		PauseParticles(true); //fix вылета у форта
 		SendMessage(&AIBalls, "l", MSG_MODEL_RELEASE);
 	}
-	// вылетам у форта НЕТ <--
 	GameOver("sea");
-	DeleteSeaEnvironment();
 }
 
 void GameOver(string sName)
@@ -1498,7 +1506,6 @@ void GameOver(string sName)
 	ref mc;
 	int nSelect;
 	string sFileName;
-	//ResetSoundScheme();
 	PauseAllSounds();
 	ResetSound();
 	EngineLayersOffOn(false);
@@ -1509,7 +1516,8 @@ void GameOver(string sName)
 	ClearPostEvents();
 	DeleteEntities();
 
-	if(sti(InterfaceStates.Launched)) {
+	if(sti(InterfaceStates.Launched))
+	{
 		UnloadSegment(Interfaces[CurrentInterface].SectionName);
 	}
 
@@ -1524,18 +1532,9 @@ void GameOver(string sName)
 
 	InitSound();
 	SetEventHandler(EVENT_END_VIDEO,"LaunchMainMenu_afterVideo",0);
-	//PlayStereoOGG("music_ship_dead");   // boal звук убиения
 	switch(sName)
 	{
 		case "sea":
-			/*nSelect = rand(1);
-			sFileName = "skeleton_on_beach";
-			switch(nSelect)
-			{
-				case 0: sFileName = "skeleton_on_beach"; break;
-				case 1: sFileName = "undersea"; break;
-			}
-			StartPostVideo(sFileName,1);   */
 			StartPictureAsVideo( "loading\seadeath.tga", 3.5 );
 			PlayStereoOGG("music_ship_dead");
 		break;
@@ -1564,7 +1563,25 @@ void GameOver(string sName)
 			StartPictureAsVideo( "loading\finalbad2.tga", 3.5 );
 			PlayStereoOGG("music_death");
 		break;
+		
+		case "mainmenu":
+			StartPictureAsVideo( "loading\Start_Loading.tga", 3.5 );
+		break;
 	}
+	
+	reload_location_index = -1;
+      
+    DeleteSeaEnvironment();
+
+    InterfaceStates.BackEnvironmentIsCreated = false;
+
+    LayerDelObject(EXECUTE, &InterfaceBackScene);
+    LayerDelObject(REALIZE, &InterfaceBackScene);
+        
+    if(isEntity(&InterfaceBackScene))
+    {
+        DeleteClass(&InterfaceBackScene);
+    }	
 }
 
 string its(int iNumber)

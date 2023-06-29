@@ -161,7 +161,6 @@ void HideQRCodeWindow()
 }
 
 int iChar;
-object InterfaceBackScene;
 void MainMenu_CreateBackEnvironment()
 {
 	LayerFreeze(EXECUTE,false);
