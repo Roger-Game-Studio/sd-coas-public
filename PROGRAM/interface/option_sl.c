@@ -57,6 +57,14 @@ void GetRealOptions(ref optref)
 	optref.volume.sound = ftmp1;
 	optref.volume.music = ftmp2;
 	optref.volume.dialog = ftmp3;
+	
+	//Hokkins: выключить звук -->
+	if( CheckAttribute(&InterfaceStates,"EnableSoundsVolume") ) {
+		optref.volume.EnableSoundsVolume = sti(InterfaceStates.EnableSoundsVolume);
+	} else {
+		optref.volume.EnableSoundsVolume = true;
+	}
+	//Hokkins:  выключить звук <--
 
 	/*
 	optref.arcademode.bArcadeSails = bArcadeSails;
@@ -180,6 +188,14 @@ void GetRealOptions(ref optref)
 void SetCurentOptions(ref optref)
 {
 	SendMessage(&sound,"lfff", MSG_SOUND_SET_MASTER_VOLUME, stf(optref.volume.sound),	stf(optref.volume.music),	stf(optref.volume.dialog));
+	
+	//Hokkins: выключить звук -->
+	if( CheckAttribute(optref,"volume.EnableSoundsVolume") ) {
+		InterfaceStates.EnableSoundsVolume = optref.volume.EnableSoundsVolume;
+	} else {
+		InterfaceStates.EnableSoundsVolume = false;
+	}
+	//Hokkins:  выключить звук <--
 
 	/*bArcadeSails = sti(optref.arcademode.bArcadeSails);
 	bArcadeShipSpeed = sti(optref.arcademode.bArcadeShipSpeed);

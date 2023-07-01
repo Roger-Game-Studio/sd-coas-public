@@ -11,6 +11,12 @@ int 	newBase 	= iScaleHUD;
 #define BI_HI_RATIO 	4.0
 #define BI_DIF_RATIO 	3.75
 
+int HUDSliderPrecision()
+{
+	if(fHUDRatio < 0.3) return 2;
+	return 1;
+}
+
 int CalcHUDBase(float fSlider, float MyScreen)
 {
     float fRes = BI_DIF_RATIO * fSlider;
@@ -66,8 +72,9 @@ void InitInterface(string iniName)
 	SetEventHandler("evntKeyChoose","procKeyChoose",0);
 	SetEventHandler("ShowInfo", "ShowInfo", 0);
 	SetEventHandler("MouseRClickUP","HideInfo",0);
-
+	
 	SetEventHandler("evFaderFrame","FaderFrame",0);
+	SetEventHandler("frame","UpdateFrame",0);
 
 	aref ar; makearef(ar,objControlsState.key_codes);
 	SendMessage(&GameInterface,"lsla",MSG_INTERFACE_MSG_TO_NODE,"KEY_CHOOSER", 0,ar);
@@ -91,7 +98,18 @@ void InitInterface(string iniName)
 		InterfaceStates.GlowEffect = 50;
 	}
 	
-	glowEffect = sti(InterfaceStates.GlowEffect) / 250.0; // ≈сли делить на 250, то хер, т.к. целое, а если на 250.0 - все гуд
+	if(sti(Render.PostProcess) == 0)
+	{
+		SetSelectable("GLOW_SLIDE", false);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 5, argb(255,200,200,200));
+	}
+	else
+	{
+		SetSelectable("GLOW_SLIDE", true);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 5, argb(255,255,255,255));
+	}
+	
+	glowEffect = sti(InterfaceStates.GlowEffect) / 250.0; // если делить на 250, то хер, т.к. целое, а если на 250.0 - все гуд
 	
 	GameInterface.nodes.GLOW_SLIDE.value = glowEffect;
 	SendMessage(&GameInterface, "lslf", MSG_INTERFACE_MSG_TO_NODE, "GLOW_SLIDE", 0, glowEffect);
@@ -103,9 +121,44 @@ void InitInterface(string iniName)
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "SCALE_HUD_SLIDE", 2, makeint(sl * 100.0));
 	GameInterface.nodes.scale_hud_slide.value = sl;
 	iHUDBase = CalcHUDBase(sl, stf(Render.screen_y));
-	SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 1, 16, "#" + Render.screen_y + "  / " + newBase + " : " + fHUDRatio);
+	SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 1, 16, "#" + Render.screen_y + " / " + newBase + " : " + FloatToString(fHUDRatio, HUDSliderPrecision()));
 	
 	// Hokkins: масштабирование интерфейса <--
+}
+
+void UpdateFrame()
+{
+	float fMusic, fSound, fDialog;
+	
+	if(CheckAttribute(&InterfaceStates,"EnableSoundsVolume") && sti(InterfaceStates.EnableSoundsVolume) != false)
+	{
+		fMusic = 0.0;
+		fSound = 0.0;
+		fDialog = 0.0;
+		SetSelectable("MUSIC_SLIDE", false);
+		SetSelectable("SOUND_SLIDE", false);
+		SetSelectable("DIALOG_SLIDE", false);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 12, argb(255,200,200,200));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 13, argb(255,200,200,200));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 14, argb(255,200,200,200));
+	}
+	else
+	{	
+		fMusic = 0.5;
+		fSound = 0.5;
+		fDialog = 0.5;
+		SetSelectable("MUSIC_SLIDE", true);
+		SetSelectable("SOUND_SLIDE", true);
+		SetSelectable("DIALOG_SLIDE", true);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 12, argb(255, 255, 255, 255));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 13, argb(255, 255, 255, 255));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 14, argb(255, 255, 255, 255));
+	}
+	
+	SendMessage(&GameInterface, "lslf", MSG_INTERFACE_MSG_TO_NODE, "MUSIC_SLIDE", 0, fMusic);
+	SendMessage(&GameInterface, "lslf", MSG_INTERFACE_MSG_TO_NODE, "SOUND_SLIDE", 0, fSound);
+	SendMessage(&GameInterface, "lslf", MSG_INTERFACE_MSG_TO_NODE, "DIALOG_SLIDE", 0, fDialog);
+	SendMessage(&sound,"lfff", MSG_SOUND_SET_MASTER_VOLUME, fSound,	fMusic,	fDialog);
 }
 
 void ProcessCancelExit()
@@ -160,6 +213,8 @@ void IDoExit(int exitCode)
 	DelEventHandler("MouseRClickUP","HideInfo");
 	DelEventHandler("evFaderFrame","FaderFrame");
 	DelEventHandler("InterfaceBreak","ProcessCancelExit");  // boal
+	
+	DelEventHandler("frame","UpdateFrame");
 
 	LanguageCloseFile( g_ControlsLngFile );
 
@@ -183,6 +238,13 @@ void IReadVariableAfterInit()
 {
 	GetHerbOptionsData();
 	GetControlsStatesData();
+	
+	int nEnableSoundsVolume = 0;
+	if( CheckAttribute(&InterfaceStates,"EnableSoundsVolume") ) 
+	{
+		nEnableSoundsVolume = sti(InterfaceStates.EnableSoundsVolume);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"DISABLE_SOUNDS_CHECKBOX", 2, 1, nEnableSoundsVolume );
 	
 	int nEnabledSimpleSea = 0;
 	if( CheckAttribute(&InterfaceStates,"SimpleSea") ) 
@@ -285,16 +347,23 @@ void procTabChange()
 
 void procBtnAction()
 {
+	object engine;
+	string sFileName = "";
+	
 	int iComIndex = GetEventData();
 	string sNodName = GetEventData();
 
-	if( sNodName == "BTN_OK" ) {
-		if( iComIndex==ACTION_ACTIVATE || iComIndex==ACTION_MOUSECLICK ) {
+	if( sNodName == "BTN_OK" ) 
+	{
+		if( iComIndex==ACTION_ACTIVATE || iComIndex==ACTION_MOUSECLICK ) 
+		{
 			ProcessOkExit();
 		}
 		return;
 	}
-	if( sNodName == "BTN_CONTROLS_DEFAULT" ) {
+	
+	if( sNodName == "BTN_CONTROLS_DEFAULT" ) 
+	{
 		RestoreDefaultKeys();
 		return;
 	}
@@ -329,6 +398,13 @@ void procCheckBoxChange()
 	{
 		{ // invert mouse
 			InterfaceStates.InvertCameras = bBtnState;
+		}
+	}
+	
+	if( sNodName == "DISABLE_SOUNDS_CHECKBOX" )
+	{
+		{
+			InterfaceStates.EnableSoundsVolume = bBtnState;
 		}
 	}
 	
@@ -458,9 +534,10 @@ void ChangeVideoColor()
 void ChangeSeaDetail()
 {
 	float fCurSeaDetail = stf(GameInterface.nodes.sea_details_slide.value);
-	float fSeaDetail = ConvertSeaDetails(fCurSeaDetail,false);
-	if( !CheckAttribute(&InterfaceStates,"SeaDetails") ||
-		(stf(InterfaceStates.SeaDetails)!=fSeaDetail) ) {
+	float fSeaDetail = ConvertSeaDetails(fCurSeaDetail, false);
+	
+	if(!CheckAttribute(&InterfaceStates, "SeaDetails") || (stf(InterfaceStates.SeaDetails) != fSeaDetail))
+	{
 			InterfaceStates.SeaDetails = fSeaDetail;
 	}
 }
@@ -469,25 +546,24 @@ void ChangeSeaDetail()
 void ChangePerspDetail()
 {
     float fCurPerspDetail = stf(GameInterface.nodes.sea_cam_persp_slide.value);
-	float fPerspDetail = ConvertPerspDetails(fCurPerspDetail,false);
-	if( !CheckAttribute(&InterfaceStates,"PerspDetails") ||
-		(stf(InterfaceStates.PerspDetails)!=fPerspDetail) ) {
-			InterfaceStates.PerspDetails = fPerspDetail;
-			float fCamPersp = CalcSeaPerspective();
-            string sMsg = "#"+ FloatToString(fCamPersp, 3);
+	float fPerspDetail = ConvertPerspDetails(fCurPerspDetail, false);
+	
+	if(!CheckAttribute(&InterfaceStates, "PerspDetails") || (stf(InterfaceStates.PerspDetails) != fPerspDetail))
+	{
+		InterfaceStates.PerspDetails = fPerspDetail;
+		//SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_CAM_PERSP_SLIDE", 0, stf(InterfaceStates.PerspDetails));
 	}
 }
 
 void ChangeRadDetail()
 {
-    float fCurPerspDetail = stf(GameInterface.nodes.land_cam_rad_slide.value);
-	float fPerspDetail = ConvertRadDetails(fCurPerspDetail,false);
-	if( !CheckAttribute(&InterfaceStates,"RadDetails") ||
-		(stf(InterfaceStates.RadDetails)!=fPerspDetail) ) {
-			InterfaceStates.RadDetails = fPerspDetail;
-			float fCamPersp = CalcLandRadius();
-            string sMsg = "#"+ FloatToString(fCamPersp, 1);
-            SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "TITLES_STR", 1, 24, sMsg);
+    float fCurRadDetail = stf(GameInterface.nodes.land_cam_rad_slide.value);
+	float fRadDetail = ConvertRadDetails(fCurRadDetail, false);
+	
+	if(!CheckAttribute(&InterfaceStates, "RadDetails") || (stf(InterfaceStates.RadDetails) != fRadDetail))
+	{
+		InterfaceStates.RadDetails = fRadDetail;
+		//SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"LAND_CAM_RAD_SLIDE", 0, stf(InterfaceStates.RadDetails));
 	}
 }
 //Hokkins: настройки камеры <--
@@ -504,11 +580,12 @@ void ChangeSoundSetting()
 void ChangeHUDDetail()
 {
     float sl = stf(GameInterface.nodes.scale_hud_slide.value);
+	string str = "";
 	newBase = CalcHUDBase(sl, stf(Render.screen_y));
-	if( newBase != iHUDBase) 
+	if(newBase != iHUDBase) 
 	{
-        fHUDRatio = stf(Render.screen_y) / newBase;
-		SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 1, 16, "#" + Render.screen_y + "  / " + newBase + " : " + fHUDRatio);
+		fHUDRatio = stf(Render.screen_y) / newBase;
+		SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 1, 16, "#" + Render.screen_y + "  / " + newBase + " : " + FloatToString(fHUDRatio, HUDSliderPrecision()));
 	}
 }
 //Hokkins: масштабирование интерфейса <--
@@ -548,6 +625,10 @@ bool AddToControlsList(int row, string sControl, string sKey, bool bRemapable)
 	GameInterface.controls_list.(rowname).userdata.remapable = bRemapable;
 	GameInterface.controls_list.(rowname).userdata.control = sControl;
 	GameInterface.controls_list.(rowname).userdata.key = sKey;
+	GameInterface.controls_list.(rowname).td2.scale = 0.8;
+	GameInterface.controls_list.(rowname).td2.textoffset = "2,4";
+	GameInterface.controls_list.(rowname).td2.align = "left";
+	GameInterface.controls_list.(rowname).td2.valign "center";
 	GameInterface.controls_list.(rowname).td2.str = LanguageConvertString(g_ControlsLngFile,sControl);
 	if( GameInterface.controls_list.(rowname).td2.str == "" ) {
 		trace("Warning!!! " + sControl + " hav`t translate value");
@@ -557,8 +638,10 @@ bool AddToControlsList(int row, string sControl, string sKey, bool bRemapable)
 	}
 	if( CheckAttribute(&objControlsState,"key_codes."+sKey+".img") ) {
 		GameInterface.controls_list.(rowname).td1.fontidx = 0;
-		GameInterface.controls_list.(rowname).td1.textoffset = "2,-1";
 		GameInterface.controls_list.(rowname).td1.scale = 0.5;
+		GameInterface.controls_list.(rowname).td1.textoffset = "2,2";
+		GameInterface.controls_list.(rowname).td1.align = "left";
+		GameInterface.controls_list.(rowname).td1.valign "center";
 		GameInterface.controls_list.(rowname).td1.str = objControlsState.key_codes.(sKey).img;
 	}
 	return true;
@@ -638,12 +721,15 @@ void GetVideoOptionsData()
 	ISetColorCorrection(fC, fG, fB, fD, fE, fR);
 }
 
-void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSeaDetails, float fPerspDetails, float fRad)
+void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSeaDetails, float fPerspDetails, float fRadDetails)
 {
 	float fCurContrast = ConvertContrast(fContrast,true);
 	float fCurGamma = ConvertGamma(fGamma,true);
 	float fCurBright = ConvertBright(fBright,true);
 	float fCurSeaDetails = ConvertSeaDetails(fSeaDetails, true);
+	
+	float fCurPerspDetails = ConvertPerspDetails(fPerspDetails, true);
+	float fCurRadDetails = ConvertRadDetails(fRadDetails, true);
 
 	if(fCurContrast>1.0) fCurContrast = 1.0;
 	if(fCurContrast<0.0) fCurContrast = 0.0;
@@ -655,11 +741,11 @@ void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSe
 	if(fCurSeaDetails>1.0) fCurSeaDetails = 1.0;
 	
 	//Hokkins: настройки камеры -->
-	if(fPerspDetails<0.0) fPerspDetails = 0.0;
-	if(fPerspDetails>1.0) fPerspDetails = 1.0;
+	if(fCurPerspDetails<0.0) fCurPerspDetails = 0.0;
+	if(fCurPerspDetails>1.0) fCurPerspDetails = 1.0;
 	
-	if(fRad<0.0) fRad = 0.0;
-	if(fRad>1.0) fRad = 1.0;
+	if(fCurRadDetails<0.0) fCurRadDetails = 0.0;
+	if(fCurRadDetails>1.0) fCurRadDetails = 1.0;
 	//Hokkins: настройки камеры <--
 
 	GameInterface.nodes.CONTRAST_SLIDE.value = fCurContrast;
@@ -668,8 +754,8 @@ void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSe
 	GameInterface.nodes.SEA_DETAILS_SLIDE.value = fCurSeaDetails;
 	
 	//Hokkins: настройки камеры -->
-	GameInterface.nodes.SEA_CAM_PERSP_SLIDE.value = fPerspDetails;
-	GameInterface.nodes.LAND_CAM_RAD_SLIDE.value = fRad;
+	GameInterface.nodes.SEA_CAM_PERSP_SLIDE.value = fCurPerspDetails;
+	GameInterface.nodes.LAND_CAM_RAD_SLIDE.value = fCurRadDetails;
 	//Hokkins: настройки камеры <--
 
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"CONTRAST_SLIDE", 0,fCurContrast);
@@ -678,8 +764,8 @@ void ISetColorCorrection(float fContrast, float fGamma, float fBright, float fSe
 	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_DETAILS_SLIDE", 0, fCurSeaDetails);
 	
 	//Hokkins: настройки камеры -->
-	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_CAM_PERSP_SLIDE", 0, fPerspDetails);
-	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"LAND_CAM_RAD_SLIDE", 0, fRad);
+	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SEA_CAM_PERSP_SLIDE", 0, fCurPerspDetails);
+	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"LAND_CAM_RAD_SLIDE", 0, fCurRadDetails);
 	//Hokkins: настройки камеры <--
 
 	XI_SetColorCorrection(fContrast,fGamma,fBright);
@@ -904,17 +990,17 @@ void ShowInfo()
 		case "GAMMA_SLIDE":
 			sHeader = XI_ConvertString("gamma");
 			sText1 = XI_ConvertString("gamma_descr");
-			sText3 = XI_ConvertString("FullScreenOnly");
+			//sText3 = XI_ConvertString("FullScreenOnly");
 		break;
 		case "BRIGHT_SLIDE":
 			sHeader = XI_ConvertString("Brightness");
 			sText1 = XI_ConvertString("brightness_descr");
-			sText3 = XI_ConvertString("FullScreenOnly");
+			//sText3 = XI_ConvertString("FullScreenOnly");
 		break;
 		case "CONTRAST_SLIDE":
 			sHeader = XI_ConvertString("Contrast");
 			sText1 = XI_ConvertString("Contrast_descr");
-			sText3 = XI_ConvertString("FullScreenOnly");
+			//sText3 = XI_ConvertString("FullScreenOnly");
 		break;
 		
 		case "GLOW_SLIDE":
@@ -960,6 +1046,11 @@ void ShowInfo()
 		case "DIALOG_SLIDE":
 			sHeader = XI_ConvertString("Dialog Volume");
 			sText1 = XI_ConvertString("Dialog Volume_descr");
+		break;
+		
+		case "DISABLE_SOUNDS_CHECKBOX":
+			sHeader = XI_ConvertString("Disable Sounds Vulume");
+			sText1 = XI_ConvertString("Disable Sounds Vulume_descr");
 		break;
 		
 		case "SCALE_HUD_SLIDE":
