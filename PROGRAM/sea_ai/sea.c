@@ -1480,6 +1480,7 @@ void Sea_LoadIsland(string sIslandID)
 		// boal <--
 		CreateEntity(&Island, "Island");
 		Island.LightingPath = GetLightingPath();
+		Island.dynamicLightsOn = sti(InterfaceStates.DynamicLight); // Hokkins: динамическое освещения
 		Island.ImmersionDistance = Islands[iIslandIndex].ImmersionDistance;			// distance = fRadius * ImmersionDistance, from island begin immersion
 		Island.ImmersionDepth = Islands[iIslandIndex].ImmersionDepth;			// immersion depth = (Distance2Camera / (fRadius * ImmersionDistance) - 1.0) * ImmersionDepth
 		string sTexturePath = "islands\" + Islands[iIslandIndex].TexturePath + "\";

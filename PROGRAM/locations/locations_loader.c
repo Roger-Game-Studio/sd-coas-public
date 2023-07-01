@@ -192,7 +192,14 @@ bool LoadLocation(ref loc)
 		SendMessage(loc, "ls", MSG_LOCATION_TEXTURESPATH, loc.filespath.textures);
 	}
 	//Set lighting path
-	SendMessage(loc, "ls", MSG_LOCATION_LIGHTPATH, GetLightingPath());
+	if(sti(InterfaceStates.DynamicLight)) // Hokkins: динамическое освещения
+	{
+		SendMessage(loc, "ls", MSG_LOCATION_LIGHTPATH, "");
+	}	
+	else
+	{
+		SendMessage(loc, "ls", MSG_LOCATION_LIGHTPATH, GetLightingPath());
+	}
 	SendMessage(loc, "ls", MSG_LOCATION_SHADOWPATH, GetLmLightingPath());
 	//Loading always models================================================================
 	aref st, at, lit, lit1;
@@ -773,12 +780,17 @@ bool LocLoadModel(aref loc, string sat, string addition)
 	bool res;
 	string tech = "";
 	int level = 10;
+	int dynamicLightsOn = sti(InterfaceStates.DynamicLight); // Hokkins: динамическое освещения
 	attr = sat + ".tech";
 	if(CheckAttribute(loc, attr)) tech = loc.(attr);
+	if(tech == "LocationModelBlend" && dynamicLightsOn) tech = "DLightModel";
+	if(!CheckAttribute(loc, attr) && dynamicLightsOn)
+	{
+		tech = "DLightModel";
+	}
     attr = sat + ".level";
     if(CheckAttribute(loc, attr)) level = MakeInt(loc.(attr));
     attr = sat + ".lights";
-    int dynamicLightsOn = 0;
     if(CheckAttribute(loc, attr)) dynamicLightsOn = MakeInt(loc.(attr));
     //Грузим модельку
     res = SendMessage(loc, "lssll", MSG_LOCATION_ADD_MODEL, loc.(sat) + addition, tech, level, dynamicLightsOn);

@@ -252,6 +252,13 @@ void IReadVariableAfterInit()
 		nEnabledSimpleSea = sti(InterfaceStates.SimpleSea);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SIMPLESEA_CHECKBOX", 2, 1, nEnabledSimpleSea );
+	
+	int nEnabledDynamicLight = 0;
+	if( CheckAttribute(&InterfaceStates,"DynamicLight") ) 
+	{
+		nEnabledDynamicLight = sti(InterfaceStates.DynamicLight);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"DYNAMIC_LIGHT_CHECKBOX", 2, 1, nEnabledDynamicLight );
 
 	int nShowBattleMode = 0;
 	if( CheckAttribute(&InterfaceStates,"ShowBattleMode") ) {
@@ -412,6 +419,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.SimpleSea = bBtnState;
+		}
+	}
+	
+	if( sNodName == "DYNAMIC_LIGHT_CHECKBOX" ) 
+	{
+		{ // Show battle mode border
+			InterfaceStates.DynamicLight = bBtnState;
 		}
 	}
 	
@@ -1070,13 +1084,19 @@ void ShowInfo()
 		break;
 
 		case "MOUSE_SENSITIVITY_SLIDE":
-			sHeader = XI_ConvertString("MouseSensitivity2");
+			sHeader = XI_ConvertString("MouseSensitivity");
 			sText1 = XI_ConvertString("MouseSensitivity_descr");
 		break;
 		
 		case "SIMPLESEA_CHECKBOX":
 			sHeader = XI_ConvertString("SimpleSea Mode");
 			sText1 = XI_ConvertString("SimpleSea Mode_descr");
+		break;
+		
+		case "DYNAMIC_LIGHT_CHECKBOX":
+			sHeader = XI_ConvertString("DynamicLight");
+			sText1 = XI_ConvertString("DynamicLight_descr");
+			sText2 = XI_ConvertString("NeedToExitFromLocation");
 		break;
 
 		case "BATTLE_MODE_CHECKBOX":

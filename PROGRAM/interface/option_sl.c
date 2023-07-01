@@ -105,6 +105,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.SimpleSeaMode = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"DynamicLight") ) {
+		optref.cameramode.DynamicLight = sti(InterfaceStates.DynamicLight);
+	} else {
+		optref.cameramode.DynamicLight = true;
+	}
 
 	if( CheckAttribute(&InterfaceStates,"ShowBattleMode") ) {
 		optref.cameramode.ShowBattleMode = sti(InterfaceStates.ShowBattleMode);
@@ -219,6 +225,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.SimpleSea = optref.cameramode.SimpleSeaMode;
 	} else {
 		InterfaceStates.SimpleSea = false;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.DynamicLight") ) {
+		InterfaceStates.DynamicLight = optref.cameramode.DynamicLight;
+	} else {
+		InterfaceStates.DynamicLight = false;
 	}
 
 	if( CheckAttribute(optref,"cameramode.ShowBattleMode") ) {

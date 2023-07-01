@@ -536,8 +536,10 @@ void CreateWeatherEnvironment()
 
 	if (bSeaActive)
 	{
-		Island.LightingPath = GetLightingPath();
+		Island.LightingPath = GetIslandLightingPath(); //Mett: для динамического освещения островов
 		Island.FogDensity = Weather.Fog.IslandDensity;
+		
+		//Mett: выставляем туман, если есть модель для отражения, то вешаем туман на нее, если нет, то на модель острова
 		SendMessage(&IslandReflModel, "lllf", MSG_MODEL_SET_FOG, 1, 1, stf(Weather.Fog.IslandDensity));
 	}
 
@@ -702,9 +704,13 @@ void Whr_TimeUpdate()
 	//zagolski. динамическая смена тумана на островах и на море
 	if (bSeaActive)
 	{
-		Island.LightingPath = GetLightingPath();
+		//Mett: для динамического освещения островов
+		Island.LightingPath = GetIslandLightingPath(); 
 		Island.FogDensity = Weather.Fog.IslandDensity;
 		Sea.Fog.SeaDensity = Weather.Fog.SeaDensity;
+		
+		//Mett: выставляем туман, если есть модель для отражения, то вешаем туман на нее, если нет, то на модель острова
+		SendMessage(&IslandReflModel, "lllf", MSG_MODEL_SET_FOG, 1, 1, stf(Weather.Fog.IslandDensity));
 	}
 
 	//navy --> Rain
@@ -1059,26 +1065,41 @@ ref Whr_GetShadowDensity()
 }
 
 string	Whr_GetCurrentFog() { return sCurrentFog; }
-
 string	Whr_GetInsideBack() { return sInsideBack; }
-string	GetLightingPath()	
+
+string GetLightingPath()
 {
-//navy -->
+	if(sti(InterfaceStates.DynamicLight)) //Mett: для динамического освещения нет col'ов
+	{
+		return "";
+	}
 	if (CheckAttribute(&WeatherParams, "Rain") && sti(WeatherParams.Rain))
 	{
 		return Whr_GetRainyLightningPath();
 	}
-//navy <--
-	return sLightingPath; 
+	return sLightingPath;
 }
+
+//путь до col файлов для островов
+string GetIslandLightingPath()
+{
+	if(sti(InterfaceStates.DynamicLight)) //для динамического освещения нет col файлов
+	{
+		return "";
+	}	
+	if(CheckAttribute(&WeatherParams, "Rain") && sti(WeatherParams.Rain))
+	{
+		return Whr_GetRainyLightningPath();
+	}
+	return sLightingPath;
+}
+
 string	GetLmLightingPath() 
-{ 
-//navy -->
+{
 	if (CheckAttribute(&WeatherParams, "Rain") && sti(WeatherParams.Rain))
 	{
 		return "storm";
 	}
-//navy <--
 	return sLmLightingPath; 
 }
 
