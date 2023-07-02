@@ -113,6 +113,29 @@ void FindRussianGoodString(int iGood, ref sParam, int iStep)
 	sParam = sTempString;
 }
 
+//eddy. месяцы
+string FindRussianMonthString(int _Month)
+{
+    string sTemp;
+    if (_Month <= 20)
+    {
+        sTemp = XI_ConvertString("month3");
+        if (_Month == 1) sTemp = XI_ConvertString("month1");
+        if (_Month > 1 && _Month < 5) sTemp = XI_ConvertString("month2");
+    }
+    else
+    {
+        sTemp = _Month;
+        sTemp = GetSymbol(sTemp, strlen(sTemp)-1);
+        int iTemp = sti(sTemp);
+        sTemp = XI_ConvertString("month3");
+        if (iTemp == 1) sTemp = XI_ConvertString("month1");
+        if (iTemp > 1 && _Month < 5) sTemp = XI_ConvertString("month2");
+    }
+    sTemp = _Month + " " + sTemp;
+    return sTemp;
+}
+
 string FindRussianDaysString(int idays)
 {
 	string sDays = idays;
@@ -250,6 +273,64 @@ string FindRussianDaysString(int idays)
 	sDays = idays + " " + sDays;
 	return sDays;
 }
+
+// Hokkins: методы склонения часов и минут -->
+string GetHoursString(int iHours)
+{
+	string result = iHours;
+	
+	int iHoursRemainderFromTen = iHours % 10;
+	int iHoursRemainderFromHundred = iHours % 100;
+	
+	if(iHoursRemainderFromTen == 1 && iHoursRemainderFromHundred != 11)
+	{
+		result += " " + XI_ConvertString("hour1");
+	}
+	else
+	{
+		if(iHoursRemainderFromTen == 2 || iHoursRemainderFromTen == 3 || iHoursRemainderFromTen == 4)
+		{
+			if(iHoursRemainderFromHundred != 12 && iHoursRemainderFromHundred != 13 && iHoursRemainderFromHundred != 14)
+			{
+				result += " " + XI_ConvertString("hour2");
+			}
+		}
+		else
+		{
+			result += " " + XI_ConvertString("hour3");
+		}
+	}
+	return result;
+}
+
+string GetMinutesString(int iMinutes)
+{
+	string result = iMinutes;
+	
+	int iMinutesRemainderFromTen = iMinutes % 10;
+	int iMinutesRemainderFromHundred = iMinutes % 100;
+    
+    if(iMinutesRemainderFromTen == 1 && iMinutesRemainderFromHundred != 11)
+	{
+        result += " " + XI_ConvertString("minute1");
+    } 
+	else
+	{
+		if(iMinutesRemainderFromTen >= 2 && iMinutesRemainderFromTen <= 4)
+		{
+			if(iMinutesRemainderFromHundred < 10 || iMinutesRemainderFromHundred >= 20)
+			{
+				result += " " + XI_ConvertString("minute2");
+			}
+		}
+		else
+		{
+			result += " " + XI_ConvertString("minute3");
+		}
+	}
+	return result;
+}
+// Hokkins: <--
 
 string FindRussianMoneyString(int imoney)
 {
@@ -408,28 +489,6 @@ string FindRussianQtyString(int _iQty)
         if (iTemp > 1 && _iQty < 5) sTemp = XI_ConvertString("qty2");
     }
     sTemp = _iQty + " " + sTemp;
-    return sTemp;
-}
-//eddy. месяцы
-string FindRussianMonthString(int _Month)
-{
-    string sTemp;
-    if (_Month <= 20)
-    {
-        sTemp = XI_ConvertString("month3");
-        if (_Month == 1) sTemp = XI_ConvertString("month1");
-        if (_Month > 1 && _Month < 5) sTemp = XI_ConvertString("month2");
-    }
-    else
-    {
-        sTemp = _Month;
-        sTemp = GetSymbol(sTemp, strlen(sTemp)-1);
-        int iTemp = sti(sTemp);
-        sTemp = XI_ConvertString("month3");
-        if (iTemp == 1) sTemp = XI_ConvertString("month1");
-        if (iTemp > 1 && _Month < 5) sTemp = XI_ConvertString("month2");
-    }
-    sTemp = _Month + " " + sTemp;
     return sTemp;
 }
 
