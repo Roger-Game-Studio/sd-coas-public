@@ -24,8 +24,10 @@ void ExternControlsInit(bool bFirst)
     CI_CreateAndSetControls( "", "BOAL_ControF7", CI_GetKeyCode("VK_F7"), 0, false );
     CI_CreateAndSetControls( "", "BOAL_ControlDebug", CI_GetKeyCode("VK_INSERT"), 0, false );
     
-    CI_CreateAndSetControls( "", "TimeScaleFaster", CI_GetKeyCode("VK_ADD"), 0, false );
-    CI_CreateAndSetControls( "", "TimeScaleSlower", CI_GetKeyCode("VK_SUBTRACT"), 0, false );
+    CI_CreateAndSetControls( "", "TimeScaleFasterNumpad", CI_GetKeyCode("VK_ADD"), 0, false );
+    CI_CreateAndSetControls( "", "TimeScaleSlowerNumpad", CI_GetKeyCode("VK_SUBTRACT"), 0, false );
+	CI_CreateAndSetControls("", "TimeScaleFaster", CI_GetKeyCode("VK_A_PLUS"), 0, false );
+	CI_CreateAndSetControls("", "TimeScaleSlower", CI_GetKeyCode("VK_A_MINUS"), 0, false );
 	CI_CreateAndSetControls( "", "VK_PAUSETimePause", CI_GetKeyCode("VK_PAUSE"), 0, false );
 
 	if (MOD_BETTATESTMODE == "On")

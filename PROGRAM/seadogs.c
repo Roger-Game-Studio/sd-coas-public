@@ -1064,11 +1064,11 @@ void ProcessControls()
 	
 
     // boal 27.11.03 time -->
-  	if (ControlName=="TimeScaleFaster" || ControlName == "TimeScaleSlower")
+  	if (ControlName=="TimeScaleFasterNumpad" || ControlName == "TimeScaleSlowerNumpad" || ControlName=="TimeScaleFaster" || ControlName == "TimeScaleSlower")
   	{
         if (loadedLocation.type == "underwater") return; //запрет ускорения под водой.
 		DeleteAttribute(pchar, "pause");
-		if (ControlName == "TimeScaleFaster")
+		if (ControlName == "TimeScaleFasterNumpad" || ControlName == "TimeScaleFaster")
      	{
 			if (TimeScaleCounter >= 12)
 			{
