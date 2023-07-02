@@ -177,7 +177,8 @@ void LAi_type_guardian_CharacterUpdate(aref chr, float dltTime)
 					time = stf(chr.chr_ai.type.dlgwas) - dltTime;
 					chr.chr_ai.type.dlgwas = time;					
 					//Анализируем окружающих персонажей
-					int num = FindNearCharacters(chr, 4.0, -1.0, 180.0, 0.1, true, true);
+					// Hokkins: фикс обнаружения персонажа протектором!
+					int num = FindNearCharacters(chr, 3.0, -1.0, -1.0, 1.0, true, true);
 					if(num > 0)
 					{
 						for(int i = 0; i < num; i++)
