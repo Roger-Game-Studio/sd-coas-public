@@ -3347,3 +3347,19 @@ void OfficersFollow()
 	}
 }
 
+void OfficersCharge()
+{
+	int idx;
+	for(int i=1; i<4; i++)
+	{
+		idx = GetOfficersIndex(PChar,i);
+		if (idx != -1) 
+		{
+			ref offchar = GetCharacter(idx)
+			if(!LAi_CheckFightMode(offchar))
+			{
+				LAi_tmpl_SetFollow(offchar, GetMainCharacter(), -1.0);
+			}
+		}
+	}
+}

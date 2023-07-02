@@ -1163,14 +1163,14 @@ void ProcessControls()
 			{
 				SetTimeScale(1.0);
 				TimeScaleCounter = 0;
-                Log_SetStringToLog("Time x1");
+                Log_SetStringToLog(XI_ConvertString("Time x1"));
 				DelPerkFromActiveList("TimeSpeed");
 			}
 			else
 			{
 				SetTimeScale(GetSeaTimeScale());
 				TimeScaleCounter = 4;
-                Log_SetStringToLog("Time x2");
+                Log_SetStringToLog(XI_ConvertString("Time x2"));
 				AddPerkToActiveList("TimeSpeed");
 			}
 		break;
@@ -1220,8 +1220,8 @@ void ProcessControls()
 			if(GetOfficersQuantity(pchar) > 0)
 			{
 				pchar.OfficerAttRange = 35.0;
-				OfficersFollow();
-				Log_SetStringToLog("Officers Charge!");
+				OfficersCharge();
+				Log_SetStringToLog(XI_ConvertString("OfficersCharge"));
 			}	
 		break;
 
@@ -1230,7 +1230,7 @@ void ProcessControls()
 			{
 				pchar.OfficerAttRange = 7.0;
 				OfficersFollow();
-				Log_SetStringToLog("Officers Follow!");
+				Log_SetStringToLog(XI_ConvertString("OfficersFollow"));
 			}	
 		break;
 
@@ -1239,7 +1239,7 @@ void ProcessControls()
 			{
 				pchar.OfficerAttRange = 7.0;
 				OfficersHold();
-				Log_SetStringToLog("Officers Hold!");
+				Log_SetStringToLog(XI_ConvertString("OfficersHold"));
 			}	
 		break;
 		
@@ -1277,7 +1277,7 @@ void ProcessControls()
 					{
 						if (UseBestPotion(pchar, false) == 0) 
 						{
-							Log_SetStringToLog("No Potion Found!");
+							Log_SetStringToLog(XI_ConvertString("No Potion Found"));
 						}
 					}
 				}
@@ -1287,7 +1287,7 @@ void ProcessControls()
 					{
 						if (UseBestPotion(pchar, true) == 0) 
 						{
-							Log_SetStringToLog("No Potion Found!");
+							Log_SetStringToLog(XI_ConvertString("No Potion Found"));
 						}
 					}
 				}	
@@ -1301,7 +1301,7 @@ void ProcessControls()
 				if(FindCharacterAntidote(PChar, &itemID)) // В itemID запишется ID предмета, который можно использовать
 				{
 					DoCharacterUsedItem(PChar, itemID);
-					Log_Info("Use antidote");
+					Log_Info(XI_ConvertString("Use antidote"));
 				}
 			}
 		break;
@@ -1330,7 +1330,7 @@ void ProcessControls()
 				}
 				else
 				{
-                    Log_Info("Некого обыскивать");
+                    Log_Info(XI_ConvertString("DeadSearch"));
 				}
 		    }
 	    break;
