@@ -74,56 +74,82 @@ void InitInterface_BB(string iniName, bool isSave, bool isMainMenu)
 
 	PostEvent( "evLoadOneSaveInfo",1 );
 
-	if(isSave == false && isMainMenu == true && sti(PlayerProfile.profilesQuantity) > 1)
+	if(isSave == false && isMainMenu == true && CheckAttribute(&PlayerProfile, "profilesQuantity") && sti(PlayerProfile.profilesQuantity) > 1)
 	{
 		ProcChooseProfileFromList();
 		//SetSelectable("PROFILE_WINDOW_BTN_EXIT", false);
 	}
 	else
 	{
-		SetCurrentProfile( GetCurrentProfile() );
+		if(CheckAttribute(&PlayerProfile, "profilesQuantity") && sti(PlayerProfile.profilesQuantity) > 0)
+		{
+			SetCurrentProfile( GetCurrentProfile() );
+		}
+		else
+		{
+			SetCurrentProfile("");
+		}
 	}
-
-
-	//SetCurrentNode("PROFILE_WINDOW_BTN_CHOOSE");
-	//SetSelectable("PROFILE_WINDOW_BTN_CHOOSE", false);
 }
 
-void SetCurrentProfile( string sProfileName )
+void SetCurrentProfile(string sProfileName)
 {
-	currentProfile = sProfileName;
-	PlayerProfile.name = sProfileName;
-	// fill save list
-	DeleteAttribute( &g_oSaveContainer,"" );
-	int nSaveNum = 0;
-	string saveName;
-	int nSaveSize;
-	string attr;
-	GameInterface.SavePath = "SAVE\" + currentProfile;
-//	if( IsEntity(scrshot) ) {
-//		scrshot.SavePath = "SAVE" + "\" + currentProfile;
-//	}
-	while( SendMessage(&GameInterface,"llee",MSG_INTERFACE_SAVE_FILE_FIND,nSaveNum,&saveName,&nSaveSize)!=0 )
+	if(CheckAttribute(&PlayerProfile, "profilesQuantity") && sti(PlayerProfile.profilesQuantity) > 0)
 	{
-		attr = "s" + nSaveNum;
-		g_oSaveContainer.(attr).savename = saveName;
-		g_oSaveContainer.(attr).savesize = nSaveSize;
-		nSaveNum++;
+		if(GetCurrentProfile() != "")
+		{
+			currentProfile = sProfileName;
+			PlayerProfile.name = sProfileName;
+			
+			DeleteAttribute(&g_oSaveContainer, "");
+			
+			int nSaveSize;
+			int nSaveNum = 0;
+			string saveName, attr;
+			
+			GameInterface.SavePath = "SAVE\" + currentProfile;
+			
+			while(SendMessage(&GameInterface,"llee",MSG_INTERFACE_SAVE_FILE_FIND,nSaveNum,&saveName,&nSaveSize) != 0)
+			{
+				attr = "s" + nSaveNum;
+				
+				g_oSaveContainer.(attr).savename = saveName;
+				g_oSaveContainer.(attr).savesize = nSaveSize;
+				
+				nSaveNum++;
+			}
+			g_oSaveContainer.listsize = nSaveNum;
+			g_nSaveQuantity = nSaveNum;
+			g_nFirstSaveIndex = -1;
+			
+			FillSaveList((g_nCurrentSaveIndex / 10) * 10);
+			
+			if(bThisSave)
+			{
+				SelectSaveImage(g_nSaveQuantity);
+			}
+			else
+			{
+				SelectSaveImage(0);
+			}
+			SetClickable("SAVESCROLL", g_nSaveQuantity > 10);
+			
+			SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 1, "#" + XI_ConvertString("ProfileName") + ": " + currentProfile);
+			
+			LoadGameOptions();
+		}
 	}
-	g_oSaveContainer.listsize = nSaveNum;
-	g_nSaveQuantity = nSaveNum;
-	g_nFirstSaveIndex = -1;
-	FillSaveList( (g_nCurrentSaveIndex/10) * 10 );
-	if( bThisSave ) {
-		SelectSaveImage( g_nSaveQuantity );
-	} else {
-		SelectSaveImage( 0 );
+	else
+	{
+		FillSaveList(30000);
+		
+		SetSelectable("BTN_PROFILE",false);
+		SetSelectable("BTN_SAVELOAD", false);
+		SetSelectable("BTN_DELETE", false);
+		
+		SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 1, "#" + XI_ConvertString("NoProfile"));
+		SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 2, "#" + XI_ConvertString("Unknown"));
 	}
-	SetClickable("SAVESCROLL",g_nSaveQuantity>10);
-	// show profile name
-	SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 1, "#"+XI_ConvertString("ProfileName")+": " + currentProfile );
-	// read option from profile
-	LoadGameOptions();
 }
 
 void ProcessCancelExit()
@@ -644,13 +670,17 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 
 	string fileSystemTime = "";
 	string fileSystemDate = "";
-	string sSystemTimeString = "No Time";
+	string sSystemTimeString = "";
 	if (CheckAttribute(&g_oSaveList[nSlot], "savefile") && g_oSaveList[nSlot].savefile != "" ) //fix boal
 	{
 		SendMessage(&GameInterface,"lsee",MSG_INTERFACE_GETTIME, "SAVE\"+currentProfile+"\"+g_oSaveList[nSlot].savefile, &fileSystemTime, &fileSystemDate);
 		sSystemTimeString = GetSystemTimeString( fileSystemTime, fileSystemDate );
+		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+3, "#" + sSystemTimeString );
 	}
-	SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+3, "#"+sSystemTimeString );
+	else
+	{
+		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+3, "#" + XI_ConvertString("Unknown"));
+	}
 
 	if( strdata != "" )
 	{
@@ -661,14 +691,16 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 			g_oSaveList[nSlot].faceinfo = facestr;
 			g_oSaveList[nSlot].playtime = playtime;
 		} else {
-			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#Unknown" );
-			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#No Time" );
+			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#" + XI_ConvertString("Empty"));
+			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#" + XI_ConvertString("Unknown"));
+			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+3, "#" + XI_ConvertString("Unknown"));
 			g_oSaveList[nSlot].faceinfo = "";
 			g_oSaveList[nSlot].playtime = "";
 		}
 	} else {
-		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#Unknown" );
-		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#No Time" );
+		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#" + XI_ConvertString("Empty"));
+		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#" + XI_ConvertString("Unknown"));
+		SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+3, "#" + XI_ConvertString("Unknown"));
 		g_oSaveList[nSlot].faceinfo = "";
 		g_oSaveList[nSlot].playtime = "";
 	}
@@ -928,11 +960,11 @@ void LaunchCustomSaveGame()
 {
 	string curLocName = GetCurLocationName();
 	string saveName;
-	saveName = GetClampedSaveName(currentProfile+" "+curLocName,0);
+	saveName = GetClampedSaveName(curLocName,0);
 	int idx = 0;
 	while( SendMessage(&GameInterface,"ls", MSG_INTERFACE_NEW_SAVE_FILE_NAME, saveName) == 1)
 	{
-		saveName = GetClampedSaveName(currentProfile+" "+curLocName,idx+1);
+		saveName = GetClampedSaveName(curLocName,idx+1);
 		idx++;
 	}
 
@@ -1111,21 +1143,32 @@ void ReloadSaveInfo()
 	int nSlot = g_nCurrentSaveIndex - g_nFirstSaveIndex;
 	string info = "";
 	string playtime = "#";
-	if( nSlot>=0 && nSlot<10 && CheckAttribute(&g_oSaveList[nSlot],"faceinfo") ) {
+	
+	if(nSlot >= 0 && nSlot < 10 && CheckAttribute(&g_oSaveList[nSlot], "faceinfo"))
+	{
 		info = g_oSaveList[nSlot].faceinfo;
-		if( g_oSaveList[nSlot].playtime != "" ) {
-			playtime = "#" + XI_ConvertString("Play Time") + ": " + g_oSaveList[nSlot].playtime;
+		
+		if(g_oSaveList[nSlot].playtime != "")
+		{
+			playtime += XI_ConvertString("Play Time") + ": " + g_oSaveList[nSlot].playtime;
+		}
+		else
+		{
+			playtime += " ";
 		}
 	}
-	ShowFaceInfo( info );
-	SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 2, playtime );
+	ShowFaceInfo(info);
+	SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 2, playtime);
 
-	if( info == "" ) {
-		SetSelectable( "BTN_SAVELOAD", bThisSave );
-		SetSelectable( "BTN_DELETE", false );
-	} else {
-		SetSelectable( "BTN_SAVELOAD", true );
-		SetSelectable( "BTN_DELETE", true );
+	if(info == "")
+	{
+		SetSelectable("BTN_SAVELOAD", bThisSave);
+		SetSelectable("BTN_DELETE", false);
+	}
+	else
+	{
+		SetSelectable("BTN_SAVELOAD", true);
+		SetSelectable("BTN_DELETE", true);
 	}
 }
 

@@ -1879,15 +1879,19 @@ string GetCurLocationName()
 
 string GetPlayTime()
 {
-	int hours = sti( InterfaceStates.GameTime.hour );
-	int days = hours / 24;
-	hours = hours - days*24;
-
 	string sPlayTime = "";
-	if( days>0 ) {
-		sPlayTime = days + "days - ";
+	
+	int hours = sti(InterfaceStates.GameTime.hour);
+	int days = hours / 24;
+	
+	hours = hours - days * 24;
+	
+	if(days > 0)
+	{
+		sPlayTime = FindRussianDaysString(days) + " - ";
 	}
-	sPlayTime += InterfaceStates.GameTime.hour + " hours " + InterfaceStates.GameTime.min + " min.";
+	sPlayTime += GetHoursString(sti(InterfaceStates.GameTime.hour))  + " " + GetMinutesString(sti(InterfaceStates.GameTime.min));
+	
 	return sPlayTime;
 }
 
