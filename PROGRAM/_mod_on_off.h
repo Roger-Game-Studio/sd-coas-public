@@ -2,10 +2,10 @@
 #define VERSION_NUM_PRE  99940
 
 #define VERSION_NUMBER1       "Корсары: Город Потерянных Кораблей  " // Корсары: ГПК modding base #1
-#define VERSION_NUMBER2       "ver. 1.3.2 (15.09.2022) AT"
+#define VERSION_NUMBER2       "ver. 1.3.2 (08.07.2022) AT"
 #define VERSION_NUMBER3       "Roger Game Studio"
 
-#define MOD_BETTATESTMODE     "On"
+#define MOD_BETTATESTMODE     "Off"
 
 String sGlobalTemp; // гловальная строковая переменная
 
