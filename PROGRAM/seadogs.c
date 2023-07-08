@@ -1358,7 +1358,7 @@ void ProcessControls()
 		
 	case "Say": // KEY_Y
 		// Интерфейс автозакупки товаров
-		if(bLandInterfaceStart && IsPCharHaveTreasurer() && !CheckAttribute(pchar, "TransferGoods.Enable")) // Если есть казначей, включена автозакупка и ГГ находится на суше
+		if(bLandInterfaceStart && IsPCharHaveTreasurer()) // Если есть казначей и ГГ находится на суше
 			LaunchTransferGoodsScreen();
 	break;
         

@@ -61,19 +61,6 @@ int _GetDistanceToColony2D(string _sColony)
 	
 	return makeint(GetDistance2D(X1, Z1, X2, Z2));
 }
-
-void GetXYWindowOffset(ref offsetX, ref offsetY)
-{
-	float dwScreenHeight 			= 600.0;
-	float dwScreenWidth 			= sti(showWindow.width) * dwScreenHeight/ sti(showWindow.height);
-	if(dwScreenWidth < 800.0)  dwScreenWidth = 800.0;
-	
-	float offX = (dwScreenWidth - 800.0)/2.0;
-	float offY = 0.0;
-	
-	offsetX = offX;
-	offsetY = offY;
-}
 ///espkk. utils <--
 
 void InitInterface(string iniName)

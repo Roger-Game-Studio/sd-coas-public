@@ -1440,6 +1440,19 @@ void SetShowWindowParameters(bool TVused, int w,int h, int l,int t,int r,int b)
 	showWindow.scale =  makefloat(w) / 1024.0;
 }
 
+void GetXYWindowOffset(ref offsetX, ref offsetY)
+{
+	float dwScreenHeight 			= 600.0;
+	float dwScreenWidth 			= sti(showWindow.width) * dwScreenHeight/ sti(showWindow.height);
+	if(dwScreenWidth < 800.0)  dwScreenWidth = 800.0;
+	
+	float offX = (dwScreenWidth - 800.0)/2.0;
+	float offY = 0.0;
+	
+	offsetX = offX;
+	offsetY = offY;
+}
+
 int RecalculateHIcon(int curHSize)
 {
 	return curHSize;

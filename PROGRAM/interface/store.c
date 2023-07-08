@@ -92,8 +92,6 @@ void InitInterface_R(string iniName, ref pStore)
 	SetEventHandler("ADD_BUTTON","ADD_BUTTON",0);
 	SetEventHandler("REMOVE_BUTTON", "REMOVE_BUTTON", 0);
 	SetEventHandler("REMOVE_ALL_BUTTON", "REMOVE_ALL_BUTTON", 0);
-	
-	SetEventHandler("Autotrade_All", "Autotrade_All", 0);
 
 
 	SetEventHandler("frame","ProcessFrame",1);
@@ -104,15 +102,6 @@ void InitInterface_R(string iniName, ref pStore)
  	if (refStore.Colony == "none")
 	{
 		SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refShipChar.FaceId) + ".tga");
-	}
-	
-	if(refStore.Colony != "none" && IsPCharHaveTreasurer() && !CheckAttribute(pchar, "TransferGoods.Enable"))
-	{
-		SetNodeUsing("GOODSTRANSFER_BTN",  true);
-	}
-	else
-	{
-		SetNodeUsing("GOODSTRANSFER_BTN",  false);
 	}
 }
 
@@ -155,8 +144,6 @@ void IDoExit(int exitCode)
 	DelEventHandler("ADD_BUTTON","ADD_BUTTON");
 	DelEventHandler("REMOVE_BUTTON", "REMOVE_BUTTON");
 	DelEventHandler("REMOVE_ALL_BUTTON", "REMOVE_ALL_BUTTON");
-	
-	DelEventHandler("Autotrade_All", "Autotrade_All");
 
 	//DelEventHandler("RefreshTable","RefreshTable");
     // boal 27.02.05 -->
@@ -1020,114 +1007,3 @@ void ADD_BUTTON()  // купить
 	}
 	ChangeQTY_EDIT();
 }
-
-void Autotrade_All()
-{
-	int i, cn;
-	ref chref;
-
-	for(i=0; i<COMPANION_MAX; i++)
-	{
-		cn = GetCompanionIndex(PChar, i);
-		if(cn > 0)
-		{
-			chref = GetCharacter(cn);
-			if(!GetRemovable(chref)) continue;
-			Autotrade_Goods(chref);
-		}
-	}
-	
-	AddToTable(FilterMode);
-	EndTooltip();
-}
-
-void Autotrade_Goods(ref rChar)
-{
-	int i, iNeedGood, iCost, iStoreGoodQty;
-
-	ref rGood, rTreasurer;
-	string sGood;
-	float fNeedCargo;
-	int iCurGoodQty, iNeedGoodsQty, iFreeCargo;
-	int iMoneyQty = 0;
-
-	rTreasurer = GetPCharTreasurerRef(); // Казначей. Ему даем экспу
-
-	for(i = 0; i < GOODS_QUANTITY; i++)
-	{
-		rGood = &Goods[i];
-		sGood = rGood.name;
-
-		if(!CheckAttribute(rChar, "TransferGoods." + sGood))
-		{
-			rChar.TransferGoods.(sGood) = 0;
-		}
-
-		iCurGoodQty = GetCargoGoods(rChar, i); // Сколько этого товара есть сейчас
-		iNeedGoodsQty = sti(rChar.TransferGoods.(sGood)); // Сколько нужно ВСЕГО данного товара (не докупить!)
-		//нужно ли чекать атрибут, если не заполнен - проверить логи
-
-		if(iCurGoodQty == iNeedGoodsQty) continue; // ничего не нужно
-
-		if (CheckAttribute(rChar,"TransferGoods.SellRestriction"))
-		{
-			if(iCurGoodQty > iNeedGoodsQty) // продаем
-			{
-				if(CheckAttribute(refStore, "goods." + sGood + ".tradetype"))
-				{
-					if(refStore.goods.(sGood).tradetype == TRADE_TYPE_CONTRABAND || refStore.goods.(sGood).tradetype == TRADE_TYPE_CANNONS) continue;
-				}
-				iNeedGood = iCurGoodQty - iNeedGoodsQty; // Столько нужно продать
-
-				/*if(refStore.Colony == "none")//если продаём на корабль в море
-				//Отключаю кнопку торговли в море, этот фрагмент пока не нужен
-				{
-					iFreeCargo = GetCargoFreeSpace(refShipChar);
-					if (fNeedCargo > iFreeCargo) iNeedGood = iFreeCargo / sti(rGood.weight) * sti(rGood.Units);
-				}
-				*/
-
-				RemoveCharacterGoodsSelf(rChar, i, iNeedGood); // Забираем только у этого перса
-				AddStoreGoods(refStore, i, iNeedGood); // Прибавляем товар в магаз
-
-
-				iCost = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, PChar, 1)*iNeedGood/sti(rGood.Units); // Цена товара для продажи
-
-				WaitDate("", 0, 0, 0, 0, 1);
-				iMoneyQty += iCost;
-			}
-		}
-
-		if(iCurGoodQty < iNeedGoodsQty) // докупаем
-		{
-			if(CheckAttribute(refStore, "goods." + sGood + ".tradetype") && refStore.goods.(sGood).tradetype == TRADE_TYPE_CONTRABAND)
-			{
-				if(!CheckAttribute(rChar, "TransferGoods.BuyContraband")) continue;
-			}
-
-			iNeedGood = iNeedGoodsQty - iCurGoodQty; // Столько нужно купить
-			iStoreGoodQty = GetStoreGoodsQuantity(refStore, i); // Сколько можем купить (скоко есть в магазе)
-			if (iNeedGood > iStoreGoodQty) iNeedGood = iStoreGoodQty; // Хотим купить больше, чем есть в магазе
-			fNeedCargo = iNeedGood * stf(rGood.weight) / stf(rGood.Units);
-			iFreeCargo = GetCargoFreeSpace(rChar); //проверить, что учитывается вес матросов, если включен
-			if (fNeedCargo > iFreeCargo) iNeedGood = iFreeCargo / sti(rGood.weight) * sti(rGood.Units);
-
-			iCost = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, PChar, 1)*iNeedGood/sti(rGood.Units); // Цена товара для покупки
-			if(sti(PChar.Money) >= iCost)
-			{
-				AddCharacterGoodsSimple(rChar, i, iNeedGood); // Даем только в этот корабль
-
-				RemoveStoreGoods(refStore, i, iNeedGood); // Изымаем из магаза
-				WaitDate("", 0, 0, 0, 0, 1);
-				iMoneyQty -= iCost;
-			}
-		}
-	}
-
-	if(iMoneyQty != 0) // Если хоть что-то продали или купили
-	{
-		AddmoneyToCharacter(PChar, iMoneyQty);
-		AddCharacterExpToSkill(rTreasurer, "Commerce", MakeInt(abs(iMoneyQty) / 800) + rand(1) + 2) // Экспа в навык торговли
-	}
-}
-// Hokkins: использовал код из шип пака - надеюсь они не будут против <--

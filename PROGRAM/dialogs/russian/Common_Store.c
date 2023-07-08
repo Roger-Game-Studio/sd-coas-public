@@ -57,6 +57,12 @@ void ProcessDialogEvent()
 	
 	string attrLoc   = Dialog.CurrentNode;
 	
+	if(HasSubStr(attrLoc, "TransferGoodsTo_"))
+	{
+		NPChar.CharToTransferGoodsID = FindStringAfterChar(attrLoc, "_");
+		Dialog.CurrentNode = "TransferGoods_Start";
+	}
+	
 	switch(Dialog.CurrentNode)
 	{
 		case "First time":
@@ -337,6 +343,11 @@ void ProcessDialogEvent()
 			                         "Я хочу купить товар на продажу.",
 									 "Покажи мне ядра, бомбы и прочие товары."));
 			link.l1.go = "trade_1";
+			if(!CheckAttribute(PChar, "TransferGoods.Enable")) // Автозакупка товаров
+			{
+				link.l5 = "Мой казначей сделает необходимые закупки...";
+				link.l5.go = "TransferGoods";
+			}
 			link.l2 = LinkRandPhrase("Покажи мне сабли, пистолеты, и что там у тебя еще есть?",
 			                         "Мне не помешает пара новых пистолетов, пули и красивый перстень.",
 									 "Драгоценные камни, диковинные идолы - вот что меня интересует.");
@@ -420,6 +431,111 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();		
 		break;
+		
+		// Warship. Автозакупка товаров -->
+		case "TransferGoods":
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+			
+			if(sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
+			{
+				dialog.text = LinkRandPhrase("...Уже сделал. Нужно только определьться, на борт какого корабля доставлять товары.",
+					"Ваш казначей уже это сделал. Давайте определимся с кораблем, на который будут доставлены товары.",
+					"Да, " + PChar.name + ", я знаю. Он уже был у меня с визитом. На какой корабль будем грузить товары?");
+					
+				for(i=0; i<COMPANION_MAX; i++)
+				{
+					cn = GetCompanionIndex(PChar, i);
+					if(cn > 0)
+					{
+						chref = GetCharacter(cn);
+						if(!GetRemovable(chref)) continue;
+						
+						attrL = "l"+i;
+						Link.(attrL)    = "На " + XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";
+						Link.(attrL).go = "TransferGoodsTo_" + chref.id;
+					}
+				}
+				
+				Link.l99    = "Я передумал"+ GetSexPhrase("","а") +", ничего не нужно.";
+				Link.l99.go = "exit";
+			}
+			else // Корабля нету
+			{
+				dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
+					"Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
+					pcharrepphrase("Я не вижу вашего корабля в порту, капитан " +GetFullName(pchar)+ ". Надеюсь, это не 'Летучий голландец'?",
+					"Капитан, удобнее грузить товар с пирса. Пришвартуйте корабль и приходите."));
+				link.l1 = NPCharRepPhrase(npchar, pcharrepphrase("" +RandSwear()+"Какая неприятность!!! Ладно, старый проныра, еще увидимся!",
+					"Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
+					pcharrepphrase("Нет. Мой корабль называется Black Pearl. Что это ты побелел? Ха-ха! Шутка!",
+					"Спасибо за совет, обязательно им воспользуюсь."));
+				link.l1.go = "exit";
+			}
+			break;
+			
+		case "TransferGoods_2": // Тут уже не проверяем, есть корабль или нету (выбрали корабль, в который груз не помещается)
+			dialog.text = LinkRandPhrase("Ну так что, кэп, на какой корабль будем грузить товары?",
+				"Так на какой корабль будем товары грузить?",
+				PChar.name + ", так в трюм какого корабля будем производить погрузку?");
+				
+			for(i=0; i<COMPANION_MAX; i++)
+			{
+				cn = GetCompanionIndex(PChar, i);
+				if(cn > 0)
+				{
+					chref = GetCharacter(cn);
+					if(!GetRemovable(chref)) continue; // Если квестовый - пропускаем
+					
+					attrL = "l"+i;
+					Link.(attrL)    = "На " + XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";
+					Link.(attrL).go = "TransferGoodsTo_" + chref.id;
+				}
+			}
+			
+			Link.l99    = "Я передумал"+ GetSexPhrase("","а") +", ничего не нужно.";
+			Link.l99.go = "exit";
+			break;
+			
+		case "TransferGoods_Start":
+			chref = CharacterFromID(NPChar.CharToTransferGoodsID);
+			
+			iQuantityGoods = TransferGoods_CalculateWeight(chref);
+			
+			if(GetCargoFreeSpace(chref) >= iQuantityGoods)
+			{
+				if(TransferGoods_StartTransfer(chref, NPChar.City) != 0)
+				{
+					dialog.text = LinkRandPhrase("Все готово! На выбранный корабль началась погрузка.", 
+						"Ну вот, товар начали погружать на выбранный корабль.",
+						"Кэп, погрузка товара в трюм выбранного корабля начилась.");
+					link.l1 = "Спасибо. С вами приятно иметь дело.";
+					link.l1.go = "exit";
+          SetPriceListByStoreMan(rColony); // mitrokosta обновляем список цен
+					WaitDate("", 0, 0, 0, 1, 0); // Крутим время
+				}
+				else
+				{
+					dialog.text = LinkRandPhrase("Капитан, весь товар, который запросил ваш казначей, уже есть на борту указанного вами судна!", 
+						"Кэп, весь товар уже присутствует на указанном вами корабле!",
+						"Кэп, данный корабль в обслуживании не нуждается, так как весь товар на нем уже присутствует.");
+					link.l1 = "Да, точно.";
+					link.l1.go = "exit";
+					link.l2 = "Пожалуй, нужно выбрать другой корабль.";
+					link.l2.go = "TransferGoods_2";
+				}
+			}
+			else
+			{
+				dialog.text = LinkRandPhrase("Сдается мне, столько товара на этот тип корабля не влезет.", 
+					"Кэп, столько товара в трюм этого корабля не поместится!",
+					"Капитан, столько товара не поместится в трюм этого корабля!");
+				link.l1 = "Да, пожалуй. Нужно выбрать другой корабль.";
+				link.l1.go = "TransferGoods_2";
+				link.l2 = "Я тут подумал"+ GetSexPhrase("","а") +"... Не нужно ничего запупать.";
+				link.l2.go = "exit";
+			}
+			break;
+		// <-- Автозакупка товаров
 
 		case "trade_1":
             ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
