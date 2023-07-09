@@ -74,7 +74,6 @@ void InitInterface(string iniName)
 	SetEventHandler("MouseRClickUP","HideInfo",0);
 	
 	SetEventHandler("evFaderFrame","FaderFrame",0);
-	SetEventHandler("frame","UpdateFrame",0);
 
 	aref ar; makearef(ar,objControlsState.key_codes);
 	SendMessage(&GameInterface,"lsla",MSG_INTERFACE_MSG_TO_NODE,"KEY_CHOOSER", 0,ar);
@@ -83,13 +82,28 @@ void InitInterface(string iniName)
 	float ftmp2 = -1.0;
 	float ftmp3 = -1.0;
 	
+	
+	
 	SendMessage(&sound,"leee",MSG_SOUND_GET_MASTER_VOLUME,&ftmp1,&ftmp2,&ftmp3);
 	
-	if( ftmp1==-1.0 && ftmp2==-1.0 && ftmp3==-1.0 )
+	if(ftmp1 == -1.0 && ftmp2 == -1.0 && ftmp3 == -1.0)
 	{
 		SetSelectable("MUSIC_SLIDE",false);
 		SetSelectable("SOUND_SLIDE",false);
 		SetSelectable("DIALOG_SLIDE",false);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 12, argb(255,200,200,200));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 13, argb(255,200,200,200));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 14, argb(255,200,200,200));
+	}
+	
+	if(CheckAttribute(&InterfaceStates,"EnableSoundsVolume") && sti(InterfaceStates.EnableSoundsVolume) != false)
+	{
+		SetSelectable("MUSIC_SLIDE", false);
+		SetSelectable("SOUND_SLIDE", false);
+		SetSelectable("DIALOG_SLIDE", false);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 12, argb(255,200,200,200));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 13, argb(255,200,200,200));
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 14, argb(255,200,200,200));
 	}
 	
 	// Warship 07.07.09 Эффект свечения
@@ -126,7 +140,7 @@ void InitInterface(string iniName)
 	// Hokkins: масштабирование интерфейса <--
 }
 
-void UpdateFrame()
+void DisableSoundSettings()
 {
 	float fMusic, fSound, fDialog;
 	
@@ -143,10 +157,11 @@ void UpdateFrame()
 		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TITLES_STR", 3, 14, argb(255,200,200,200));
 	}
 	else
-	{	
+	{
 		fMusic = 0.5;
 		fSound = 0.5;
 		fDialog = 0.5;
+		
 		SetSelectable("MUSIC_SLIDE", true);
 		SetSelectable("SOUND_SLIDE", true);
 		SetSelectable("DIALOG_SLIDE", true);
@@ -213,8 +228,6 @@ void IDoExit(int exitCode)
 	DelEventHandler("MouseRClickUP","HideInfo");
 	DelEventHandler("evFaderFrame","FaderFrame");
 	DelEventHandler("InterfaceBreak","ProcessCancelExit");  // boal
-	
-	DelEventHandler("frame","UpdateFrame");
 
 	LanguageCloseFile( g_ControlsLngFile );
 
@@ -412,6 +425,7 @@ void procCheckBoxChange()
 	{
 		{
 			InterfaceStates.EnableSoundsVolume = bBtnState;
+			DisableSoundSettings();
 		}
 	}
 	
