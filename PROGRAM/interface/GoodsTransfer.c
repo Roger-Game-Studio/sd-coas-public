@@ -310,6 +310,7 @@ void ProcCommand()
 				iNum =  sti(GameInterface.TG_EDIT.str);
 				
 				PChar.TransferGoods.(companionId).(sGood) = iNum; // Прибавим в список закупок
+				PChar.TransferGoods.AllQtyGoods = iNum; // Hokkins: атрибут для проверки есть ли задание казначею.
 				
 				UnShowTGWindow();	
 			}

@@ -343,10 +343,13 @@ void ProcessDialogEvent()
 			                         "Я хочу купить товар на продажу.",
 									 "Покажи мне ядра, бомбы и прочие товары."));
 			link.l1.go = "trade_1";
-			if(!CheckAttribute(PChar, "TransferGoods.Enable")) // Автозакупка товаров
+			if(!CheckAttribute(PChar, "TransferGoods.Enable") && IsPCharHaveTreasurer()) // Автозакупка товаров
 			{
-				link.l5 = "Мой казначей сделает необходимые закупки...";
-				link.l5.go = "TransferGoods";
+				if(CheckAttribute(PChar, "TransferGoods.AllQtyGoods") && sti(PChar.TransferGoods.AllQtyGoods != 0)) // Hokkins: если у казначея есть задание на закупку товаров.
+				{
+					link.l5 = "Мой казначей сделает необходимые закупки...";
+					link.l5.go = "TransferGoods";
+				}
 			}
 			link.l2 = LinkRandPhrase("Покажи мне сабли, пистолеты, и что там у тебя еще есть?",
 			                         "Мне не помешает пара новых пистолетов, пули и красивый перстень.",
