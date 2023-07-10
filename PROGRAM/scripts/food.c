@@ -80,12 +80,12 @@ int CalculateShipFood(ref _chr)
 int CalculateShipRum(ref _character)
 {
 	int crewQuantity = GetCrewQuantity(_character);
-	int rumCount = GetCargoGoods(_character, GOOD_RUM);
-	int eatRate = makeint((crewQuantity + 5.1) / RUM_BY_CREW); // Сколько жрут за день
+	int rumQuantity = GetCargoGoods(_character, GOOD_RUM);	
+	float rumNeeded = makefloat((crewQuantity + 5.1) / RUM_BY_CREW); // Сколько жрут за день);
 	
-	if(eatRate == 0) return 0; // Fix
-	
-	return makeint(rumCount / eatRate + 0.2);
+	if(rumNeeded < 1.0) rumNeeded = 1.0;	
+	rumQuantity = makeint(rumQuantity/rumNeeded + 0.2);		
+	return rumQuantity;
 }
 
 // Ugeen  29.10.10 вернет число дней на сколько есть рому на всех кораблях

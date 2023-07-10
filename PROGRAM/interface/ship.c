@@ -54,7 +54,7 @@ void InitInterface_R(string iniName, ref _chr) // _chr нужно для чит�
     EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 8,225,147,1, 4);
     EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 8,204,147,1, 4);
     
-    EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 657,214,789,1, 4);
+    EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 657,236,789,1, 4);
     SetNewGroupPicture("CREW_PICTURE", "SHIP_STATE_ICONS", "Crew");
     SetNewGroupPicture("Money_PIC", "ICONS_CHAR", "Money");
     
@@ -433,6 +433,7 @@ void OnShipScrollChange()
 	SetFormatedText("SHIP_RANK","");
 	SetFormatedText("CREW_QTY","");
 	SetFormatedText("FOOD", "");
+	SetFormatedText("RUM", "");
 	SetFormatedText("FOOD_SHIP", "");
 	SetFormatedText("RUM_SHIP", "");
 	SetFormatedText("MONEY_SHIP", "");
@@ -471,7 +472,7 @@ void OnShipScrollChange()
 		
 		SetShipOTHERTable("TABLE_OTHER", xi_refCharacter);
 		// еда -->
-		int iColor, iFood;
+		int iColor, iFood, iRum;
 		string sText;
 		// в эскадре
 		if (GetCompanionQuantity(pchar) > 1) // больше 1 ГГ
@@ -493,6 +494,24 @@ void OnShipScrollChange()
 				iColor = argb(255,255,192,192);
 			}
 			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FOOD", 8,-1,iColor);
+			
+			sText = "Рома в эскадре на "
+			iRum = CalculateRum();
+			sText = sText + FindRussianDaysString(iRum);
+			SetFormatedText("RUM", sText);
+			if(iRum < 3)
+			{
+				iColor = argb(255, 255, 192, 192);
+			}
+			if(iRum >= 3)
+			{
+				iColor = argb(255, 255, 255, 192);
+			}
+			if(iRum >= 10)
+			{
+				iColor = argb(255, 192, 255, 192);
+			}
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"RUM", 8,-1,iColor);
 		}
 		// еда -->
 		// на одном корабле
