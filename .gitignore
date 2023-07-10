@@ -24,6 +24,7 @@ RESOURCE/Textures/INTERFACES/Stars/*
 
 # files
 *Changelog.txt
+!RESOURCE/INI/texts/russian/Changelog.txt
 
 # file format
 *.exe
