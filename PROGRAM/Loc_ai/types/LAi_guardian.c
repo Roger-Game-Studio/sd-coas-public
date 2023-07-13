@@ -391,18 +391,34 @@ void LAi_type_guardian_Return_Event()
 //Проверить персонажа с заданной вероятностью
 void LAi_type_guardian_TestControl(aref chr)
 {
-	if (!CheckAttribute(chr, "protector.CheckAlways")) //флаг "опрашивать всегда" через паузу, не один раз.
-	{						
-		if (GetBaseHeroNation() == sti(chr.nation) && GetRelation2BaseNation(sti(chr.nation)) != RELATION_ENEMY && GetNationRelation2MainCharacter(sti(chr.nation)) != RELATION_ENEMY) return;
-		if (!CheckAttribute(pchar, "CheckStateOk")) pchar.CheckStateOk = true; //флаг "уже проверили на входе"
-		else return;
-	}
-	//Пытаемся начать диалог
-	LAi_SetFightMode(pchar, false);
-	if(LAi_Character_CanDialog(chr, pchar))
+	bool bFightMode = LAi_CheckFightMode(pchar);
+	if(bFightMode)
 	{
-		chr.chr_ai.type.state = "dialog";
-		LAi_tmpl_SetDialog(chr, pchar, -1.0);
-		chr.chr_ai.type.dlgwas = "100"; //уже поговорили
+		LAi_SetFightMode(pchar, false);
+		if(LAi_Character_CanDialog(chr, pchar))
+		{
+			chr.chr_ai.type.state = "dialog";
+			chr.Dialog.CurrentNode = "SoldierNotBlade";
+			LAi_tmpl_SetDialog(chr, pchar, -1.0);
+		}
+	}
+	else
+	{
+		if(!CheckAttribute(chr, "protector.CheckAlways"))//флаг "опрашивать всегда" через паузу, не один раз.
+		{
+			if(!CheckAttribute(pchar, "CheckStateOk"))pchar.CheckStateOk = true; //флаг "уже проверили на входе"
+			else return;
+		}
+		//Пытаемся начать диалог
+		if(GetRelation2BaseNation(sti(chr.nation))== RELATION_ENEMY || GetNationRelation2MainCharacter(sti(chr.nation))== RELATION_ENEMY || CheckAttribute(chr, "protector.CheckAlways"))
+		{
+			LAi_SetFightMode(pchar, false);
+			if(LAi_Character_CanDialog(chr, pchar))
+			{
+				chr.chr_ai.type.state = "dialog";
+				LAi_tmpl_SetDialog(chr, pchar, -1.0);
+				chr.chr_ai.type.dlgwas = "100"; //уже поговорили
+			}
+		}
 	}
 }

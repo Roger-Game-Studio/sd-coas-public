@@ -514,14 +514,31 @@ void ProcessDialogEvent()
 		
 		//замечение по обнаженному оружию
 		case "SoldierNotBlade":
-			dialog.text = LinkRandPhrase("Чего вы клинком размахиваете?! Немедленно уберите оружие!", "Приказываю вам немедленно убрать оружие!", "Эй, " + GetAddress_Form(NPChar) + ", не пугайте народ! Уберите оружие.");
-			link.l1 = LinkRandPhrase("Хорошо, убираю...", "Уже "+ GetSexPhrase("убрал","убрала") +".", "Как скажешь...");
-			link.l1.go = "exit";
-			link.l2 = LinkRandPhrase("Черта с два!", "Сейчас пущу его в дело!", "Уберу, когда время придёт.");
-			link.l2.go = "fight";
-			npchar.greeting = "soldier_common";
-			NextDiag.TempNode = "First Time";
+			if(GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)
+			{
+				if(sti(pchar.nation) == PIRATE)
+				{
+					dialog.text = RandPhraseSimple("Пираты в городе?! Ну дела... Хватай е" + GetSexPhrase("го", "е") + "!!", "Это пират!! Держи е" + GetSexPhrase("го", "е") + "!!!");
+					link.l1 = RandPhraseSimple("Пират, ну и что?..", "Хех, попробуйте схватить.");
+					link.l1.go = "fight";
+					break;
+				}
+				dialog.text = RandPhraseSimple("Шпион? Сдать оружие!! Следовать за мной!", "Вражеский агент!! Немедленно схватить е" + GetSexPhrase("го", "е")  + "!");
+				link.l1 = RandPhraseSimple("Заткнись, малахольный!", "Как бы не так!");
+				link.l1.go = "fight";
+				
+				if(Pchar.location == "Santiago_Incquisitio") StartIncquisitioAttack();
+			}
+			else
+			{
+				dialog.text = LinkRandPhrase("Чего вы клинком размахиваете?! Немедленно уберите оружие!", "Приказываю вам немедленно убрать оружие!", "Эй, " + GetAddress_Form(NPChar) + ", не пугайте народ! Уберите оружие.");
+				link.l1 = LinkRandPhrase("Хорошо, убираю...", "Уже "+ GetSexPhrase("убрал","убрала") +".", "Как скажешь...");
+				link.l1.go = "exit";
+				link.l2 = LinkRandPhrase("Черта с два!", "Сейчас пущу его в дело!", "Уберу, когда время придёт.");
+				link.l2.go = "fight";
+				npchar.greeting = "soldier_common";
+				NextDiag.TempNode = "First Time";
+			}
 		break;
-
 	}
 }
