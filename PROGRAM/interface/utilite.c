@@ -757,6 +757,7 @@ void SaveStartGameParam()
     optref.StartGameParam.MOD_SKILL_ENEMY_RATE   = MOD_SKILL_ENEMY_RATE;
     optref.StartGameParam.bHardcoreGame          = bHardcoreGame;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
+	optref.StartGameParam.bSeaBattleSave		 = bSeaBattleSave;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
 	optref.StartGameParam.iArcadeSails           = iArcadeSails;
     // иначе сброс галки может быть optref.StartGameParam.bWorldAlivePause       = bWorldAlivePause;
@@ -791,6 +792,10 @@ void LoadStartGameParam()
     if (CheckAttribute(optref, "StartGameParam.bRechargePistolOnLine"))
 	{
     	bRechargePistolOnLine = sti(optref.StartGameParam.bRechargePistolOnLine);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bSeaBattleSave"))
+	{
+    	bSeaBattleSave = sti(optref.StartGameParam.bSeaBattleSave);
     }
     if (CheckAttribute(optref, "StartGameParam.iEncountersRate"))
 	{

@@ -57,13 +57,13 @@ int iScriptVersion = 54128;
 
 // Генератор фантомов - альтернатива
 bool    bNewFantomGenerator       = true;  // резерв "новый фехт"
-bool    bRechargePistolOnLine  = true;  // пистолеты перезаряжаются без сабли
+bool    bRechargePistolOnLine     = true;  // пистолеты перезаряжаются без сабли
 // упрощение невозможного
 bool    bNewCodeOn                = false;  // упрощение абордажа
 // нет сайвов, токо в церкви есть
 bool    bHardcoreGame             = false;
-// платный сайв-лоад
-//bool    bPayForSaveLoad           = true;
+// сохранение в море в боевом режиме
+bool	bSeaBattleSave			  = true;
 
 ///////////////////////////////////////////////////
 //          complexity

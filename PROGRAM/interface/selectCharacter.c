@@ -17,12 +17,6 @@ void InitInterface(string iniName)
 	
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
-	SetNewGroupPicture("ENGLAND", "NATIONS", "England");
-	SetNewGroupPicture("FRANCE", "NATIONS", "France");
-	SetNewGroupPicture("SPAIN", "NATIONS", "Spain");
-	SetNewGroupPicture("HOLLAND", "NATIONS", "Holland");
-	SetNewGroupPicture("PIRATE", "NATIONS", "Pirate");
-
 	SetMainCharacterIndex(1);
 
 	sCharacterName = pchar.id;
@@ -61,8 +55,8 @@ void InitInterface(string iniName)
 	if (!CheckAttribute(&GameInterface, "SavePath"))
 		GameInterface.SavePath = "SAVE";
 		
-	EI_CreateFrame("CHARACTER_BIG_PICTURE_BORDER",50,76,300,358); // tak from CHARACTER_BIG_PICTURE
-    EI_CreateHLine("CHARACTER_BIG_PICTURE_BORDER", 54,107,296,1, 4);
+	EI_CreateFrame("CHARACTER_BIG_PICTURE_BORDER",10,40,220,250); // tak from CHARACTER_BIG_PICTURE
+    EI_CreateHLine("CHARACTER_BIG_PICTURE_BORDER", 15,67,215,1, 3);
     
     heroQty   = sti(GetNewMainCharacterParam("hero_qty"));
     
@@ -106,6 +100,14 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_HARDCORE", 1, false);
     }
+	if (bSeaBattleSave)// 1 0
+    {
+    	CheckButton_SetState("CHECK_SEABATTLESAVE", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_SEABATTLESAVE", 1, false);
+    }
 }
 
 void IProcessFrame()
@@ -122,7 +124,7 @@ void IProcessFrame()
 			confirmChangeProfileName();
 		}
 	}
-	///
+	
 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ENCOUNTERS", 3, 1))
 	{
 		iEncountersRate = 1;
@@ -135,7 +137,7 @@ void IProcessFrame()
 	{
 		iEncountersRate = 3;
 	}
-	////
+	
 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ARCADESAIL", 3, 1))
 	{
 		iArcadeSails = 1;
@@ -144,7 +146,7 @@ void IProcessFrame()
 	{
 		iArcadeSails = 0;
 	}
-	///
+	
  	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_PISTOL", 3, 1))
 	{
 		bRechargePistolOnLine = true;
@@ -153,7 +155,7 @@ void IProcessFrame()
 	{
 		bRechargePistolOnLine = false;
 	}
-	///
+	
  	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_HARDCORE", 3, 1))
 	{
 		bHardcoreGame = true;
@@ -161,6 +163,15 @@ void IProcessFrame()
 	else
 	{
 		bHardcoreGame = false;
+	}
+	
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_SEABATTLESAVE", 3, 1))
+	{
+		bSeaBattleSave = true;
+	}
+	else
+	{
+		bSeaBattleSave = false;
 	}
 }
 
@@ -251,7 +262,7 @@ void ProcessCommandExecute()
 
 	switch(nodName)
 	{
-        case "LEFTCHANGE_COMPLEX":
+        case "COMPLEX_LEFTCHANGE":
 		if(comName=="click")
 		{
 		    if (MOD_SKILL_ENEMY_RATE > 1)
@@ -262,7 +273,7 @@ void ProcessCommandExecute()
 		}
 		break;
 
-		case "RIGHTCHANGE_COMPLEX":
+		case "COMPLEX_RIGHTCHANGE":
 			if(comName=="click")
 			{
 			    if (MOD_SKILL_ENEMY_RATE < 10)
@@ -308,7 +319,7 @@ void ProcessCommandExecute()
 			break;
 			
 		////////////////////////////////
-		case "OK_BUTTON":
+		case "BTN_OK":
     		if(comName=="leftstep")
     		{
     		    ProcessCommandExecuteLeft();
@@ -318,7 +329,7 @@ void ProcessCommandExecute()
                 ProcessCommandExecuteRight();
     		}
     	break;
-    	case "CANCEL_BUTTON":
+    	case "BTN_CANCEL":
     		if(comName=="leftstep")
     		{
     		    ProcessCommandExecuteLeft();
@@ -328,49 +339,35 @@ void ProcessCommandExecute()
                 ProcessCommandExecuteRight();
     		}
     	break;
-    	case "SETUP_BUTTON":
-    		if(comName=="activate" || comName=="click")
-    		{
-			//	 ProcessSetGameOptionsExit();
-    		}
-    		if(comName=="leftstep")
-    		{
-    		    ProcessCommandExecuteLeft();
-    		}
-    		if(comName=="rightstep")
-    		{
-                ProcessCommandExecuteRight();
-    		}
-    	break;
-		case "LEFTCHANGE_CHARACTER":
+		case "CHARACTER_LEFTCHANGE":
     		if(comName=="click")
     		{
     		    ProcessCommandExecuteLeft();
     		}
     	break;
 
-    	case "RIGHTCHANGE_CHARACTER":
+    	case "CHARACTER_RIGHTCHANGE":
     		if(comName=="click")
     		{
     		    ProcessCommandExecuteRight();
     		}
     	break;
 
-    	case "LEFTCHANGE_TYPE":
+    	case "TYPE_LEFTCHANGE":
     		if(comName=="click")
     		{
     		    ProcessCommandExecuteTypeLeft();
     		}
     	break;
 
-    	case "RIGHTCHANGE_TYPE":
+    	case "TYPE_RIGHTCHANGE":
     		if(comName=="click")
     		{
     		    ProcessCommandExecuteTypeRight();
     		}
     	break;
     	
-    	case "FACEPICT":
+    	case "CHARACTER_PICTURE":
     		if(comName=="click")
     		{
           		totalInfo = GetConvertStr("hero_" + startHeroType, "HeroDescribe.txt");
@@ -398,7 +395,7 @@ void ShowConfirmWindow(bool show)
 		XI_WindowDisable("CONFIRM_WINDOW", true);
 		XI_WindowShow("CONFIRM_WINDOW", false);
 		XI_WindowDisable("MAIN_WINDOW", false);
-		SetCurrentNode("OK_BUTTON");
+		SetCurrentNode("BTN_OK");
 	}
 }
 
@@ -459,11 +456,11 @@ void SelectNation(int iNation)
 	{
 		sNationPict = GetNationNameByType(i);
 
-		SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,sNationPict, 5, 0);
+		SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"NATIONS_" + sNationPict, 5, 0);
 	}
 
 	sNationPict = GetNationNameByType(iNation);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,sNationPict, 5, 1);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"NATIONS_" + sNationPict, 5, 1);
 	/////////////////////////////////////////////////////
 	NullCharacter.HeroParam.Nation = iNation;
 	totalInfo = GetRPGText(Nations[iNation].Name + "_descr");
@@ -547,7 +544,7 @@ void confirmChangeProfilePass()
 {	
 	PlayerProfile.password = GameInterface.PROFILE_PASS.str;
 	pchar.profile.pass = GameInterface.PROFILE_PASS.str;
-	SetCurrentNode("OK_BUTTON");
+	SetCurrentNode("BTN_OK");
 }
 
 
@@ -564,32 +561,32 @@ void ShowInfo()
 
 	switch(sNode)
 	{
-		case "ENGLAND":
+		case "NATIONS_ENGLAND":
 			sHeader = XI_ConvertString("England");
 			sText1 = GetRPGText("England_descr");
 		break;
 
-		case "FRANCE":
+		case "NATIONS_FRANCE":
 			sHeader = XI_ConvertString("France");
 			sText1 = GetRPGText("France_descr");
 		break;
 
-		case "HOLLAND":
+		case "NATIONS_HOLLAND":
 			sHeader = XI_ConvertString("Holland");
 			sText1 = GetRPGText("Holland_descr");
 		break;
 
-		case "SPAIN":
+		case "NATIONS_SPAIN":
 			sHeader = XI_ConvertString("Spain");
 			sText1 = GetRPGText("Spain_descr");
 		break;
 
-		case "PIRATE":
+		case "NATIONS_PIRATE":
 			sHeader = XI_ConvertString("Pirate");
 			sText1 = GetRPGText("Pirate_descr");
 		break;
 		
-		case "COMPLEX_TYPE":
+		case "COMPLEX_NAME":
 			sHeader = XI_ConvertString("m_Complexity");
 			sText1 = GetRPGText("LevelComplexity_desc");
 		break;
@@ -614,6 +611,11 @@ void ShowInfo()
 			sText1 = GetRPGText("HardcoreGame_desc");
 		break;
 		
+		 case "CHECK_SEABATTLESAVE":
+			sHeader = XI_ConvertString("Sea Battle Save");
+			sText1 = GetRPGText("SeaBattleSave_desc");
+		break;
+		
 		case "EXP_SLIDE":
 			sHeader = GetRPGText("EXP_SLIDE");
 			sText1 = GetRPGText("EXP_SLIDE_desc");
@@ -629,7 +631,7 @@ void HideInfo()
 	if( g_bToolTipStarted ) {
 		g_bToolTipStarted = false;
 		CloseTooltip();
-		SetCurrentNode("OK_BUTTON");
+		SetCurrentNode("BTN_OK");
 	}
 }
 
@@ -662,15 +664,15 @@ void ProcessCommandExecuteRight()
 void SetVariable(bool _init)
 {
     idLngFile = LanguageOpenFile("HeroDescribe.txt");
-    SetFormatedText("HERO_NAME", GetNewMainCharacterName());
+    SetFormatedText("CHARACTER_NAME", GetNewMainCharacterName());
     if (_init)
     {
     	NullCharacter.HeroParam.HeroType = GetNewMainCharacterType(startHeroType);
     	NullCharacter.HeroParam.nation = GetNewMainCharacterNation(startHeroType);
 	}
-    SetFormatedText("HERO_TYPE", XI_ConvertString(NullCharacter.HeroParam.HeroType));
+    SetFormatedText("TYPE_NAME", XI_ConvertString(NullCharacter.HeroParam.HeroType));
 
-    SetNewPicture("FACEPICT", "interfaces\portraits\256\face_" + GetNewMainCharacterFace() + ".tga");
+    SetNewPicture("CHARACTER_PICTURE", "interfaces\portraits\256\face_" + GetNewMainCharacterFace() + ".tga");
     SelectNation(sti(NullCharacter.HeroParam.nation));
     totalInfo = LanguageConvertString(idLngFile, "hero_" + startHeroType);
     SetInfoText();
@@ -725,7 +727,7 @@ void ProcessCommandExecuteTypeLeft()
 
     NullCharacter.HeroParam.HeroType = GetCharacterType(NullCharacter.HeroParam.HeroType, -1);
 
-    SetFormatedText("HERO_TYPE", XI_ConvertString(NullCharacter.HeroParam.HeroType));
+    SetFormatedText("TYPE_NAME", XI_ConvertString(NullCharacter.HeroParam.HeroType));
 
     totalInfo = LanguageConvertString(idLngFile, NullCharacter.HeroParam.HeroType);
     SetInfoText();
@@ -738,7 +740,7 @@ void ProcessCommandExecuteTypeRight()
 
     NullCharacter.HeroParam.HeroType = GetCharacterType(NullCharacter.HeroParam.HeroType, 1);
 
-    SetFormatedText("HERO_TYPE", XI_ConvertString(NullCharacter.HeroParam.HeroType));
+    SetFormatedText("TYPE_NAME", XI_ConvertString(NullCharacter.HeroParam.HeroType));
 
     totalInfo = LanguageConvertString(idLngFile, NullCharacter.HeroParam.HeroType);
     SetInfoText();
@@ -753,5 +755,5 @@ void SetInfoText()
 
 void TmpI_ShowLevelComplexity()
 {
-    SetFormatedText("COMPLEX_TYPE", GetLevelComplexity(MOD_SKILL_ENEMY_RATE));
+    SetFormatedText("COMPLEX_NAME", GetLevelComplexity(MOD_SKILL_ENEMY_RATE));
 }

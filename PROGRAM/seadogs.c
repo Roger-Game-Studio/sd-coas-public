@@ -101,12 +101,7 @@ void ProcessVersionCheck() // boal 271004
     ref mc = GetMainCharacter();
 
     if (CheckAttribute(mc, "HeroParam")) // признак, что есть герой
-    {
-		/*Level_Complexity         = MOD_SKILL_ENEMY_RATE; // до новой игры из настроек, потом из сэйва
-        bHardcoreGameStart       = bHardcoreGame;
-        bPayForSaveLoadStart     = bPayForSaveLoad;
-        bWorldAlivePauseStart    = bWorldAlivePause;  */
-        
+    {        
         if (!CheckAttribute(mc, "VersionNumber"))
     	{
             Log_Info("Загружена старая сохраненная запись.");
@@ -1620,16 +1615,7 @@ bool QuickSaveGameEnabledHardcore()
 
 bool CheckBattleSeaSaveEnabled()
 {
-	string sSaveEnable = GetConvertStr("SeaBattleMode_SaveEnable", KVL_MODS_FILE);
-	string sSmallRegStr = GetStrSmallRegister(sSaveEnable);
-	if(sSmallRegStr == "on" || sSmallRegStr == "да")
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return bSeaBattleSave;
 }
 
 
@@ -1662,7 +1648,7 @@ bool CheckSaveGameEnabled()
 		
 	if(LAi_IsFightMode(mchref) && MOD_SKILL_ENEMY_RATE > 1) {TmpBool = false;} 
 	
-	if(bDisableMapEnter && !CheckBattleSeaSaveEnabled()) {TmpBool = false;} 
+	if(bDisableMapEnter && !CheckBattleSeaSaveEnabled() && bSeaActive) {TmpBool = false;} 
 	
 	if (TmpBool)
 	{
