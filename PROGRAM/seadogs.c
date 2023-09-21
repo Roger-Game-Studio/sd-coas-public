@@ -1177,7 +1177,6 @@ void ProcessControls()
 		break;
 		
 		case "Map_Best":
-		//	if (bBettaTestMode) LaunchPaperMapScreen();
 			if(CheckCharacterItem(PChar, "Map_Best") || bBettaTestMode) LaunchBestMapScreen();
 		break;
 

@@ -263,16 +263,6 @@ void LaunchMapScreen()
 	}
 }
 
-void LaunchPaperMapScreen()
-{
-	if(procInterfacePrepare(INTERFACE_PAPER_MAP))
-	{
-		nPrevInterface = -1;
-		CurrentInterface = INTERFACE_PAPER_MAP;
-		InitInterface(Interfaces[CurrentInterface].IniFile);
-	}
-}
-
 void LaunchColonyInfoScreen()
 {
 	if (procInterfacePrepare(INTERFACE_COLONY_INFO))

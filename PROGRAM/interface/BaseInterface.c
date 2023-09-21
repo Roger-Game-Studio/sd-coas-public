@@ -142,9 +142,6 @@ void InitInterfaceTables()
 	
 	Interfaces[INTERFACE_SALARY].SectionName = "interface\salary.c";
 	Interfaces[INTERFACE_SALARY].IniFile = "RESOURCE\INI\INTERFACES\salary.ini";
-
-	Interfaces[INTERFACE_PAPER_MAP].SectionName = "interface\PaperMap.c";
-	Interfaces[INTERFACE_PAPER_MAP].IniFile = "RESOURCE\INI\INTERFACES\PaperMap.ini";
 	
 	Interfaces[INTERFACE_RANSACK_MAIN].SectionName = "interface\transfer_main.c";
 	Interfaces[INTERFACE_RANSACK_MAIN].IniFile = "RESOURCE\INI\INTERFACES\transfer_main.ini"; // теперь это одна форма, но разные вызовы, тк проверка на море и абордаж нужна

@@ -1,4 +1,4 @@
-#define INTERFACE_QUANTITY				41
+#define INTERFACE_QUANTITY				40
 
 #define INTERFACE_STORE					0
 #define INTERFACE_SHIPYARD				1
@@ -23,27 +23,26 @@
 #define INTERFACE_CANNONS 				20
 #define INTERFACE_TRADEBOOK				21
 #define INTERFACE_NATION_LEGEND			22
-#define INTERFACE_PAPER_MAP				23
-#define INTERFACE_COLONY_CAPTURE		24
-#define INTERFACE_ABOUT					25
-#define INTERFACE_SAILSGERALD 			26 // герб на парус
-#define INTERFACE_GAMEMENU			    27
-#define INTERFACE_SHIP_CHOOSE			28 // to_do
-#define INTERFACE_COLONY_INFO			29 // to_do
-#define INTERFACE_QUICK_SAVE			30
-#define INTERFACE_DEBUGER   			31 //boal
-#define INTERFACE_DICE_GAME             32
-#define INTERFACE_CARDSGAME             33
-#define INTERFACE_FRAMEFORM             34
-#define INTERFACE_LEAVE_BATTLE          35
+#define INTERFACE_COLONY_CAPTURE		23
+#define INTERFACE_ABOUT					24
+#define INTERFACE_SAILSGERALD 			25 // герб на парус
+#define INTERFACE_GAMEMENU			    26
+#define INTERFACE_SHIP_CHOOSE			27 // to_do
+#define INTERFACE_COLONY_INFO			28 // to_do
+#define INTERFACE_QUICK_SAVE			29
+#define INTERFACE_DEBUGER   			30 //boal
+#define INTERFACE_DICE_GAME             31
+#define INTERFACE_CARDSGAME             32
+#define INTERFACE_FRAMEFORM             33
+#define INTERFACE_LEAVE_BATTLE          34
 // Warship -->
-#define INTERFACE_BEST_MAP			    36 // интерфейс отличной карты
-#define INTERFACE_TAVERN_WAIT			37 // интерфейс отдыха
-#define INTERFACE_GOODS_TRANSFER		38 // интерфейс закупки товара казначеем
+#define INTERFACE_BEST_MAP			    35 // интерфейс отличной карты
+#define INTERFACE_TAVERN_WAIT			36 // интерфейс отдыха
+#define INTERFACE_GOODS_TRANSFER		37 // интерфейс закупки товара казначеем
 // <-- Warship
 // Ugeen -->
-#define INTERFACE_MAPVIEW				39 // интерфейс атласа карт 
-#define INTERFACE_STORAGE				40 // интерфейс склада
+#define INTERFACE_MAPVIEW				38 // интерфейс атласа карт 
+#define INTERFACE_STORAGE				39 // интерфейс склада
 // <-- Ugeen
 
 #define RC_INTERFACE_DO_NOTHING			-1
@@ -76,23 +75,22 @@
 #define RC_INTERFACE_ANY_EXIT				    45022
 #define RC_INTERFACE_COLONY_EXIT				45023
 #define RC_INTERFACE_FOOD_INFO_EXIT				45024
-#define RC_INTERFACE_PAPER_MAP					45025
-#define RC_INTERFACE_TO_SHIP					45026
-#define RC_INTERFACE_TO_TRADEBOOK				45027
-#define RC_INTERFACE_TO_LOGBOOK					45028
-#define RC_INTERFACE_TO_ITEMS					45029
-#define RC_INTERFACE_TO_CHAR					45030
-#define RC_INTERFACE_MAP_EXIT					45031
-#define RC_INTERFACE_LAUNCH_GAMEMENU			45032
-#define RC_INTERFACE_QUICK_SAVE					45033
+#define RC_INTERFACE_TO_SHIP					45025
+#define RC_INTERFACE_TO_TRADEBOOK				45026
+#define RC_INTERFACE_TO_LOGBOOK					45027
+#define RC_INTERFACE_TO_ITEMS					45028
+#define RC_INTERFACE_TO_CHAR					45029
+#define RC_INTERFACE_MAP_EXIT					45030
+#define RC_INTERFACE_LAUNCH_GAMEMENU			45031
+#define RC_INTERFACE_QUICK_SAVE					45032
 // Warship -->
-#define RC_INTERFACE_BEST_MAP					45034	// интерфейс отличной карты
-#define RC_INTERFACE_TAVERN_WAIT				45035	// интерфейс отдыха
-#define RC_INTERFACE_GOODS_TRANSFER				45036	// интерфейс закупки товара казначеем
+#define RC_INTERFACE_BEST_MAP					45033	// интерфейс отличной карты
+#define RC_INTERFACE_TAVERN_WAIT				45034	// интерфейс отдыха
+#define RC_INTERFACE_GOODS_TRANSFER				45035	// интерфейс закупки товара казначеем
 // <-- Warship
 // Ugeen -->
-#define RC_INTERFACE_MAPVIEW					45037   // интерфейс атласа карт 
-#define RC_INTERFACE_STORAGE_EXIT				45038   // интерфейс склада
+#define RC_INTERFACE_MAPVIEW					45036   // интерфейс атласа карт 
+#define RC_INTERFACE_STORAGE_EXIT				45037   // интерфейс склада
 // <-- Ugeen
 
 #define MAX_SAVE_STORE_BLOCKS	160
