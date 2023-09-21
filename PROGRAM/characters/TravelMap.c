@@ -230,39 +230,32 @@ string GetRandomIslandId()
 //navy--> переписано под полную карту
 void SetSmugglersTravelDestination(aref arDest)
 {
-	int i, iNum, iMin, iMax;
-	aref arTown;
-	string sIsland, sTown, sTmp;
-
-	sIsland = Islands[GetCharacterCurrentIsland(PChar)].id;
-	sTown = FindTownOnIsland(sIsland);
+	string sIsland = Islands[GetCharacterCurrentIsland(pchar)].id;
+	string sTown = FindTownOnIsland(sIsland);
 	if (sTown == "")
 	{
 		trace("Can't find town on ISLAND: " + sIsland + ".");
 		return;
 	}
-
-	makearef(arTown, NullCharacter.TravelMap.(sTown));
-	iNum = GetAttributesNum(arTown);
-	sTmp = "t" + rand(iNum-1);
-	//необитаемые острова, там нет городов, туда не плаваем.
-	//PS: мы плывем на остров, хотя выбор идет по городам (по сухопутным тоже), 
-	//но т.к. высаживаем в бухте, то пофиг.
-	while (arTown.(sTmp).town == "")
+	
+	int i = 1;
+	string sTargetIsland = GetRandomIslandId();	//получаем рандомный остров
+	while(GetCityNameByIsland(sTargetIsland) == "None") //ищем есть ли на острове колония
 	{
-		sTmp = "t" + rand(iNum-1);
+		i++;
+		sTargetIsland = GetRandomIslandId();	//ищем повторно
 	}
+	string sTargetTown = FindTownOnIsland(sTargetIsland); //присваеваем колонию, в которую направляемся
 
 	DeleteAttribute(arDest, "destination");
-	iMin = sti(arTown.(sTmp).town.days.min);
-	iMax = sti(arTown.(sTmp).town.days.max);
-
-	arDest.destination.days = iMin + rand(iMax-iMin);
-	arDest.destination =			arTown.(sTmp).town;
-	arDest.destination.loc =		GetIslandRandomShoreId(arTown.(sTmp));
+	arDest.destination.days = rand(2) + CalculateColonyDistance(sTown, sTargetTown);	//новый расчет дней
+	arDest.destination = sTargetTown;
+	arDest.destination.loc = GetIslandRandomShoreId(sTargetIsland);
 	//пишу стандартные аттрибуты, везде будут они.
-	arDest.destination.group =		"reload"; 
-	arDest.destination.locator =	"sea";
+	arDest.destination.group = "reload"; 
+	arDest.destination.locator = "sea";
+	
+	Log_TestInfo("SetSmugglersTravelDestination: выбран остров " + sTargetIsland + ", количество попыток " + i);
 }
 
 //получить ID города на острове.
