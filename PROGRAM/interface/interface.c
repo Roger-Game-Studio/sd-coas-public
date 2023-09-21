@@ -1737,12 +1737,6 @@ void MakeQuickSave()
 		return;
 	}
 	
-	if(iPayForSaveLoad() == 0)	// Warship. Платный S/L
-	{
-		Log_Info("Не хватает денег, чтобы сделать быстрое сохранение");
-		return;
-	}
-	
 	SetTimeScale(1.0);
 	TimeScaleCounter = 0;
 	DelPerkFromActiveList("TimeSpeed");

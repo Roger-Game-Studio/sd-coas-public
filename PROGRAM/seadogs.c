@@ -667,19 +667,7 @@ void OnSave()
 			}
 		}
 	}
-	
-	/*Как будет работать с автосэйвом перед абордажем: если деньги есть (метод вернул 1) - делаем сэйв, снимаем деньги.
-	Если метод вернул 0 (денег нету) - сэйв все-равно будет, но денег не снимут и не будет лога
-	Если метод вернет 2 (платный s/l отключен) - сэйв
-	По идее, с включенным платным s/l и неимением денег на него, в эту процедуру, кроме как автосэйвом, никак не пройти*/
-	if(iPayForSaveLoad() == 1)
-	{
-		int iMoney = CalculatePayForSaveLoadStatistic("Save");
-		Log_Info("Платный Save/Load: стоимость сэйва составила " + FindRussianMoneyString(iMoney));
-	}
-	
 	iCalculateSaveLoadCount("Save");
-
 }
 
 void ClearLocationsSaveData()
@@ -798,15 +786,8 @@ void OnLoad()
 	}
 
 	actLoadFlag = 0;
-	////
-	ProcessVersionCheck();
 	
-	int iMoney;
-	if(iPayForSaveLoad() != 2)
-	{
-		iMoney = CalculatePayForSaveLoadStatistic("Load");
-		Log_Info("Платный Save/Load: стоимость лоада составила " + FindRussianMoneyString(iMoney));
-	}
+	ProcessVersionCheck();
 	
 	iCalculateSaveLoadCount("Load");
 	
@@ -1662,67 +1643,6 @@ bool CheckSaveGameEnabled()
 	    }
 	}
     return TmpBool;
-}
-
-// Warship 17.06.08 Платный Сэйв/Лоад
-int iPayForSaveLoad() // 0 - низя сделать сэйв, т.к. денег нету, 1 - мона делать сэйв, 2 - отключен режит платного S/L
-{
-	string sPayStr = GetConvertStr("Pay For Save Load", KVL_MODS_FILE);
-	int iPayMonPerRank = sti(GetConvertStr("Pay For Save Load Money Qty", KVL_MODS_FILE));
-		
-	if(iPayMonPerRank < 100)	// Вот смысл этой фичи, если реально почти ничего не платишь?
-		iPayMonPerRank = 100;
-	
-	string sSmallRegStr = GetStrSmallRegister(sPayStr);
-	
-	if(sSmallRegStr == "on" || sSmallRegStr == "да")
-	{
-		int iSLMoney = sti(PChar.rank)*iPayMonPerRank;
-		PChar.Statistic.PayForSaveLoad.Money = iSLMoney;
-		
-		if(sti(PChar.money) >= iSLMoney)
-			return 1;
-		else
-			return 0;
-	}
-	else
-	{
-		return 2;
-	}
-}
-
-// Просто чтоб код был в одном месте. _SaveLoad - только "Save" или "Load". Метод вернет кол-во денег, потраченных на загрузку/сохранение
-int CalculatePayForSaveLoadStatistic(string _SaveLoad)
-{
-	int iMoney = 0;
-	ref MChref = GetMainCharacter();
-	if(_SaveLoad == "Save")
-	{
-		if(iPayForSaveLoad() == 1)
-		{
-			iMoney = sti(MChref.Statistic.PayForSaveLoad.Money);
-			MChref.money = sti(MChref.money) - iMoney;	// Нужно без лога
-			Statistic_AddValue(MChref, "PayForSaveLoad.PayForSave", iMoney);
-		}
-	}
-	else
-	{
-		if(iPayForSaveLoad() == 0)
-		{
-			iMoney = sti(MChref.money)
-			Statistic_AddValue(MChref, "PayForSaveLoad.PayForLoad", iMoney);
-			MChref.money = 0; 
-		}
-		
-		if(iPayForSaveLoad() == 1)
-		{
-			iMoney = sti(PChar.Statistic.PayForSaveLoad.Money);
-			MChref.money = sti(PChar.money) - iMoney;
-			Statistic_AddValue(MChref, "PayForSaveLoad.PayForLoad", iMoney);
-		}
-	}
-	
-	return iMoney;
 }
 
 // Статистика по сэйвам/лоадам
