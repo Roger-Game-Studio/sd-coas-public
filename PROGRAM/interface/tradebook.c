@@ -11,7 +11,7 @@ void InitInterface(string iniName)
 	SetEventHandler("exitCancel","ProcessExitCancel",0);
     SetEventHandler("ievnt_command","ProcessCommandExecute",0);
     SetEventHandler("TableSelectChange", "TableSelectChange", 0);
-    SetEventHandler("ShowInfoWindow","ShowInfoWindow",0);
+    SetEventHandler("CheckShowInfoWindow","CheckShowInfoWindow",0);
     SetEventHandler("MouseRClickUp","HideInfoWindow",0);
     
     XI_RegistryExitKey("IExit_F2");
@@ -29,7 +29,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("exitCancel","ProcessExitCancel");
     DelEventHandler("ievnt_command","ProcessCommandExecute");
     DelEventHandler("TableSelectChange", "TableSelectChange");
-    DelEventHandler("ShowInfoWindow","ShowInfoWindow");
+    DelEventHandler("CheckShowInfoWindow", "CheckShowInfoWindow");
     DelEventHandler("MouseRClickUp","HideInfoWindow");
     
 	interfaceResultCommand = exitCode;
@@ -272,6 +272,15 @@ void NullSelectTable(string sControl)
 	    Table_UpdateWindow(sControl);
 	}
 }
+
+// Hokkins: проверим надо ли показывать ShowInfoWindow() -->
+void CheckShowInfoWindow()
+{
+	if(GameInterface.TABLE_CITY.tr1.UserData.CityIDX == 0) return;
+	
+	ShowInfoWindow();
+}
+// Hokkins: <--
 
 void ShowInfoWindow()
 {
