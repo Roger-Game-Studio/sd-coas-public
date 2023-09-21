@@ -104,6 +104,7 @@ void InitInterface(string iniName)
 	
 	CreateImage("GOLD","GOLD","GOLD", 482,444,524,486);
 	
+    SetNewPicture("ICON_1", "interfaces\PORTRAITS\64\face_" + npchar.faceId+ ".tga");
     SetNewPicture("ICON_2", "interfaces\PORTRAITS\64\face_" + pchar.faceId+ ".tga");
     
     CreateString(true,"Money","",FONT_NORMAL,COLOR_MONEY,613,508,SCRIPT_ALIGN_CENTER,1.1);
