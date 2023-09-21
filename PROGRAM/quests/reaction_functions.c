@@ -1247,7 +1247,7 @@ void PQ7_inSoukinsResidence_2(string qName)
 
 void PQ7_loadToRecidence(string qName)
 {
-	DoQuestReloadToLocation("PuertoPrincipe_townhall", "reload", "reload2", "");
+	DoQuestReloadToLocation("PuertoPrincipe_townhall", "goto", "goto1", "");
 }
 
 void PQ7_setBattleShip(string qName)

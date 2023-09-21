@@ -942,6 +942,11 @@ void QuestCheckTakeItem(aref _location, string _itemId)
 	//пиратка, квест №7
 	if (_itemId == "OpenBook")
 	{
+		// Hokkins: убираем видимость лестницы -->
+		ref rItemId;
+		rItemId = ItemsFromID("Ladder");
+		rItemId.shown = false;
+		
 		AddQuestRecord("Pir_Line_7_Soukins", "9");
 		SaveCurrentQuestDateParam("questTemp.piratesLine");
 		pchar.questTemp.piratesLine = "Soukins_catchBattleship";
