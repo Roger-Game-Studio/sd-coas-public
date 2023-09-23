@@ -257,11 +257,6 @@ void AddToTable(int _mode)
         if (tradeType == TRADE_TYPE_CANNONS) continue; // не пушки
 		
 		sShipQ = GetCargoGoods(refCharacter, i);
-		
-		if(FilterMode == 2 && sti(GetCargoGoods(refCharacter, sShipQ)) == 0) continue;
-		if(FilterMode == 3 && tradeType != TRADE_TYPE_EXPORT) continue;
-		if(FilterMode == 4 && tradeType != TRADE_TYPE_IMPORT) continue;
-		if(FilterMode == 5 && tradeType != TRADE_TYPE_CONTRABAND) continue;
 
 		if(refStore.Colony != "none")
 		{
@@ -278,6 +273,12 @@ void AddToTable(int _mode)
 			refGoods.quantity = 0;
 		}
 		if (sStoreQ == 0 && sShipQ == 0) continue; // только не нули
+		
+		if(FilterMode == 2 && sti(sShipQ) == 0) continue;
+		if(FilterMode == 3 && sti(sStoreQ) == 0) continue;
+		if(FilterMode == 4 && tradeType != TRADE_TYPE_EXPORT) continue;
+		if(FilterMode == 5 && tradeType != TRADE_TYPE_IMPORT) continue;
+		if(FilterMode == 6 && tradeType != TRADE_TYPE_CONTRABAND) continue;
 		
 		GameInterface.TABLE_LIST.(row).index = i;
 		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
@@ -482,6 +483,11 @@ void procTabChange()
 		SetControlsTabMode( 5 );
 		return;
 	}
+	if( sNodName == "TABBTN_6" )
+	{
+		SetControlsTabMode( 6 );
+		return;
+	}
 }
 
 void SetControlsTabMode(int nMode)
@@ -491,16 +497,18 @@ void SetControlsTabMode(int nMode)
 	int nColor3 = nColor1;
 	int nColor4 = nColor1;
 	int nColor5 = nColor1;
+	int nColor6 = nColor1;
 
 	string sPic1 = "TabSelected";
 	string sPic2 = sPic1;
 	string sPic3 = sPic1;
 	string sPic4 = sPic1;
 	string sPic5 = sPic1;
+	string sPic6 = sPic1;
 
 	switch (nMode)
 	{
-		case 1: //
+		case 1:
 			sPic1 = "TabDeSelected";
 			nColor1 = argb(255,255,255,255);
 		break;
@@ -520,22 +528,33 @@ void SetControlsTabMode(int nMode)
 			sPic5 = "TabDeSelected";
 			nColor5 = argb(255,255,255,255);
 		break;
+		case 6:
+			sPic6 = "TabDeSelected";
+			nColor6 = argb(255,255,255,255);
+		break;
 	}
 	
 	// Выставим таблицу в начало
 	GameInterface.TABLE_LIST.select = 1;
 	GameInterface.TABLE_LIST.top = 0;
+	
+	if(refStore.Colony == "none")
+	{
+		SetFormatedText("TABSTR_3", XI_ConvertString("GoodsFromTrader"));
+	}
     
 	SetNewGroupPicture("TABBTN_1", "TABS", sPic1);
 	SetNewGroupPicture("TABBTN_2", "TABS", sPic2);
 	SetNewGroupPicture("TABBTN_3", "TABS", sPic3);
 	SetNewGroupPicture("TABBTN_4", "TABS", sPic4);
 	SetNewGroupPicture("TABBTN_5", "TABS", sPic5);
+	SetNewGroupPicture("TABBTN_6", "TABS", sPic6);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_1", 8,0,nColor1);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_2", 8,0,nColor2);
     SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_3", 8,0,nColor3);
     SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_4", 8,0,nColor4);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_5", 8,0,nColor5);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_6", 8,0,nColor6);
 	FillControlsList(nMode);
 }
 
@@ -543,11 +562,12 @@ void FillControlsList(int nMode)
 {
 	switch (nMode)
 	{
-	    case 1: FilterMode = 1; break;  // все
-	    case 2: FilterMode = 2; break;  // снаряжение
-	    case 3: FilterMode = 3; break;  // остальное
-	    case 4: FilterMode = 4; break;  // карты
-		case 5: FilterMode = 5; break;  // карты
+	    case 1: FilterMode = 1; break;
+	    case 2: FilterMode = 2; break;
+	    case 3: FilterMode = 3; break;
+	    case 4: FilterMode = 4; break;
+		case 5: FilterMode = 5; break;
+		case 6: FilterMode = 6; break;
 	}
 	AddToTable(FilterMode);
 	ShowGoodsInfo(sti(GameInterface.TABLE_LIST.tr1.index)); // Hokkins: при смене вкладки возвращаем информацию о таваре на первую строку.
@@ -595,20 +615,19 @@ void SetVariable()
 	{
 		iTotalSpace = sti(RealShips[sti(refShipChar.ship.type)].capacity);
 		sMaxGoodsStore = XI_ConvertString("Capacity") + ":\n" + makeint(fStoreWeight) + " / " + iTotalSpace;
+		
+		SetNodeUsing("TABBTN_4", false);
+		SetNodeUsing("TABSTR_4", false);
+		SetNodeUsing("TABBTN_5", false);
+		SetNodeUsing("TABSTR_5", false);
+		SetNodeUsing("TABBTN_6", false);
+		SetNodeUsing("TABSTR_6", false);
 	}
 	else
 	{
-	    sMaxGoodsStore = XI_ConvertString("store");
+	    sMaxGoodsStore = XI_ConvertString("Merchant");
 	}
-	if(refStore.Colony == "none")
-	{
-		SetFormatedText("STORE_CAPACITY", "'" + refShipChar.ship.name + "'");
-	}
-	else
-	{
-		SetFormatedText("STORE_CAPACITY", XI_ConvertString("Merchant"));
-	}
-	
+	SetFormatedText("STORE_CAPACITY", sMaxGoodsStore);
 
 	sText = XI_ConvertString("OurMoney") + " " + FindRussianMoneyString(sti(pchar.money));
 	SetFormatedText("OUR_GOLD", sText);
@@ -678,6 +697,7 @@ void SetShipWeight()
 	    fStoreWeight = 0;
 	}
 }
+
 void ShowGoodsInfo(int iGoodIndex)
 {
 	string GoodName = goods[iGoodIndex].name;
@@ -780,10 +800,11 @@ void ShowFoodInfo()
 		}
 		else
 		{
-		SetFormatedText("QTY_FOOD_INFO", "");
+			SetFormatedText("QTY_FOOD_INFO", "");
+		}
 	}
 }
-}
+
 void TransactionOK()
 {
 	int nTradeQuantity, moneyback;
