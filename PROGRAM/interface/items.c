@@ -567,9 +567,9 @@ bool ThisItemCanBeEquip( aref arItem )
 		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 	}
 	
-	if(CheckAttribute(PChar, "IsMushketer"))
+	if(CheckAttribute(xi_refCharacter, "IsMushketer"))
 	{
-		if(arItem.ID == PChar.IsMushketer.MushketID)
+		if(arItem.ID == xi_refCharacter.IsMushketer.MushketID)
 		{
 			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Remove that"));
 			return true;
