@@ -32,7 +32,7 @@ sea_Turn180 {Быстрый разворот}
 
 land_ItemsDead {Труп}
 land_FastReload {Переход}
-land_TalkSelf {Мысли в слух}
+land_TalkSelf {Мысли вслух}
 land_ItemsUse {Использовать}
 land_DialogStart {Разговор}
 land_ItemsChange {Обмен}
