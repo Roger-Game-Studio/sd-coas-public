@@ -509,12 +509,6 @@ int ReloadToLocation(int location_index, aref reload_data)
 		}	
 	}
 	
-	// Warship. В тавернах нельзя использовать анимацию мушкетера, поэтому сбрасываем на стандартную
-	if(CheckAttribute(mc, "IsMushketer") && !CanEquipMushketOnLocation(locations[location_index].ID))
-	{
-		SetMainCharacterToMushketer("", false);
-	}
-	
 	if(IsEntity(&chrAnimationKipper) == false) CreateEntity(&chrAnimationKipper, "CharacterAnimationKipper");
 
     // eddy --> открыть/закрыть двери в заглушках городов.

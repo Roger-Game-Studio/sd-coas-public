@@ -3076,9 +3076,6 @@ bool SetMainCharacterToMushketer(string sMushket, bool _ToMushketer) // если
 		iItem = GetItemIndex(sMushket);
 		if(iItem == -1) return false;
 		
-		// Стоит проверка при надевании предмета. Если каким-то образом дошло до сюда, то тут не разрешим
-		if(!CanEquipMushketOnLocation(PChar.Location)) return false;
-		
 		sLastGun = GetCharacterEquipByGroup(PChar, GUN_ITEM_TYPE);
 		PChar.DefaultAnimation = PChar.model.Animation;
 		PChar.IsMushketer = true; // Ставим флаг "ГГ - мушкетер"

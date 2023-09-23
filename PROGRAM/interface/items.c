@@ -543,12 +543,6 @@ bool ThisItemCanBeEquip( aref arItem )
 			return false;
 		}
 		
-		// Нельзя экипировать мушкет в непредназначенных для этого локациях (Таверна)
-		if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(PChar.Location))
-		{
-			return false;
-		}
-		
 		// Hokkins: если это не наш главный герой, то мушкет экипировать нельзя
 		if(HasSubStr(arItem.id, "mushket") && !IsMainCharacter(xi_refCharacter))
 		{
