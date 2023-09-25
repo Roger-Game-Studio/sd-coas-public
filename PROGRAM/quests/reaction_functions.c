@@ -4582,13 +4582,17 @@ void LCS_EndScriptInterception()
 	pchar.quest.LCS_EndScriptInterception_2.win_condition.l1.location = pchar.location;
 	pchar.quest.LCS_EndScriptInterception_2.function = "LCS_EndScriptInterception_2";
 	if (pchar.questTemp.LSC == "InterceptionOk")
+	{
 		AddQuestRecord("ISS_MainLine", "22");
 		AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("как полный кретин","как полная дура"));
 		AddQuestUserData("ISS_MainLine", "sSex1", GetSexPhrase("","а"));
+	}
 	else
+	{
 		AddQuestRecord("ISS_MainLine", "20");
 		AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("ся","ась"));
 		AddQuestUserData("ISS_MainLine", "sSex1", GetSexPhrase("","а"));
+	}
 
 }
 
