@@ -155,11 +155,15 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
         break;
 //========================== Тревога в таверне Гаваны ==================================
 		case "Allarm": 
-    		dialog.text = "Я узнала е"+ GetSexPhrase("го","е") +"! Стража! Кто-нибудь, позовите стражу, "+ GetSexPhrase("этого ладрона","эту преступницу") +" нужно задержать!";
-    		link.l1 = "А-ть, каррамба!!";
-    		link.l1.go = "Step_F_Allarm";
-			NextDiag.TempNode = "First time";
-        break;
+    			if (GetCityNation("Havana") == 2)
+    			{
+    			dialog.text = "Я узнала е"+ GetSexPhrase("го","е") +"! Стража! Кто-нибудь, позовите стражу, "+ GetSexPhrase("этого ладрона","эту преступницу") +" нужно задержать!";
+    			link.l1 = "А-ть, каррамба!!";
+    			link.l1.go = "Step_F_Allarm";
+    			NextDiag.TempNode = "First time";
+    			}
+    			else Dialog.CurrentNode = "First time";
+		break;
 		case "Step_F_Allarm":
 			LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false);
 			chrDisableReloadToLocation = true; // закрыть выход из локации.
