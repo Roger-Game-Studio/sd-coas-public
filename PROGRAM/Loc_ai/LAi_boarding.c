@@ -1235,7 +1235,7 @@ string LAi_GetBoardingMushketerModel(ref rCharacter)
 	
 	if (iNation < 0) iNation = PIRATE;
 	//eddy. замаскировавшися пиратов тоже надо учитывать
-	if (CheckAttribute(rCharacter, "Ship.Mode") && rCharacter.Ship.Mode == "Pirate") iNation = PIRATE;
+	if (CheckAttribute(rCharacter, "Ship.Mode") && rCharacter.Ship.Mode == "Pirate" && !IsMainCharacter(rCharacter)) iNation = PIRATE;
 	if(iNation == PIRATE)
 	{
 		model = "mushketer_" + (rand(4)+1);
