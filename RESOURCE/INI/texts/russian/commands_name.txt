@@ -1,4 +1,3 @@
-
 sea_Cancel {Отмена}
 sea_Moor {Причалить}
 sea_Cabin {Каюта}
@@ -21,14 +20,12 @@ sea_InstantBoarding {читовый абордаж}
 sea_Speak {Разговор}
 sea_Sneak {Прокрасться в город}
 sea_Repair {Починка}
-
 sea_Brander {Брандер}
 sea_ImmediateReload {Перезарядка}
 sea_LightRepair {Легкий ремонт}
 sea_InstantRepair {Быстрая починка}
 sea_SandbankManeuver {Маневры на мелководье}
 sea_Turn180 {Быстрый разворот}
-
 
 land_ItemsDead {Труп}
 land_FastReload {Переход}

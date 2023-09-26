@@ -105,7 +105,7 @@ void Log_SetActiveAction(string actionName)
 	if( CheckAttribute(&ILogAndActions,"ActiveActions."+actionName+".Text") ) {
 		ILogAndActions.ActiveActions.text2.text = ILogAndActions.ActiveActions.(actionName).Text;
 	} else {
-		ILogAndActions.ActiveActions.text2.text = XI_ConvertString("for_quick_action");
+		ILogAndActions.ActiveActions.text2.text = "";
 	}
 	SendMessage(&ILogAndActions,"ls",LOG_SET_ACTIVE_ACTION,actionName);
 }
@@ -154,25 +154,25 @@ void CreateSeaActionsEnvironment()
 	ILogAndActions.ActiveActions.text1.scale = 1.0 * fHtRatio;
 	ILogAndActions.ActiveActions.text1.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(272 * fHtRatio));
 	ILogAndActions.ActiveActions.text1.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(86 * fHtRatio));
-	ILogAndActions.ActiveActions.text1.text = XI_ConvertString("Press_F3");
+	ILogAndActions.ActiveActions.text1.text = "";
 	ILogAndActions.ActiveActions.text2.font = "interface_normal";
 	ILogAndActions.ActiveActions.text2.scale = 1.0 * fHtRatio;
 	ILogAndActions.ActiveActions.text2.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(272 * fHtRatio));
 	ILogAndActions.ActiveActions.text2.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(86 * fHtRatio));
-	ILogAndActions.ActiveActions.text2.text = XI_ConvertString("for_quick_action");
+	ILogAndActions.ActiveActions.text2.text = "";
 
 	ILogAndActions.ActiveActions.Moor.IconNum		= 29;
-	ILogAndActions.ActiveActions.Moor.Text			= XI_ConvertString("for_quick_action_Moor");
+	ILogAndActions.ActiveActions.Moor.Text			= "";
 	ILogAndActions.ActiveActions.Board.IconNum		= 30;
-	ILogAndActions.ActiveActions.Board.Text			= XI_ConvertString("for_quick_action_Board");
+	ILogAndActions.ActiveActions.Board.Text			= "";
 	ILogAndActions.ActiveActions.LandTroops.IconNum	= 42;
-	ILogAndActions.ActiveActions.LandTroops.Text	= XI_ConvertString("for_quick_action_LandTroops");
+	ILogAndActions.ActiveActions.LandTroops.Text	= "";
 	ILogAndActions.ActiveActions.Map.IconNum		= 28;
-	ILogAndActions.ActiveActions.Map.Text			= XI_ConvertString("for_quick_action_Map");
+	ILogAndActions.ActiveActions.Map.Text			= "";
 	ILogAndActions.ActiveActions.Reload.IconNum		= 48;
-	ILogAndActions.ActiveActions.Reload.Text		= XI_ConvertString("for_quick_action_Reload_Sea");
+	ILogAndActions.ActiveActions.Reload.Text		= "";
 	ILogAndActions.ActiveActions.Nothing.IconNum	= -1;
-	ILogAndActions.ActiveActions.Nothing.Text		= XI_ConvertString("for_quick_action");
+	ILogAndActions.ActiveActions.Nothing.Text		= "";
 }
 
 void CreateLandActionsEnvironment()
@@ -192,31 +192,31 @@ void CreateLandActionsEnvironment()
 	ILogAndActions.ActiveActions.text1.scale = 1.0 * fHtRatio;     
 	ILogAndActions.ActiveActions.text1.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(260 * fHtRatio));
 	ILogAndActions.ActiveActions.text1.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(86 * fHtRatio));
-	ILogAndActions.ActiveActions.text1.text = XI_ConvertString("Press_F3");
+	ILogAndActions.ActiveActions.text1.text = "";
 	ILogAndActions.ActiveActions.text2.font = "interface_normal";
 	ILogAndActions.ActiveActions.text2.scale = 1.0 * fHtRatio; 
 	ILogAndActions.ActiveActions.text2.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(260 * fHtRatio));
 	ILogAndActions.ActiveActions.text2.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(86 * fHtRatio));
-	ILogAndActions.ActiveActions.text2.text = XI_ConvertString("for_quick_action");
+	ILogAndActions.ActiveActions.text2.text = "";
 
 	ILogAndActions.ActiveActions.ToSea.IconNum		= 13;
-	ILogAndActions.ActiveActions.ToSea.Text			= XI_ConvertString("for_quick_action_ToSea");
+	ILogAndActions.ActiveActions.ToSea.Text			= "";
 	ILogAndActions.ActiveActions.Talk.IconNum		= 17;
-	ILogAndActions.ActiveActions.Talk.Text			= XI_ConvertString("for_quick_action_Talk");
+	ILogAndActions.ActiveActions.Talk.Text			= "";
 	ILogAndActions.ActiveActions.Look.IconNum		= 16;
-	ILogAndActions.ActiveActions.Look.Text			= XI_ConvertString("for_quick_action_Look");
+	ILogAndActions.ActiveActions.Look.Text			= "";
 	ILogAndActions.ActiveActions.Pick.IconNum		= 16;
-	ILogAndActions.ActiveActions.Pick.Text			= XI_ConvertString("for_quick_action_Pick");
+	ILogAndActions.ActiveActions.Pick.Text			= "";
 	ILogAndActions.ActiveActions.Action.IconNum		= 16;
-	ILogAndActions.ActiveActions.Action.Text		= XI_ConvertString("for_quick_action_Action");
+	ILogAndActions.ActiveActions.Action.Text		= "";
 	ILogAndActions.ActiveActions.OpenBox.IconNum	= 16;
-	ILogAndActions.ActiveActions.OpenBox.Text		= XI_ConvertString("for_quick_action_OpenBox");
+	ILogAndActions.ActiveActions.OpenBox.Text		= "";
 	ILogAndActions.ActiveActions.Reload.IconNum		= 13;
-	ILogAndActions.ActiveActions.Reload.Text		= XI_ConvertString("for_quick_action_Reload");
+	ILogAndActions.ActiveActions.Reload.Text		= "";
 	ILogAndActions.ActiveActions.Closed.IconNum		= 29;
-	ILogAndActions.ActiveActions.Closed.Text		= XI_ConvertString("for_quick_action_Closed");
+	ILogAndActions.ActiveActions.Closed.Text		= "";
 	ILogAndActions.ActiveActions.Nothing.IconNum	= -1;
-	ILogAndActions.ActiveActions.Nothing.Text		= XI_ConvertString("for_quick_action");
+	ILogAndActions.ActiveActions.Nothing.Text		= "";
 }
 
 void CreateWorldMapActionsEnvironment()
@@ -236,25 +236,25 @@ void CreateWorldMapActionsEnvironment()
 	ILogAndActions.ActiveActions.text1.scale = 1.0 * fHtRatio;
 	ILogAndActions.ActiveActions.text1.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(260 * fHtRatio));
 	ILogAndActions.ActiveActions.text1.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(86 * fHtRatio));
-	ILogAndActions.ActiveActions.text1.text = XI_ConvertString("Press_F3");
+	ILogAndActions.ActiveActions.text1.text = "";
 	ILogAndActions.ActiveActions.text2.font = "interface_normal";
 	ILogAndActions.ActiveActions.text2.scale = 1.0 * fHtRatio;
 	ILogAndActions.ActiveActions.text2.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(260 * fHtRatio));
 	ILogAndActions.ActiveActions.text2.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(86 * fHtRatio));
-	ILogAndActions.ActiveActions.text2.text = XI_ConvertString("for_quick_action");
+	ILogAndActions.ActiveActions.text2.text = "";
 
 	ILogAndActions.ActiveActions.EnterToSea.IconNum	= 1;
-	ILogAndActions.ActiveActions.EnterToSea.Text = XI_ConvertString("for_quick_action_EnterToSea");
+	ILogAndActions.ActiveActions.EnterToSea.Text = "";
 	ILogAndActions.ActiveActions.EnterToIsland.IconNum = 0;
-	ILogAndActions.ActiveActions.EnterToIsland.Text = XI_ConvertString("for_quick_action_EnterToIsland");
+	ILogAndActions.ActiveActions.EnterToIsland.Text = "";
 	ILogAndActions.ActiveActions.EnterToShip.IconNum = 4;
-	ILogAndActions.ActiveActions.EnterToShip.Text = XI_ConvertString("for_quick_action_EnterToShip");
+	ILogAndActions.ActiveActions.EnterToShip.Text = "";
 	ILogAndActions.ActiveActions.EnterToStorm.IconNum = 5;
-	ILogAndActions.ActiveActions.EnterToStorm.Text = XI_ConvertString("for_quick_action_EnterToStorm");
+	ILogAndActions.ActiveActions.EnterToStorm.Text = "";
 	ILogAndActions.ActiveActions.EnterToAttack.IconNum = 2;
-	ILogAndActions.ActiveActions.EnterToAttack.Text = XI_ConvertString("for_quick_action_EnterToAttack");
+	ILogAndActions.ActiveActions.EnterToAttack.Text = "";
 	ILogAndActions.ActiveActions.EnterToEnemy.IconNum	= 3;
-	ILogAndActions.ActiveActions.EnterToEnemy.Text = XI_ConvertString("for_quick_action_EnterToEnemy");
+	ILogAndActions.ActiveActions.EnterToEnemy.Text = "";
 }
 
 void DrawCharacterHP(float myHP,float enemyHP)

@@ -7,7 +7,7 @@ No_profit {Нет выгодных сделок}
 Distance {Расстояние}
 To {Туда}
 From {Обратно}
-Fort Commander {Коммандор}
+Fort Commander {Комендант форта}
 day {день}
 day2 {день}
 days {дней}

@@ -1,137 +1,134 @@
-
-Antigua	{Антигуа}
-Barbados	{Барбадос}
-Bermudes	{Бермуды}
-Beliz	{Юкатан}
-Cuba   {Куба}
-Cuba1   {Куба}
-Cuba2   {}
-Caiman 	{Кайман}
+Antigua {Антигуа}
+Barbados {Барбадос}
+Bermudes {Бермуды}
+Beliz {Юкатан}
+Cuba {Куба}
+Cuba1 {Куба}
+Cuba2 {}
+Caiman {Кайман}
 Cumana {}
 Caracas {}
-Curacao	{Кюрасао}
+Curacao {Кюрасао}
 Cartahena {}
-Dominica	{Доминика}
-Guadeloupe	{Гваделупа}
+Dominica {Доминика}
+Guadeloupe {Гваделупа}
 Hispaniola {Эспаньола}
-Hispaniola1	{Эспаньола}
+Hispaniola1 {Эспаньола}
 Hispaniola2 {}
-Jamaica	{Ямайка}
+Jamaica {Ямайка}
 Maracaibo {}
-Martinique	{Мартиника}
-SentMartin	{Сан Мартин}
-Nevis	{Невис}
-PuertoRico	{Пуэрто-Рико}
+Martinique {Мартиника}
+SentMartin {Сан Мартин}
+Nevis {Невис}
+PuertoRico {Пуэрто-Рико}
 PortoBello {}
 Pearl {Жемчужный Берег}
 Panama {Панама}
 SantaCatalina {}
-Terks	{Теркс}
-Tortuga	{Тортуга}
-Trinidad	{Тринидад и Тобаго}
+Terks {Теркс}
+Tortuga {Тортуга}
+Trinidad {Тринидад и Тобаго}
 Tenotchitlan {оз. Тескоко}
 Mein {Мэйн}
 
 SentJons_town {Сент-Джонс}
-Pirates_town	{Пиратское поселение}
-Bridge_town	{Бриджтаун}
-Beliz_town	{Белиз}
-Santiago_town	{Сантьяго}
-PuertoPrincipe_town	{Пуэрто-Принсипе}
-Havana_town	{Гавана}
-Cumana_town	{Кумана}
-Caracas_town	{Каракас}
-Villemstad_town	{Виллемстад}
-Cartahena_town	{Картахена}
-BasTer_town	{Бас Тер}
-SantoDomingo_town	{Санто-Доминго}
-LaVega_town	{Ла Вега}
-PortPax_town	{Порт-о-Принс}
-PortRoyal_town	{Порт Рояль}
-Maracaibo_town	{Маракайбо}
-FortFrance_town	{Форт де Франс}
-LeFransua_town	{Ле Франсуа}
-Marigo_town	{Мариго}
-Charles_town	{Чарлстаун}
-SanJuan_town	{Сан-Хуан}
-PortoBello_town	{Порто Белло}
-Panama_town	{Панама}
-SantaCatalina_town	{Санта-Каталина}
-Tortuga_town	{Тортуга}
-PortSpein_town	{Порт-оф-Спейн}
-Tenotchitlan_town	{Теночтитлан}
+Pirates_town {Пиратское поселение}
+Bridge_town {Бриджтаун}
+Beliz_town {Белиз}
+Santiago_town {Сантьяго}
+PuertoPrincipe_town {Пуэрто-Принсипе}
+Havana_town {Гавана}
+Cumana_town {Кумана}
+Caracas_town {Каракас}
+Villemstad_town {Виллемстад}
+Cartahena_town {Картахена}
+BasTer_town {Бас Тер}
+SantoDomingo_town {Санто-Доминго}
+LaVega_town {Ла Вега}
+PortPax_town {Порт-о-Принс}
+PortRoyal_town {Порт Рояль}
+Maracaibo_town {Маракайбо}
+FortFrance_town {Форт де Франс}
+LeFransua_town {Ле Франсуа}
+Marigo_town {Мариго}
+Charles_town {Чарлстаун}
+SanJuan_town {Сан-Хуан}
+PortoBello_town {Порто Белло}
+Panama_town {Панама}
+SantaCatalina_town {Санта-Каталина}
+Tortuga_town {Тортуга}
+PortSpein_town {Порт-оф-Спейн}
+Tenotchitlan_town {Теночтитлан}
 FortOrange_town {Форт Оранж}
-Estate {Имение Оглторпа, Англия}
 DesMoines {Дес-Мойнес}
 
+Shore1 {мыс Бун}
+Shore2 {залив Уиллогби}
+Shore3 {залив Руны}
+Shore4 {мыс Гаррисон}
+Shore5 {мыс Раггед Пойнт}
+Shore6 {мыс Каточе}
+Shore7 {залив Косумель}
+Shore8 {бухта Четумаль}
+Shore9 {бухта Аматике}
+Shore10 {лагуна Каратаска}
+Shore11 {мыс Камагуэй}
+Shore12 {залив Анна Мария}
+Shore13 {залив Батабано}
+Shore14 {бухта Хувентуд}
+Shore15 {мыс Сан Антонио}
+Shore16 {Пустынный пляж}
+Shore17 {залив Эсмеральды}
+Shore18 {берег Бока де ла Сьерпе}
+Shore19 {бухта Карупано}
+Shore20 {пляж Лос Текес}
+Shore21 {мыс Аруба}
+Shore22 {Пальмовый берег}
+Shore23 {мыс Кальвинистов}
+Shore24 {берег Приют Контрабандиста}
+Shore25 {бухта Ковеньяс}
+Shore26 {пляж Касл Брус}
+Shore27 {мыс Скотс Хед}
+Shore28 {бухта Морн л'О}
+Shore29 {пляж Капстер}
+Shore30 {бухта Гран Бур}
+Shore31 {мыс Недоступный}
+Shore32 {мыс Исабела}
+Shore33 {бухта Самана}
+Shore34 {бухта Гонаив}
+Shore35 {мыс Негрил}
+Shore36 {бухта Портленд}
+Shore37 {бухта Гуахира}
+Shore38 {пляж Ламантен}
+Shore39 {бухта Ле Марен}
+Shore40 {берег Спасения }
+Shore41 {бухта Неистового ветра}
+Shore42 {бухта Ньюкасл}
+Shore43 {пляж Бат}
+Shore44 {бухта Агуадилья}
+Shore45 {пляж Фахардо}
+Shore46 {лагуна Чирики}
+Shore47 {залив Москитос}
+Shore48 {Дарьенский залив}
+Shore49 {залив Папагайо}
+Shore50 {залив Никоя}
+Shore51 {залив Коронадо}
+Shore52 {залив Гольфо Дульсе}
+Shore53 {Берег Москитов}
+Shore54 {мыс Перлас}
+Shore55 {залив Сан Хуан дель Норте}
+Shore56 {залив Северный}
+Shore57 {залив Южный}
+Shore58 {пляж Глаз Рыбы}
+Shore59 {бухта Скарборо}
+Shore60 {мыс Галера}
+Shore61 {Тепейакак}
+Shore62 {Истапалапу}
+Shore63 {залив Сан Мигель}
 
-Shore1	{мыс Бун}
-Shore2	{залив Уиллогби}
-Shore3	{залив Руны}
-Shore4	{мыс Гаррисон}
-Shore5	{мыс Раггед Пойнт}
-Shore6	{мыс Каточе}
-Shore7	{залив Косумель}
-Shore8	{бухта Четумаль}
-Shore9	{бухта Аматике}
-Shore10	{лагуна Каратаска}
-Shore11	{мыс Камагуэй}
-Shore12	{залив Анна Мария}
-Shore13	{залив Батабано}
-Shore14	{бухта Хувентуд}
-Shore15	{мыс Сан Антонио}
-Shore16	{Пустынный пляж}
-Shore17	{залив Эсмеральды}
-Shore18	{берег Бока де ла Сьерпе}
-Shore19	{бухта Карупано}
-Shore20	{пляж Лос Текес}
-Shore21	{мыс Аруба}
-Shore22	{Пальмовый берег}
-Shore23	{мыс Кальвинистов}
-Shore24	{берег Приют Контрабандиста}
-Shore25	{бухта Ковеньяс}
-Shore26	{пляж Касл Брус}
-Shore27	{мыс Скотс Хед}
-Shore28	{бухта Морн л'О}
-Shore29	{пляж Капстер}
-Shore30	{бухта Гран Бур}
-Shore31	{мыс Недоступный}
-Shore32	{мыс Исабела}
-Shore33	{бухта Самана}
-Shore34	{бухта Гонаив}
-Shore35	{мыс Негрил}
-Shore36	{бухта Портленд}
-Shore37	{бухта Гуахира}
-Shore38	{пляж Ламантен}
-Shore39	{бухта Ле Марен}
-Shore40	{берег Спасения }
-Shore41	{бухта Неистового ветра}
-Shore42	{бухта Ньюкасл}
-Shore43	{пляж Бат}
-Shore44	{бухта Агуадилья}
-Shore45	{пляж Фахардо}
-Shore46	{лагуна Чирики}
-Shore47	{залив Москитос}
-Shore48	{Дарьенский залив}
-Shore49	{залив Папагайо}
-Shore50	{залив Никоя}
-Shore51	{залив Коронадо}
-Shore52	{залив Гольфо Дульсе}
-Shore53	{Берег Москитов}
-Shore54	{мыс Перлас}
-Shore55	{залив Сан Хуан дель Норте}
-Shore56	{залив Северный}
-Shore57	{залив Южный}
-Shore58	{пляж Глаз Рыбы}
-Shore59	{бухта Скарборо}
-Shore60	{мыс Галера}
-Shore61	{Тепейакак}
-Shore62	{Истапалапу}
-Shore63	{залив Сан Мигель}
-
-Shore_ship1	{бухта разбитого корыта}
-Shore_ship2	{залив Гибели}
-Shore_ship3	{мыс Несбывшихся надежд}
+Shore_ship1 {бухта разбитого корыта}
+Shore_ship2 {залив Гибели}
+Shore_ship3 {мыс Несбывшихся надежд}
 
 Mayak1 {Маяк Тринидада и Тобаго}
 Mayak2 {Маяк Барбадоса}
@@ -144,8 +141,6 @@ Mayak8 {Маяк Санто-Доминго}
 Mayak9 {Маяк Сантьяго}
 Mayak10 {Маяк Гаваны}
 Mayak11 {Маяк Картахены}
-
-
 
 Bridgetown {Бриджтаун}
 Bridgetown Town {Бриджтаун}
@@ -274,6 +269,7 @@ Beliz Town {Белиз}
 Beliz Fort {форт Белиза}
 Beliz Port {порт Белиза}
 
+Estate {Имение Оглторпа, Англия}
 Duel Field	{дуэльное поле}
 
 Boarding deck {верхняя палуба} 
@@ -285,7 +281,7 @@ ExitTown {выход в джунгли}
 Port {Порт}
 Tavern {таверна}
 Store {магазин}
-Shipyard	{верфь}
+Shipyard {верфь}
 Townhall {резиденция}
 TownhallRoom {комната в резиденции}
 Residence {резиденция}
@@ -317,14 +313,14 @@ Village {Деревня}
 Plantation {Плантация}
 UnderWater {Под водой}
 
-Reefs	{Северные рифы}
+Reefs {Северные рифы}
 
-Grotto	{Грот}
+Grotto {Грот}
 
-cabine	{Каюта}
-My_Campus	{Кают-компания}
-My_Deck_Medium	{Пушечная палуба}
-My_Deck	{Трюм}
+cabine {Каюта}
+My_Campus {Кают-компания}
+My_Deck_Medium {Пушечная палуба}
+My_Deck {Трюм}
 
 Morgan's House {Дом Моргана}
 Morris's House {Дом Джона Морриса}
@@ -378,6 +374,3 @@ TempleGreatInside {Храм Великой Жизненной Силы}
 TempleRoundInside {Храм Белых Богов}
 TempleSecondInside {Жертвенный храм}
 TempleUnderwater {Лабиринт}
-
-
-
