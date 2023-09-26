@@ -1110,7 +1110,7 @@ void ProcessControls()
         		newTimeScale = 0;
      	}
 
-     	Log_SetStringToLog("x" + newTimeScale);
+     	Log_SetStringToLog(XI_ConvertString("TimeScale") + " x" + newTimeScale);
      	if (TimeScaleCounter == 0) //back to normal
      	{
 			if(IsPerkIntoList("TimeSpeed"))
@@ -1139,14 +1139,14 @@ void ProcessControls()
 			{
 				SetTimeScale(1.0);
 				TimeScaleCounter = 0;
-                Log_SetStringToLog(XI_ConvertString("Time x1"));
+                Log_SetStringToLog(XI_ConvertString("TimeScaleOff"));
 				DelPerkFromActiveList("TimeSpeed");
 			}
 			else
 			{
 				SetTimeScale(GetSeaTimeScale());
 				TimeScaleCounter = 4;
-                Log_SetStringToLog(XI_ConvertString("Time x2"));
+                Log_SetStringToLog(XI_ConvertString("TimeScale") + " x2");
 				AddPerkToActiveList("TimeSpeed");
 			}
 		break;
