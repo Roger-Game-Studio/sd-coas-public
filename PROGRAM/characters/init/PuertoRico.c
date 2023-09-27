@@ -68,7 +68,7 @@ int CreatePuertoRicoCharacters(int n)
 	makeref(ch,Characters[n]);			//Трактирщик
 	ch.id = "SanJuan_tavernkeeper";
 	ch.model	= "barmen_12";
-	ch.greeting = "Barmen_4";
+	ch.greeting = "Gr_Barmen";
 	ch.sex = "man";
 	ch.City = "SanJuan";
 	ch.location	= "SanJuan_Tavern";
