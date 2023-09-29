@@ -35,6 +35,13 @@ void ProcessDialogEvent()
 		//--------------------------------- служанка в резиденции ---------------------------------
 		case "ResWoman":
 			NextDiag.TempNode = "ResWoman";
+			if (LAi_grp_playeralarm > 0)
+			{
+				dialog.text = RandPhraseSimple("Сейчас сюда придёт стража, и от тебя мокрого места не останется!", "Охрана! Здесь разгуливает " + GetSexPhrase("преступник","преступница") + " !");
+				link.l1 = RandPhraseSimple("Лучше тебе помалкивать, живее будешь...", "Прикрой-ка свой ротик, милочка...");
+				link.l1.go = "exit_setOwner";
+				break;
+			}
 			if (isBadReputation(pchar, 40))
 			{
 				dialog.text = LinkRandPhrase(""+ GetSexPhrase("Шел","Шла") +" бы ты отсюда, " + GetAddress_Form(NPChar) + ". Нечего шляться "+ GetSexPhrase("такому типу","такой оторве") +" в доме у губернатора...", "Уходи, "+ GetSexPhrase("разбойник","разбойница") +"! Как вообще ты сюда попал"+ GetSexPhrase("","а") +"?..", "Ну и времена настали. Всякая мерзость шастает по дому губернатора " + XI_ConvertString("Colony" + npchar.city + "Gen") + "!");
