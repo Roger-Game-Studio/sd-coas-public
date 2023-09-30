@@ -820,6 +820,8 @@ void ProcessDialogEvent()
     		link.l1.go = "exit";
             NextDiag.TempNode = "GoodFriends";
             pchar.questTemp.Ascold = "Ascold_OverBusiness";
+		ChangeCharacterAddressGroup(&characters[GetCharacterIndex("Ascold")], "BasTer_houseSp1", "sit", "sit1"); //Обратно сажаем
+		LAi_SetSitType(&characters[GetCharacterIndex("Ascold")]);
 		break;
 
  		case "GoodFriends":
