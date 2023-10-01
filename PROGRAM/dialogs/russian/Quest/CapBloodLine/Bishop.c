@@ -85,7 +85,7 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
    	        LAi_SetWarriorType(NPChar);
             LAi_group_MoveCharacter(NPChar, "TmpEnemy");
-            LAi_group_FightGroups("TmpEnemy", LAI_GROUP_PLAYER, true)
+            LAi_group_FightGroups("TmpEnemy", LAI_GROUP_PLAYER, true);
 			AddDialogExitQuest("MainHeroFightModeOn");
 			Spain_spyDie("");
 			AddQuestRecord("WeaponsForEscape", "5");
