@@ -385,7 +385,7 @@ void ProcessDialogEvent()
 		break;
 		case "PortRoyal_Gans":
 			dialog.text = LinkRandPhrase("Не нужно ходить возле орудий - это военный объект!", "Доступ к орудиям посторонних лиц категорически запрещен!", "Если я замечу, что ты ошиваешься возле орудий - тебе конец!");
-			link.l1 = RandPhraseSimple("Я понял" + GetSexPhrase("","а") + "тебя.", "Хорошо, я все понял" + GetSexPhrase("","а") + ".");
+			link.l1 = RandPhraseSimple("Я понял" + GetSexPhrase("","а") + " тебя.", "Хорошо, я все понял" + GetSexPhrase("","а") + ".");
 			link.l1.go = "exit";
 			NextDiag.TempNode = "PortRoyal_Gans";
 		break;
