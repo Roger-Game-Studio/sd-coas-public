@@ -132,6 +132,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit_setOwner";
 		break;
 		case "Man_FackYou":
+			if(CheckAttribute(locations[FindLoadedLocation()], "packhouse")) NextDiag.TempNode = "SkladMan";
 			dialog.text = LinkRandPhrase("Да ты "+ GetSexPhrase("вор, милейший! Стража, держи его","воровка! Стража, держи ее") +"!!!", "Вот это да! Чуть я загляделся, а ты сразу в сундук с головой! Держи "+ GetSexPhrase("вора","воровку") +"!!!", "Стража! Грабят!!! Держи "+ GetSexPhrase("вора","воровку") +"!!!");
 			link.l1 = "А-ать, дьявол!!!";
 			link.l1.go = "fight";
