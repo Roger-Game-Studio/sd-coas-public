@@ -796,7 +796,8 @@ void CreateMayak(aref loc)
 			ref chr;
 			aref st, solderLoc;
 			int iChar, i;
-			string slai_group, locatorName;
+			string slai_group, locatorName, nShortName;
+			nShortName = NationShortName(iNation);
 			slai_group = GetNationNameByType(iNation)  + "_mayak"; 
 			// солдаты -->
 			if (checkAttribute(loc, "soldiers") && CheckAttribute(loc, "locators.soldiers"))
@@ -814,7 +815,7 @@ void CreateMayak(aref loc)
 					}
 					else
 					{
-						chr = GetCharacter(NPC_GenerateCharacter("GenChar_", "eng_mush_1", "man", "mushketer", sti(pchar.rank), iNation, 2, false));
+						chr = GetCharacter(NPC_GenerateCharacter("GenChar_", nShortName + "_mush_" + (rand(2)+1), "man", "mushketer", sti(pchar.rank), iNation, 2, false));
 						chr.id = "GenChar_" + chr.index;
 						chr.MusketerDistance = 0;
 					}					
