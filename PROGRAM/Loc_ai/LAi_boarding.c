@@ -985,16 +985,10 @@ void LAi_SetBoardingActors(string locID)
 					LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER);
 					ChangeCharacterAddressGroup(chr, locID, "rld", sLocType+"mush"+i);
 				}
+				if (!IsFort) SetMushketerParamAbordOur(chr);
+				else SetMushketerParamFortOur(chr);
+				AddCharHP(chr, boarding_player_hp); // влияение опыта и морали в НР
 			}
-			if (!IsFort)
-			{
-	            SetMushketerParamAbordOur(chr);
-			}
-			else
-			{
-			    SetMushketerParamFortOur(chr);
-			}
-			AddCharHP(chr, boarding_player_hp); // влияение опыта и морали в НР
 		}
 		//<-- ставим своих мушкетеров
 	}
@@ -1105,16 +1099,10 @@ void LAi_SetBoardingActors(string locID)
 					ChangeCharacterAddressGroup(chr, locID, "rld", sLocType+"mush"+i);
 					boarding_enemy_crew = boarding_enemy_crew - 1;
 				}
-			}
-			if (!IsFort)
-			{
-				SetMushketerParamAbordEnemy(chr);
-			}
-			else
-			{
-				SetMushketerParamFortEnemy(chr);
-			}
-			AddCharHP(chr, boarding_enemy_hp); // влияение опыта и морали в НР			
+				if (!IsFort) SetMushketerParamAbordEnemy(chr);
+				else SetMushketerParamFortEnemy(chr);
+				AddCharHP(chr, boarding_enemy_hp); // влияение опыта и морали в НР
+			}			
 		}
 	}
 	//<-- ставим вражеских мушкетеров
