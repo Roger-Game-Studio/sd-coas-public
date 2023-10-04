@@ -16,7 +16,7 @@ void ProcessDialogEvent()
 	{
 		// ----------------------------------- Диалог первый - первая встреча
 		case "First time":
-            if (sld.location == pchar.location && bWorldAlivePause)
+            if (sld.location == pchar.location)
             {
     			dialog.text = "Если ты к адмиралу, то пройди чуть дальше. Он сейчас в резиденции.";
     			link.l1 = "Хорошо, пойду поговорю с ним.";
