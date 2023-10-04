@@ -991,6 +991,9 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			link.l1 = "Я понял"+ GetSexPhrase("","а") +" вас, спасибо. Я подумаю.";
 			link.l1.go = "exit";
 			pchar.questTemp.LSC = "over"; //конец линейки ГПК
+			sld = characterFromId("hol_guber"); //чтобы Стэвезан мог переезжать, когда снимется пауза
+			DeleteAttribute(sld, "notMoveAble");
+			DeleteAttribute(&colonies[FindColony("Villemstad")], "notCaptured"); //Виллемстад можно себе
 			CloseQuestHeader("ISS_PoorsMurder");
 		break;
 		//механика арестовали, диалоги мужика
