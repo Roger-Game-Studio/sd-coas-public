@@ -16,6 +16,11 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
+		case  "Exit_minus_rep":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			ChangeCharacterReputation(pchar, -12);
+			DialogExit();
+		break;
 	
 		case "First time":
 	if (PChar.sex != "woman")
@@ -418,11 +423,14 @@ void ProcessDialogEvent()
 		case "IsabellaIsMyWife_2":
 			dialog.text = "Ну, может оно и верно, приятель...";
 			link.l1 = "Наверное, да, Атилла. Ну, прощай...";
-			link.l1.go = "exit";
+			link.l1.go = "Exit_minus_rep";
+			if (sti(pchar.money) >= 1000)
+			{
 			link.l2 = "Атилла, тут такое дело... Я хочу отблагодарить тебя за все.";
 			link.l2.go = "IsabellaIsMyWife_3";
+			}
 			NextDiag.TempNode = "IsabellaIsMyWife_after";
-			pchar.RomanticQuest.Atilla = "YouAreBaster";
+			pchar.RomanticQuest.Atilla = "YouAreSwine";
 			npchar.LifeDay = 0;
 		break;
 		case "IsabellaIsMyWife_after":
