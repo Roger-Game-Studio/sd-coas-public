@@ -7778,7 +7778,7 @@ void Slavetrader_enterSoldiers() //арестовывающие солдеры
 	FantomMakeCoolFighter(sld, 25, 100, 100, "topor2", "pistol3", 80);
 	sld.Dialog.Filename = "Quest\Other_Quests_NPC.c"; //диалоговый файл, из которого говорить будет
 	sld.dialog.currentnode = "Slave_arest"; // диалоговый узел
-	sld.greeting = "soldier_arest";
+	sld.greeting = "VOICE\" + LanguageGetLanguage() + "\z_arest_01.wav";
     LAi_SetActorType(sld);
 	LAi_group_MoveCharacter(sld, "EnemyFight");
 	ChangeCharacterAddressGroup(sld, pchar.location, "reload",  "reload1");
