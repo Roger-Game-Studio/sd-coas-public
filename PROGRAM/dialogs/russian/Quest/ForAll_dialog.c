@@ -2351,8 +2351,8 @@ void ProcessDialogEvent()
 			dialog.text = "Мое слово железное. Я готов. Только давайте обсудим размер моего гонорара. За свою верную службу я хочу получать " + FindRussianMoneyString(sti(Npchar.quest.OfficerPrice)) + " в месяц.";
 			link.l1 = "А вам не кажется, что это чересчур?";
 			link.l1.go = "OffM_trade";
-			link.l1 = "Ну, хорошо, я соглас"+ GetSexPhrase("ен","на") +".";
-			link.l1.go = "OffM_Ok";
+			link.l2 = "Ну, хорошо, я соглас"+ GetSexPhrase("ен","на") +".";
+			link.l2.go = "OffM_Ok";
 		break;
 		case "OffM_trade":
 			dialog.text = "Нет, я стою гораздо больше.";
