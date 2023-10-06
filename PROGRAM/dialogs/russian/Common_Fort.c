@@ -297,13 +297,29 @@ void ProcessDialogEvent()
 
 		//замечение по обнаженному оружию
 		case "SoldierNotBlade":
-			dialog.text = LinkRandPhrase("Какого черта ты бегаешь по городу с обнаженным клинком? Немедленно убери оружие!", "Приказываю вам немедленно убрать оружие в ножны!", "Эй, "+ GetSexPhrase("приятель","подруга") +", прекрати пугать народ! Убери оружие в ножны.");
+			if(GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)
+			{
+				if(sti(pchar.nation) == PIRATE)
+				{
+					dialog.text = RandPhraseSimple("Пираты в форте?! Ну дела... Хватай е" + GetSexPhrase("го", "ё") + "!!", "Это пират!! Держи е" + GetSexPhrase("го", "ё") + "!!!");
+					link.l1 = RandPhraseSimple("Пират, ну и что?..", "Хех, попробуйте схватить.");
+					link.l1.go = "fight";
+					break;
+				}
+				dialog.text = RandPhraseSimple("Шпион? Сдать оружие!! Следовать за мной!", "Вражеский агент!! Немедленно схватить е" + GetSexPhrase("го", "ё")  + "!");
+				link.l1 = RandPhraseSimple("Заткнись, малахольный!", "Как бы не так!");
+				link.l1.go = "fight";
+			}
+			else
+			{
+			dialog.text = LinkRandPhrase("Какого чёрта ты бегаешь по форту с обнаженным клинком? Немедленно убери оружие!", "Приказываю вам немедленно убрать оружие в ножны!", "Эй, "+ GetSexPhrase("приятель","подруга") +", прекрати пугать народ! Убери оружие в ножны.");
 			link.l1 = LinkRandPhrase("Хорошо.", "Ладно.", "Как скажешь...");
 			link.l1.go = "exit";
 			link.l2 = LinkRandPhrase("Черта с два!", "Помечтай...", "После дождичка, в четверг.");
 			link.l2.go = "fight";
 			npchar.greeting = "soldier_common";
 			NextDiag.TempNode = "First Time";
+			}
 		break;
 	}
 }
