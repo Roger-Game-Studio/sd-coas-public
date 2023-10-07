@@ -553,7 +553,7 @@ bool LAi_CreateEncounters(ref location)
 					ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 					chr.dialog.filename = "GenQuests_Dialog.c";
 					chr.dialog.currentnode = "First time";
-					chr.greeting = "Gr_Slave"; 
+					chr.greeting = "Gr_slave"; 
 					chr.city = sCity;
 					LAi_SetImmortal(chr, true); // До поры нельзя убить
 					LAi_SetActorTypeNoGroup(chr);
