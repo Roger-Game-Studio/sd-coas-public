@@ -87,7 +87,7 @@ int CreatePuertoRicoCharacters(int n)
 	makeref(ch,Characters[n]);			//Торговец
 	ch.id = "SanJuan_trader";
 	ch.model	= "trader_12";
-	ch.greeting = "tra_common_4";
+	ch.greeting = "tra_common";
 	ch.sex = "man";
 	ch.City = "SanJuan";
 	ch.location	= "SanJuan_Store";
