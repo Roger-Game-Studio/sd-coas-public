@@ -654,19 +654,22 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
     		link.l1 = "Хм, я рассчитывал"+ GetSexPhrase("","а") +" на получение денег прямо сейчас.";
     		link.l1.go = "AscoldTrader_2";
 		break;
- 		case "AscoldTrader_2":
-        	dialog.text = "Полагаю, ты не останешься в накладе. Слушай внимательно.\n"+
-                          "На Гваделупе в городе Бас Тер живет один странный тип - Аскольд.";
-            if (Characters[GetCharacterIndex("Ascold")].quest.meeting == "0")
-            {
-                link.l1 = "Странное имя...";
-                link.l1.go = "AscoldTrader_4";
-            }
-            else
-            {
-                link.l1 = "Знаю я его, довелось поговорить. Наглец, каких поискать...";
-                link.l1.go = "AscoldTrader_3";
-            }
+		case "AscoldTrader_2":
+			string sLoc;
+			if (pchar.location == "Guadeloupe_store") sLoc = "В нашем городке";
+			else sLoc = "На острове Гваделупа, в городе Бас-Тер";
+
+			dialog.text = "Полагаю, ты не останешься в накладе. Слушай внимательно\n" + sLoc + " живёт один странный тип по имени Аскольд.";
+			if (Characters[GetCharacterIndex("Ascold")].quest.meeting == "0")
+			{
+				link.l1 = "Странное имя...";
+				link.l1.go = "AscoldTrader_4";
+			}
+			else
+			{
+				link.l1 = "Знаю я его, довелось поговорить. Наглец, каких поискать...";
+				link.l1.go = "AscoldTrader_3";
+			}
 		break;
  		case "AscoldTrader_3":
         	dialog.text = "А что случилось? Испытал"+ GetSexPhrase("","а") +" на себе его крутой нрав?";
