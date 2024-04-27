@@ -732,13 +732,13 @@ void TWN_FightInTown()
 					for (i = 0; i < MAX_TOWN_MUSHKETER; i++)
 					{				
 						if (sti(Pchar.GenQuestFort.PlayerCrew) < 1) break;
-						if(sti(pchar.nation) == PIRATE)
+						if (sti(Items[sti(pchar.EquipedPatentId)].TitulCur) > 1) //форма только со звания капитан
 						{
-							sModel = "mushketer_" + (rand(4)+1);
+							sModel = NationShortName(sti(pchar.nation)) + "_mush_" + i;
 						}
 						else
 						{
-							sModel = NationShortName(sti(pchar.nation)) + "_mush_" + i;
+							sModel = "mushketer_" + (rand(4)+1);
 						}				
 						sld = GetCharacter(NPC_GenerateCharacter("GenChar_", sModel, "man", "mushketer", 5, sti(pchar.nation), 0, false));
 						sld.id = "GenChar_" + sld.index;
