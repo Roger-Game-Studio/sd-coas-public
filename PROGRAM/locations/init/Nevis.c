@@ -1038,7 +1038,7 @@ int LocationInitNevis(int n)
 	locations[n].image = "loading\outside\jungle2.tga";
 	//Sound
 	locations[n].type = "jungle";
-	locations[n].islandId = "Nivis";
+	locations[n].islandId = "Nevis";
 	//Models
 	//Always
 	locations[n].filespath.models = "locations\Outside\Jungles\Jungle6";
