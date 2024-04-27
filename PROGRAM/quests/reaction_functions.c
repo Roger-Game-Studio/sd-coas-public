@@ -384,6 +384,7 @@ void BlueBird_loginFleut(string qName)
 		sld.greeting = "CapSinkShip";		
 		SetCaptanModelByEncType(sld, "trade");
 		FantomMakeCoolSailor(sld, SHIP_FLEUT, pchar.questTemp.BlueBird.Ship.Name, CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
+		DeleteAttribute(sld, "SinkTenPercent");
 		sld.Ship.Mode = "trade"; //торговец
 		sld.DontRansackCaptain = true;
 		LAi_group_MoveCharacter(sld, "EnemyFight");
