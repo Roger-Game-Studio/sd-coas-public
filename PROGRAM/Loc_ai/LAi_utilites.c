@@ -437,7 +437,14 @@ void CreateCitizens(aref loc)
 			}
 			ChangeCharacterAddressGroup(chr, loc.id, "reload", "gate");
 			LAi_SetCarrierType(chr);
-			LAi_group_MoveCharacter(chr, slai_group);
+			if (sti(Colonies[iColony].HeroOwn) == true)
+			{
+				LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
+			}
+			else
+			{
+				LAi_group_MoveCharacter(chr, slai_group);
+			}
 		}
 	}
 	// грузчики <--
