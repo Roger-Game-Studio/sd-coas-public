@@ -27,6 +27,7 @@ void InitInterface(string iniName)
 	SetEventHandler("HideChangesWindow","HideChangesWindow",0);
 	SetEventHandler("ShowDiscordQRCodeWindow","ShowDiscordQRCodeWindow",0);
 	SetEventHandler("ShowVKQRCodeWindow","ShowVKQRCodeWindow",0);
+	SetEventHandler("ShowBoostyQRCodeWindow","ShowBoostyQRCodeWindow",0);
 	SetEventHandler("HideQRCodeWindow","HideQRCodeWindow",0);
 
 	GameInterface.SavePath = "SAVE";
@@ -103,6 +104,7 @@ void IDoExit(int exitCode, bool bClear)
 	DelEventHandler("HideChangesWindow","HideChangesWindow");
 	DelEventHandler("ShowDiscordQRCodeWindow","ShowDiscordQRCodeWindow");
 	DelEventHandler("ShowVKQRCodeWindow","ShowVKQRCodeWindow");
+	DelEventHandler("ShowBoostyQRCodeWindow","ShowBoostyQRCodeWindow");
 	DelEventHandler("HideQRCodeWindow","HideQRCodeWindow");
 	
 	interfaceResultCommand = exitCode;
@@ -141,6 +143,7 @@ void ShowDiscordQRCodeWindow()
 	
 	SetNodeUsing("QR_DISCORD", true);
 	SetNodeUsing("QR_VK", false);
+	SetNodeUsing("QR_BOOSTY", false);
 }
 
 void ShowVKQRCodeWindow()
@@ -152,6 +155,19 @@ void ShowVKQRCodeWindow()
 	
 	SetNodeUsing("QR_VK", true);
 	SetNodeUsing("QR_DISCORD", false);
+	SetNodeUsing("QR_BOOSTY", false);
+}
+
+void ShowBoostyQRCodeWindow()
+{
+	HideChangesWindow();
+	
+	XI_WindowShow("QR_WINDOW", true);
+	XI_WindowDisable("QR_WINDOW", false);
+	
+	SetNodeUsing("QR_BOOSTY", true);
+	SetNodeUsing("QR_DISCORD", false);
+	SetNodeUsing("QR_VK", false);
 }
 
 void HideQRCodeWindow()
