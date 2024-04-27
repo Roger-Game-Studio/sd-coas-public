@@ -225,6 +225,7 @@ void ProcessDialogEvent()
 			LAi_SetWarriorTypeNoGroup(npchar);
             LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
             LAi_group_FightGroups("EnemyFight", LAI_GROUP_PLAYER, false);
+			chrDisableReloadToLocation = true;
             LAi_group_SetCheck("EnemyFight", "OpenTheDoors");
             DialogExit();
 			AddDialogExitQuest("MainHeroFightModeOn");
