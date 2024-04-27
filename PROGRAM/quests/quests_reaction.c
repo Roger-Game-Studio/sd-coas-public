@@ -7081,6 +7081,7 @@ void QuestComplete(string sQuestName, string qname)
 		case "PlaySex_2":
 			PlayStereoSound("sex\sex" + sGlobalTemp + ".wav");
             AddTimeToCurrent(2, rand(30));
+			LAi_SetCurHPMax(pchar);
 			if (pchar.location == "SanJuan_houseS1Bedroom")
 			{
 			    QuestSetCurrentNode("Isabella", "NewLife_afterSex");
@@ -7117,7 +7118,6 @@ void QuestComplete(string sQuestName, string qname)
 			{
 				sld = characterFromId("CangGirl");
 				ChangeCharacterAddress(sld, "none", "");
-				AddCharacterHealth(pchar, 1);
 				AddCharacterExpToSkill(pchar, "Loyality", 20);
 				AddCharacterExpToSkill(pchar, "Fortune", 100);
             	AddCharacterExpToSkill(pchar, "Fencing", -20);
