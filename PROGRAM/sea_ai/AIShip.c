@@ -1207,9 +1207,10 @@ void Ship_CheckSituation()
 		if (GetNationRelation2MainCharacter(sti(rCharacter.nation)) == RELATION_ENEMY) // враг Гл героя
 	    {
 		// 08.10.23 Rosarak. fix на случай, если есть проблема от неудалённого SinkTenPercent или другой пакости
-		if(rCharacter.relation.1 != RELATION_ENEMY && !CheckAttribute(rCharacter, "AlwaysFriend")) SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
+		if(rCharacter.relation.(nMainCharacterIndex) != RELATION_ENEMY && !CheckAttribute(rCharacter, "AlwaysFriend") && rCharacter.id != "MQPirate")
+		SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
 
-            if (CheckAttribute(rCharacter, "AlwaysFriend"))
+		if (CheckAttribute(rCharacter, "AlwaysFriend"))
 	        {
 	            SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_FRIEND);
 	        }
