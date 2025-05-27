@@ -57,7 +57,7 @@ void CreateSeaCamerasEnvironment()
 	SetPerspectiveSettings();
 
 	// Ship camera paramerets
-	SeaShipCamera.SensivityDistance = 30.0;
+	SeaShipCamera.SensivityDistance = 1.0;
 	SeaShipCamera.SensivityHeightAngle = 0.02;
 	SeaShipCamera.SensivityHeightAngleOnShip = 0.005;
 	SeaShipCamera.SensivityAzimuthAngle = 0.04;
