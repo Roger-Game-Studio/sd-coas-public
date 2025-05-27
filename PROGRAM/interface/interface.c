@@ -1445,7 +1445,7 @@ void GetXYWindowOffset(ref offsetX, ref offsetY)
 
 int RecalculateHIcon(int curHSize)
 {
-	return curHSize;
+	return makeint(curHSize);
 }
 
 int RecalculateVIcon(int curVSize)

@@ -304,41 +304,45 @@ void SetControlsTabMode(int nMode)
 	int nColor2 = nColor1;
 	int nColor3 = nColor1;
 	int nColor4 = nColor1;
-
+	
 	string sPic1 = "TabSelected";
 	string sPic2 = sPic1;
 	string sPic3 = sPic1;
 	string sPic4 = sPic1;
-
-	switch( nMode )
+	
+	switch (nMode)
 	{
-	case 1: // море от первого лица
-		sPic1 = "TabDeSelected";
-		nColor1 = argb(255,255,255,255);
-	break;
-	case 2: // режим путешествий на земле
-		sPic2 = "TabDeSelected";
-		nColor2 = argb(255,255,255,255);
-	break;
-	case 3: // море от 3-го лица
-		sPic3 = "TabDeSelected";
-		nColor3 = argb(255,255,255,255);
-	break;
-	case 4: // режим боя на земле
-		sPic4 = "TabDeSelected";
-		nColor4 = argb(255,255,255,255);
-	break;
+		case 1: // управление на земле
+			sPic1 = "TabDeSelected";
+			nColor1 = argb(255,255,255,255);
+		break;
+		
+		case 2: // управление в бою
+			sPic2 = "TabDeSelected";
+			nColor2 = argb(255,255,255,255);
+		break;
+		
+		case 3: // управление на корабле
+			sPic3 = "TabDeSelected";
+			nColor3 = argb(255,255,255,255);
+		break;
+		
+		case 4: // управление на палубе
+			sPic4 = "TabDeSelected";
+			nColor4 = argb(255,255,255,255);
+		break;
 	}
-
-	SetNewGroupPicture("TABBTN_SAILING_1ST", "TABS", sPic1);
-	SetNewGroupPicture("TABBTN_PRIMARY_LAND", "TABS", sPic2);
-	SetNewGroupPicture("TABBTN_SAILING_3RD", "TABS", sPic3);
-	SetNewGroupPicture("TABBTN_FIGHT_MODE", "TABS", sPic4);
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_SAILING_1ST", 8,0,nColor1);
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_PRIMARY_LAND", 8,0,nColor2);
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_SAILING_3RD", 8,0,nColor3);
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_FIGHT_MODE", 8,0,nColor4);
-
+	
+	SetNewGroupPicture("TABBTN_CONTROLS_1", "TABS", sPic1);
+	SetNewGroupPicture("TABBTN_CONTROLS_2", "TABS", sPic2);
+	SetNewGroupPicture("TABBTN_CONTROLS_3", "TABS", sPic3);
+	SetNewGroupPicture("TABBTN_CONTROLS_4", "TABS", sPic4);
+	
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_CONTROLS_1", 8,0,nColor1);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_CONTROLS_2", 8,0,nColor2);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_CONTROLS_3", 8,0,nColor3);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_CONTROLS_4", 8,0,nColor4);
+	
 	FillControlsList(nMode);
 }
 
@@ -346,21 +350,28 @@ void procTabChange()
 {
 	int iComIndex = GetEventData();
 	string sNodName = GetEventData();
-
-	if( sNodName == "TABBTN_SAILING_1ST" ) {
-		SetControlsTabMode( 1 );
+	
+	if (sNodName == "TABBTN_CONTROLS_1")
+	{
+		SetControlsTabMode(1);
 		return;
 	}
-	if( sNodName == "TABBTN_PRIMARY_LAND" ) {
-		SetControlsTabMode( 2 );
+	
+	if (sNodName == "TABBTN_CONTROLS_2")
+	{
+		SetControlsTabMode(2);
 		return;
 	}
-	if( sNodName == "TABBTN_SAILING_3RD" ) {
-		SetControlsTabMode( 3 );
+	
+	if (sNodName == "TABBTN_CONTROLS_3")
+	{
+		SetControlsTabMode(3);
 		return;
 	}
-	if( sNodName == "TABBTN_FIGHT_MODE" ) {
-		SetControlsTabMode( 4 );
+	
+	if (sNodName == "TABBTN_CONTROLS_4")
+	{
+		SetControlsTabMode(4);
 		return;
 	}
 }
@@ -677,12 +688,14 @@ bool AddToControlsList(int row, string sControl, string sKey, bool bRemapable)
 
 string GetGroupNameByMode(int nMode)
 {
-	switch( nMode ) {
-	case 1: return "Sailing1Pers"; break;
-	case 2: return "PrimaryLand"; break;
-	case 3: return "Sailing3Pers"; break;
-	case 4: return "FightModeControls"; break;
+	switch (nMode)
+	{
+		case 1: return "GroundControls"; break;
+		case 2: return "CombatControls"; break;
+		case 3: return "ShipControls"; break;
+		case 4: return "DeckControls"; break;
 	}
+	
 	return "unknown";
 }
 
@@ -971,7 +984,7 @@ bool DoMapToOtherKey(int keyIdx,int stickUp)
 	if(CheckAttribute(arControlGroup,sControl+".state"))
 	{	state = sti(arControlGroup.(sControl).state);	}
 
-	CI_CreateAndSetControls( groupName,sControl,keyCode, state, true );
+	CI_SetControls(sControl, groupName, "", "", "", "", "", keyCode, state, true);
 	GameInterface.controls_list.(srow).userdata.key = arKey;
 	GameInterface.controls_list.(srow).td1.str = arKey.img;
 	SendMessage( &GameInterface, "lsl", MSG_INTERFACE_MSG_TO_NODE, "CONTROLS_LIST", 0 );

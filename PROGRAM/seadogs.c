@@ -1012,7 +1012,7 @@ void ProcessControls()
 			case "MainMenuDouble": ProcessMainMenuKey(); break;
 			case "Interface": ProcessInterfaceKey(); break;
 
-			case "Sea_CameraSwitch": SeaCameras_Switch(); break;
+			case "ShipCameraSwitch": SeaCameras_Switch(); break;
 			case "Ship_Fire": Ship_DoFire(); break;
 
 			case "Tele": Sea_ReloadStart(); break;
@@ -1191,7 +1191,7 @@ void ProcessControls()
 		break;
 		// <-- ugeen
 
-		case "OfficersCharge":
+		case "ChrOfficersCharge":
 			if(GetOfficersQuantity(pchar) > 0)
 			{
 				pchar.OfficerAttRange = 35.0;
@@ -1200,7 +1200,7 @@ void ProcessControls()
 			}	
 		break;
 
-		case "OfficersFollow":
+		case "ChrOfficersFollow":
 			if(GetOfficersQuantity(pchar) > 0)
 			{
 				pchar.OfficerAttRange = 7.0;
@@ -1209,7 +1209,7 @@ void ProcessControls()
 			}	
 		break;
 
-		case "OfficersHold":
+		case "ChrOfficersHold":
 			if(GetOfficersQuantity(pchar) > 0)
 			{
 				pchar.OfficerAttRange = 7.0;
@@ -1243,7 +1243,7 @@ void ProcessControls()
 	        }
 		break;
 		
-		case "BOAL_UsePotion": // boal KEY_C
+		case "ChrUsePotion": // boal KEY_C
             if (bLandInterfaceStart)
             {
 				if(LAi_IsPoison(pchar)) 
@@ -1270,7 +1270,7 @@ void ProcessControls()
 		break;
 		
 		// Warship 13.06.09 Выпить противоядие KEY_V
-		case "UseAntidote":
+		case "ChrUseAntidote":
 			if(bLandInterfaceStart)
             {
 				if(FindCharacterAntidote(PChar, &itemID)) // В itemID запишется ID предмета, который можно использовать
@@ -1281,7 +1281,7 @@ void ProcessControls()
 			}
 		break;
 		
-        case "BOAL_ActivateRush":  // boal KEY_F
+        case "ChrActivateRush":  // boal KEY_F
 			if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
             {
 		        ActivateCharacterPerk(pchar, "Rush");
@@ -1295,7 +1295,7 @@ void ProcessControls()
             }
 	    break;
 
-	    case "BOAL_DeadSearch":  // boal KEY_1
+	    case "ChrDeadSearch":  // boal KEY_1
 			if (bLandInterfaceStart)
             {
                 itmIdx = Dead_FindCloseBody();

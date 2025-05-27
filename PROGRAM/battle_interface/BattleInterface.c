@@ -2722,26 +2722,27 @@ ref procCheckEnableShip()
 void BI_ProcessControlPress()
 {
 	string ControlName = GetEventData();
-	if( sti(InterfaceStates.Launched) != 0 ) {return;}
+	
+	if (sti(InterfaceStates.Launched) != 0) return;
 
-	switch(ControlName)
+	switch (ControlName)
 	{
-		case "hk_charge1":
+		case "Ship_ChargeBalls":
 			PlaySound("ChargeBalls");
 			Ship_ChangeCharge(pchar, GOOD_BALLS);
 		break;
-	
-		case "hk_charge2":
+		
+		case "Ship_ChargeGrapes":
 			PlaySound("ChargeGrapes");
 			Ship_ChangeCharge(pchar, GOOD_GRAPES);
 		break;
-	
-		case "hk_charge3":
+		
+		case "Ship_ChargeKnippels":
 			PlaySound("ChargeKnippels");
 			Ship_ChangeCharge(pchar, GOOD_KNIPPELS);
 		break;
-	
-		case "hk_charge4":
+		
+		case "Ship_ChargeBombs":
 			PlaySound("ChargeBombs");
 			Ship_ChangeCharge(pchar, GOOD_BOMBS);
 		break;
