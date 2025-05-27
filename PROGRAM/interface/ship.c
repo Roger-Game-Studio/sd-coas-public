@@ -1467,7 +1467,8 @@ void ShowPartitionWindow()
     str += "Доли в текущем месяце:" + NewStr() + "Доля капитана: " + GetPartitionAmount("Partition.MonthPart.Hero") + NewStr() +
 		  "Доля офицеров: " + GetPartitionAmount("Partition.MonthPart.Officers") + NewStr() +
 		  "Доля матросов: " + GetPartitionAmount("Partition.MonthPart.Crew") + NewStr() + // + "-----" + NewStr() +
-		  "Долг текущего месяца: " + GetPartitionAmount("Partition.MonthPart") + NewStr();
+		  "Долг текущего месяца: " + GetPartitionAmount("Partition.MonthPart") + NewStr() +
+		  "Долг перед государством: " + GetPartitionAmount("Partition.MonthPart.Gower") + NewStr();
 	str += "*****" + NewStr() + "Долг за прошлый месяц: " + GetPartitionAmount("CrewPayment");
 
 	SetFormatedText("PARTITION_WINDOW_TEXT", str);
@@ -1499,6 +1500,7 @@ void ExitPartitionWindow()
 void DoPartitionPay()
 {
 	int sum = 0;
+	int sum_gow = 0;
 	if (GetPartitionAmount("Partition.MonthPart") > 0 || GetPartitionAmount("CrewPayment") > 0)
 	if (GetPartitionAmount("CrewPayment") > 0)
 	{
@@ -1509,6 +1511,7 @@ void DoPartitionPay()
 	}
 	else
 	{
+		// долг перед командой
 		if (GetPartitionAmount("Partition.MonthPart") > 0)
 		{
 		    sum = GetPartitionAmount("Partition.MonthPart");
@@ -1516,10 +1519,17 @@ void DoPartitionPay()
 	        Pchar.Partition.MonthPart = sti(Pchar.Partition.MonthPart) - sum;
 	        AddCrewMorale(xi_refCharacter, 2);
 		}
+		// долг перед государством
+		if (GetPartitionAmount("Partition.MonthPart.Gower") > 0)
+		{
+		    sum_gow = GetPartitionAmount("Partition.MonthPart.Gower");
+		    if (sti(Pchar.Money) < sum_gow) sum_gow = sti(Pchar.Money);
+	        Pchar.Partition.MonthPart.Gower = sti(Pchar.Partition.MonthPart.Gower) - sum_gow;
+		}
 	}
 	pchar.paymentdate = GetDateString() + " " + GetTimeString();
-	AddMoneyToCharacter(Pchar, -sum);
-	Statistic_AddValue(pchar, "PartitionPay", sum);
+	AddMoneyToCharacter(Pchar, - (sum + sum_gow));
+	Statistic_AddValue(pchar, "PartitionPay", sum + sum_gow);
 	OnShipScrollChange();
 	ExitPartitionWindow();
 }

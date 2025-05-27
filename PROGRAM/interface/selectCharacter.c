@@ -108,6 +108,14 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_SEABATTLESAVE", 1, false);
     }
+	if (bPartitionSet)// 1 0
+    {
+    	CheckButton_SetState("CHECK_PARTITION", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_PARTITION", 1, false);
+    }
 }
 
 void IProcessFrame()
@@ -172,6 +180,15 @@ void IProcessFrame()
 	else
 	{
 		bSeaBattleSave = false;
+	}
+	
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_PARTITION", 3, 1))	
+	{
+		bPartitionSet = true;
+	}
+	else
+	{
+		bPartitionSet = false;
 	}
 }
 
@@ -614,6 +631,11 @@ void ShowInfo()
 		 case "CHECK_SEABATTLESAVE":
 			sHeader = XI_ConvertString("Sea Battle Save");
 			sText1 = GetRPGText("SeaBattleSave_desc");
+		break;
+		
+		case "CHECK_PARTITION":
+			sHeader = XI_ConvertString("Partition Set");
+			sText1 = GetRPGText("Partition_hint");
 		break;
 		
 		case "EXP_SLIDE":

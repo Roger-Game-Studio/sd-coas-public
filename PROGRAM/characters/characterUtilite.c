@@ -148,6 +148,102 @@ int RecalculateCargoLoad(ref _refCharacter)
 	return loadSpace;
 }
 
+// Ugeen 13.11.10 Расчет ценового коэффициента для грузов -->
+// 0  -  товар досталяся на халяву
+// 1  -  товар достался честно
+
+float GetCargoCostCoeff(ref _refCharacter, int _goods)
+{
+	string _goodsName = Goods[_goods].name;
+	float CostCoeff = 1.0;
+	
+	if (CheckAttribute(_refCharacter, "Goods." + (_goodsName) + ".costCoeff"))
+	{
+		CostCoeff = stf(_refCharacter.Goods.(_goodsName).costCoeff);
+	}
+	
+	return CostCoeff;
+}
+
+float RecalculateSquadronCargoCostCoeff(ref _refCharacter, string _goodsName, int _Qty, float _costCoeff)
+{
+	int oldQty;
+	float oldPriceCoeff = 1.0;
+	float newPriceCoeff = 1.0;
+
+	if (CheckAttribute(_refCharacter, "Goods." + (_goodsName) + ".costCoeff"))
+	{
+		oldPriceCoeff = stf(_refCharacter.Goods.(_goodsName).costCoeff);
+	}
+	else
+	{
+		_refCharacter.Goods.(_goodsName).costCoeff = oldPriceCoeff;
+	}
+	
+	if (CheckAttribute(pchar, "partition.after." + (_goodsName)))
+	{
+		oldQty = sti(pchar.partition.after.(_goodsName));
+	}
+	else
+	{
+		oldQty = 0;
+	}
+	
+	if (_Qty > 0)
+	{
+		newPriceCoeff = (oldQty * oldPriceCoeff + _costCoeff * _Qty) / (oldQty + _Qty);
+	}
+	else
+	{
+		if (oldQty > 0)	
+		{
+			newPriceCoeff = oldPriceCoeff;
+		}	
+		else
+		{	
+			newPriceCoeff = 1.0;
+		}
+	}
+	
+	_refCharacter.Goods.(_goodsName).costCoeff = newPriceCoeff;
+	
+	return newPriceCoeff;
+}
+
+int AddCharacterGoodsCostCoeff(ref _refCharacter, int _Goods, int _Quantity, float costCoeff)
+{
+	int i, cn, freeQuantity;
+	string goodsName = Goods[_Goods].name;
+
+	for (i = 0; i < COMPANION_MAX; i++)
+	{
+		cn = GetCompanionIndex(_refCharacter, i);
+		
+		if (cn != -1 && GetRemovable(&Characters[cn]))
+		{
+			freeQuantity = GetGoodQuantityByWeight(_Goods, GetCargoFreeSpace(&Characters[cn]));
+			
+			if (freeQuantity >=_Quantity)
+			{
+				RecalculateSquadronCargoCostCoeff(GetMainCharacter(), goodsName, _Quantity, costCoeff);
+				Characters[cn].Ship.Cargo.Goods.(goodsName) = sti(Characters[cn].Ship.Cargo.Goods.(goodsName)) + _Quantity;
+				RecalculateCargoLoad(&Characters[cn]);
+				return true;
+			}
+			
+			RecalculateSquadronCargoCostCoeff(GetMainCharacter(), goodsName, freeQuantity, costCoeff);
+			Characters[cn].Ship.Cargo.Goods.(goodsName) = sti(Characters[cn].Ship.Cargo.Goods.(goodsName)) + freeQuantity;
+			_Quantity = _Quantity - freeQuantity;
+			RecalculateCargoLoad(&Characters[cn]);
+		}
+	}
+	
+	Trace("Overup cargo space on " +_Quantity + " id = " + _refCharacter.id);
+	return false;
+}
+
+// <-- Ugeen 13.11.10
+
 int GetCargoFreeSpace(ref _refCharacter)
 {
 	int freeSpace = GetCargoMaxSpace(_refCharacter) - GetCargoLoad(_refCharacter);

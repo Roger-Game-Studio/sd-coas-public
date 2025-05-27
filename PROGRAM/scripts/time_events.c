@@ -38,7 +38,7 @@ void SalaryNextDayUpdate()
 			if( CheckAttribute(pchar,"Partition.MonthPart") )
 			{
 				nPaymentQ += makeint(pchar.Partition.MonthPart); // доля за месяц
-				DeleteAttribute(pchar,"Partition.MonthPart")
+				DeleteAttribute(pchar,"Partition.MonthPart");
 			}
 			
 			pchar.CrewPayment = nPaymentQ;

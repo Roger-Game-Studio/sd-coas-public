@@ -946,7 +946,9 @@ void TWN_ExitForPay() // мэр дает откуп - табличка приб�
 	{
 	    AddMoneyToCharacter(pchar, (20 + rand(10)) * nBooty);
 	}
+	Partition_GetCargoCostCoeff("before");
 	LaunchColonyCapture(rColony);
+	Partition_GetCargoCostCoeff("after");
 }
 
 //Для любой страны захват форта

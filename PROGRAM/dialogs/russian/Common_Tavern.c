@@ -356,9 +356,9 @@ void ProcessDialogEvent()
 					}
 					else
 					{
-						if((Partition_GetSetting("Partition_on") == true))
+						if (bPartitionSet)
 						{	
-							if((Partition_GetSetting("Part_Crew") == 0) || GetPartitionAmount("CrewPayment") > 0)
+							if (GetPartitionAmount("CrewPayment") > 0)
 							{
 								dialog.text = "Капитан, поговаривают, что вы скуповаты. У меня нет желающих пойти в вашу команду.";
 								link.l1 = "Понятно...";

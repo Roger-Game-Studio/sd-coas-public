@@ -756,6 +756,7 @@ void SaveStartGameParam()
     optref.StartGameParam.PlayerProfile    = GameInterface.PROFILE_NAME.str;//PlayerProfile.name;
     optref.StartGameParam.MOD_SKILL_ENEMY_RATE   = MOD_SKILL_ENEMY_RATE;
     optref.StartGameParam.bHardcoreGame          = bHardcoreGame;
+	optref.StartGameParam.bPartitionSet          = bPartitionSet;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
 	optref.StartGameParam.bSeaBattleSave		 = bSeaBattleSave;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
@@ -788,6 +789,10 @@ void LoadStartGameParam()
     if (CheckAttribute(optref, "StartGameParam.bHardcoreGame"))
 	{
     	bHardcoreGame = sti(optref.StartGameParam.bHardcoreGame);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bPartitionSet"))
+	{
+    	bPartitionSet = sti(optref.StartGameParam.bPartitionSet);
     }
     if (CheckAttribute(optref, "StartGameParam.bRechargePistolOnLine"))
 	{

@@ -64,6 +64,8 @@ bool    bNewCodeOn                = false;  // упрощение абордаж
 bool    bHardcoreGame             = false;
 // сохранение в море в боевом режиме
 bool	bSeaBattleSave			  = true;
+// раздел добычи
+bool 	bPartitionSet 			  = true;
 
 ///////////////////////////////////////////////////
 //          complexity

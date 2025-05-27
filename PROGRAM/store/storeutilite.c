@@ -556,10 +556,32 @@ void SetNull2Deposit(string _city)
 }
 
 // утилиты работы со складом --> ugeen  28.01.10
-void SetStorageGoods(ref _refStore,int _Goods,int _Quantity)
+void SetStorageGoods(ref _refStore,int _Goods,int _Quantity, float _costCoeff)
 {
 	string tmpstr = Goods[_Goods].name;
 	_refStore.Storage.Goods.(tmpstr).Quantity = _Quantity;
+	
+	if (_Quantity > 0)
+	{
+		_refStore.Storage.Goods.(tmpstr).costCoeff = _costCoeff;
+	}
+	else
+	{
+		_refStore.Storage.Goods.(tmpstr).costCoeff = 1.0;
+	}
+}
+
+float GetStorageGoodsCostCoeff(ref _refStore, int _Goods)
+{
+	float costCoeff = 1.0;
+	string tmpstr = Goods[_Goods].name;
+	
+	if (CheckAttribute(_refStore, "Storage.Goods." + (tmpstr) + ".costCoeff"))
+	{
+		costCoeff = stf(_refStore.Storage.Goods.(tmpstr).costCoeff);
+	}
+	
+	return costCoeff;
 }
 
 void AddStorageGoods(ref _refStore,int _Goods,int _Quantity)

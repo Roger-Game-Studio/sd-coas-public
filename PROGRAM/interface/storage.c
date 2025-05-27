@@ -479,25 +479,28 @@ void TransactionOK()
 	int nTradeQuantity;
 	confirmChangeQTY_EDIT();
 	nTradeQuantity = sti(GameInterface.qty_edit.str);
+	
 	if (BuyOrSell == 0)
 	{
 	    EndTooltip();
 	    return;
 	}
+	
     if (!GetRemovable(refCharacter)) return;
     
  	if (BuyOrSell == 1) // BUY
 	{
-		SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty - nTradeQuantity);
-		AddCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);		
+		SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty - nTradeQuantity, GetCargoCostCoeff(GetMainCharacter(), iCurGoodsIdx));
+		AddCharacterGoodsCostCoeff(refCharacter, iCurGoodsIdx, nTradeQuantity, GetStorageGoodsCostCoeff(refStore, iCurGoodsIdx));		
     	WaitDate("",0,0,0,0,5);
 	}
- 	else
-	{ // SELL
-      	SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty + nTradeQuantity);
+ 	else // SELL
+	{
+      	SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty + nTradeQuantity, GetCargoCostCoeff(GetMainCharacter(), iCurGoodsIdx));
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);				
     	WaitDate("",0,0,0,0,5);        
 	}
+	
 	AddToTable();
 	EndTooltip();
 	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
